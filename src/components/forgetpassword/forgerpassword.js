@@ -6,9 +6,6 @@ import {
     Typography,
     OutlinedInput,
     InputAdornment,
-    Radio,
-    RadioGroup,
-    FormControlLabel,
     Button,
  } from '@material-ui/core'
 import useStyles from './forgetpasswordstyles'

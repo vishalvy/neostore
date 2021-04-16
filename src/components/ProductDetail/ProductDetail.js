@@ -1,7 +1,6 @@
 import {Tab,Tabs, Button, Container, Grid, Paper, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core'
 import { Rating,} from '@material-ui/lab'
 import React,{useState} from 'react'
-import {useParams} from 'react-router-dom'
 import useStyles from './styles'
 import ShareIcon from '@material-ui/icons/Share';
 import {FacebookShareButton, FacebookIcon, 
@@ -21,7 +20,7 @@ function ProductDetail(props) {
     const classes = useStyles()
     const defaultImage = `${image.image1}`
     const [tabvalue, setTabValue] = useState(0);
-    const [controlledRating, setControlledRating] = useState(2);
+    const [controlledRating, setControlledRating] = useState(3);
     const [imageVal,setImage] = useState(defaultImage)
 
     const style = {
@@ -67,18 +66,21 @@ function ProductDetail(props) {
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
                                 src={image.image2}
+                                alt={title}
                             />
 
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
                                 src={image.image3}
+                                alt={title}
                             />
                     
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
                                 src={image.image4}
+                                alt={title}
                             />
                         </div>
                     </Grid>
@@ -204,12 +206,13 @@ function ProductDetail(props) {
                     open={open}
                     onClose={closePopup}
                 >
-                    <DialogTitle>{title}</DialogTitle>
+                    <DialogTitle>
+                        {title}
+                        <hr className={classes.hor_rule}></hr>
+                    </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            <Typography className={classes.price_root}>
-                                Price: ₹<span className={classes.price_color}>{price}</span>
-                            </Typography>
+                            <img src={image.image1} alt="" width="30%" height="30%"/>
                             <br/>
                             <Typography>Rate this product</Typography>
                             <Rating
@@ -248,7 +251,7 @@ function TabPanel(props){
     return (
         <div>
             {
-                value==index && (<Typography className={classes.tab_details}>{children}</Typography>)
+                value===index && (<Typography className={classes.tab_details}>{children}</Typography>)
             }
         </div>
     )

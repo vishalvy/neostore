@@ -60,7 +60,9 @@ export default function Layout() {
                     >
                       Home
                     </Button>
-                    <Button color="inherit"
+                    <Button 
+                      className={classes.nav_product_btn}
+                      color="inherit"
                       onClick={()=> history.push("/allproducts")}
                     >
                       Products</Button>

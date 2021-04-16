@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         
     },
+    nav_product_btn: {
+        margin: "0 5%"
+    },
     nav_textfield: {
         display: "flex",
         justifyContent: "center",

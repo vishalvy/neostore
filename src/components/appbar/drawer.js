@@ -15,7 +15,6 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search'
 // import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const DrawerComponent = () => {

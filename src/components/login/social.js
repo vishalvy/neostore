@@ -1,13 +1,8 @@
-import { Grid ,Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React from 'react'
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
-import TwitterLogin from "react-twitter-login";
 import useStyles from './loginstyles'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faFacebookF } from '@fortawesome/free-brands-svg-icons'
-
-
 function Social() {
     const classes = useStyles()
     const responseFacebook = (response) => {

@@ -1,6 +1,6 @@
 import './App.css';
 import Dashboard from './components/dashboard';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import {Redirect, Route,Switch} from 'react-router-dom' 
 import Login from './components/login/login'
 import Appbar from './components/appbar/appbar'
@@ -14,15 +14,15 @@ import Orderdetail from './components/OrderModule/Orderdetail';
 import Error from './components/ErrorPage/Error';
 
 function App() {
-  const theme = createMuiTheme({
-    typography: {
-     "fontFamily": `"Roboto", "Helvetica", "Arial", sans-serif`,
-     "fontSize": 14,
-     "fontWeightLight": 300,
-     "fontWeightRegular": 400,
-     "fontWeightMedium": 500
-    }
- });
+//   const theme = createMuiTheme({
+//     typography: {
+//      "fontFamily": `"Roboto", "Helvetica", "Arial", sans-serif`,
+//      "fontSize": 14,
+//      "fontWeightLight": 300,
+//      "fontWeightRegular": 400,
+//      "fontWeightMedium": 500
+//     }
+//  });
   return (
     <div className="App">
       {/* <MuiThemeProvider theme={theme}> */}
@@ -41,7 +41,6 @@ function App() {
         </Switch>
       <Footer/>
       {/* </MuiThemeProvider> */}
-      {/* <Demo/> */}
     </div>
   );
 }

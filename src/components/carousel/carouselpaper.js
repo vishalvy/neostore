@@ -7,7 +7,8 @@ function Slides(props)
     const history = useHistory();
     return (
         <Paper variant="outlined" className={classes.carousel} onClick={() => history.push("/allproducts")}>
-            <img className={classes.carousel_img} src={props.image.image} width="100%" height="100%"/>
+            <img className={classes.carousel_img} src={props.image.image} 
+                alt= "" width="100%" height="100%"/>
         </Paper>
     )
 }

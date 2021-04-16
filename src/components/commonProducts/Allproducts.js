@@ -1,10 +1,9 @@
-import { Button, Container, Grid, Link, Menu, MenuItem, Paper, Typography } from '@material-ui/core'
+import { Button, Grid, Paper, Typography } from '@material-ui/core'
 import React,{useState} from 'react'
 // import {Link} from 'react-router-dom'
 import useStyles from './styles'
 import Categories from './categories'  
 import Colors from './colors'
-import Rating from '@material-ui/lab/Rating'
 import StarIcon from '@material-ui/icons/Star';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';

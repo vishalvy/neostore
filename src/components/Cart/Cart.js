@@ -76,7 +76,7 @@ function Cart(props) {
                                             <TableRow>
                                                 <TableCell component="th" className={classes.product_name_root}>
                                                     <span>
-                                                        <img src={image.image1} width="70px" height="70px"/>
+                                                        <img src={image.image1} alt={`${title}`} width="70px" height="70px"/>
                                                     </span>
                                                     <div className={classes.product_name}>
                                                         <Typography>
