@@ -7,13 +7,13 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 
 function Cart(props) {
-    const {title,image,price} = props.location.product.product
+    const {name,mainImage,price} = props.location.product.product
 
-    const newprice = parseInt(price.replace(/,/g, ""))
+    // const newprice = price
 
     const [activeStep,setActiveStep] = useState(0)
     const [productCount,setProductCount] = useState(1)
-    const [totalPrice,setTotalPrice] = useState(newprice)
+    const [totalPrice,setTotalPrice] = useState(price)
 
     const defaultGST = totalPrice/100 * 5
     const [GST,setGST] = useState(defaultGST)
@@ -25,7 +25,7 @@ function Cart(props) {
     const Additem = () => {
         if(productCount < 10){
             setProductCount(productCount + 1)
-            setTotalPrice(newprice + totalPrice)
+            setTotalPrice(price + totalPrice)
             setGST(totalPrice/100 * 5)
         }
         
@@ -36,7 +36,7 @@ function Cart(props) {
     const Removeitem = () => {
         if(productCount > 1 ){
             setProductCount(productCount - 1)
-            setTotalPrice(totalPrice - newprice)
+            setTotalPrice(totalPrice - price)
             setGST(GST - ((totalPrice/100 * 5) - GST)) 
         }
         
@@ -66,9 +66,9 @@ function Cart(props) {
                                         <TableRow>
                                             <TableCell>Product</TableCell>
                                             <TableCell >Quantity</TableCell>
-                                            <TableCell align="center">Price</TableCell>
-                                            <TableCell align="center">Total</TableCell>
-                                            <TableCell align="center"></TableCell>
+                                            <TableCell >Price</TableCell>
+                                            <TableCell >Total</TableCell>
+                                            <TableCell ></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -76,11 +76,11 @@ function Cart(props) {
                                             <TableRow>
                                                 <TableCell component="th" className={classes.product_name_root}>
                                                     <span>
-                                                        <img src={image.image1} alt={`${title}`} width="70px" height="70px"/>
+                                                        <img src={mainImage} alt="" width="70px" height="70px"/>
                                                     </span>
                                                     <div className={classes.product_name}>
                                                         <Typography>
-                                                            {title}
+                                                            {name}
                                                         </Typography>
                                                         <Typography>
                                                             Status: <span className={classes.status_color}>In Stock</span>

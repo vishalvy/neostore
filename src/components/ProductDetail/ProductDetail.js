@@ -1,4 +1,10 @@
-import {Tab,Tabs, Button, Container, Grid, Paper, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core'
+import {Tab,Tabs, Button, 
+    Container, Grid, Paper, 
+    Typography, Dialog, DialogTitle, 
+    DialogContent, DialogContentText, 
+    DialogActions } 
+from '@material-ui/core'
+
 import { Rating,} from '@material-ui/lab'
 import React,{useState} from 'react'
 import useStyles from './styles'
@@ -15,16 +21,16 @@ import ReactImageZoom from 'react-image-zoom';
 
 function ProductDetail(props) {
     const history = useHistory()
-    const {id,title,rating,price,color,image} = props.location.product.product
+    const {id,name,description,features,mainImage,subImages,price,avgRating} = props.location.product.product
 
     const classes = useStyles()
-    const defaultImage = `${image.image1}`
+    const defaultImage = `${mainImage}`
     const [tabvalue, setTabValue] = useState(0);
     const [controlledRating, setControlledRating] = useState(3);
     const [imageVal,setImage] = useState(defaultImage)
 
     const style = {
-        backgroundColor: `${color}`
+        // backgroundColor: `${color}`
     };
 
     const handleTabs = (event, val) => {
@@ -65,22 +71,22 @@ function ProductDetail(props) {
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
-                                src={image.image2}
-                                alt={title}
+                                src={subImages[0]}
+                                alt={name}
                             />
 
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
-                                src={image.image3}
-                                alt={title}
+                                src={subImages[1]}
+                                alt={name}
                             />
                     
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
-                                src={image.image4}
-                                alt={title}
+                                src={mainImage}
+                                alt={name}
                             />
                         </div>
                     </Grid>
@@ -89,10 +95,10 @@ function ProductDetail(props) {
                         <Typography 
                             className={classes.product_title}
                             variant={'h5'}> 
-                            {title}
+                            {name}
                         </Typography>
 
-                        <Rating className={classes.product_rating} defaultValue={rating} precision={0.5} readOnly />
+                        <Rating className={classes.product_rating} defaultValue={avgRating} precision={0.5} readOnly />
 
                         <hr className={classes.hor_rule}></hr>
 
@@ -187,13 +193,10 @@ function ProductDetail(props) {
                         <Tab label="Features"></Tab>
                     </Tabs>
                     <TabPanel value={tabvalue} index={0}>
-                        Upgrade your living space with this exclusive Dreamzz Furniture Wing Back Chair which will add luxurious 
-                        & Royal look to your Home. With Tufted High Back 
-                        & craftfully upholstered Fabric gives you the Royal Look from every angle. Comfort is one the best part that you can always talk about of this chair. 
-                        Curvy Teakwood legs makes an astonishing statement
+                        {description}
                     </TabPanel>
                     <TabPanel value={tabvalue} index={1}>
-                        Material:  Polyster
+                        {features}
                     </TabPanel>
                 </Paper>
 
@@ -207,12 +210,12 @@ function ProductDetail(props) {
                     onClose={closePopup}
                 >
                     <DialogTitle>
-                        {title}
+                        {name}
                         <hr className={classes.hor_rule}></hr>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            <img src={image.image1} alt="" width="30%" height="30%"/>
+                            <img src={mainImage} alt="" width="30%" height="30%"/>
                             <br/>
                             <Typography>Rate this product</Typography>
                             <Rating

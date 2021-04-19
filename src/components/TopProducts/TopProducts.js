@@ -13,26 +13,25 @@ function TopProducts() {
     const classes = useStyles();
     const history = useHistory()
     const [productData,setProductData] = useState()
-    // console.log(BaseUrl);
     useEffect(() => {
-        axios.get(`${BaseUrl}/product`)
+        axios.get(`${BaseUrl}/api/product?limit=5&page=1&sortby=rating&orderby=desc`)
         .then((res) => {
             setProductData(res.data.data.docs)
         })
     },[])
-    console.log(productData)
+    // console.log(productData)
 
     return (
         <Container className={classes.top_product_container}>
             <Typography variant="h6" className={classes.cards_header}>
                 Popular Products
             </Typography>
-            <Link onClick={() => history.push("/allproducts")}>See All</Link> 
+            <Link onClick={() => history.push("/allproducts")}>See All Products</Link> 
             <Grid container spacing={3} className={classes.card_container}>
                 {   
                   productData && productData.map((product,index) => (
                         <Grid item key={index} xs={12} sm={6} md={4} lg={4}>
-                            <Cards image={product.mainImage} title={product.name} 
+                            <Cards product={product} image={product.mainImage} title={product.name} 
                             price={product.price} rating={product.avgRating}/>   
                         </Grid>
                     ))

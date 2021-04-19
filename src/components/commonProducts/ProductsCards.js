@@ -4,18 +4,18 @@ import Cards from './cards'
 import useStyles from './styles'
 import { Pagination } from '@material-ui/lab'
 
-function CommonProductsCards(props) {
+function ProductsCards(props) {
     const classes = useStyles()
     return (
         <>
             <Container>
                 <Grid container spacing={3} className={classes.card_container}>
                     {   
-                       props.products.map((product,index) => (
+                        props.products && props.products.map((product,index) => (
                             <Grid item key={index} xs={12} sm={6} md={4} lg={4}>
                                 <Cards product={product}
-                                    image={product.image.image1} title={product.title} 
-                                    price={product.price} rating={product.rating}/>   
+                                    image={product.mainImage} title={product.name} 
+                                    price={product.price} rating={product.avgRating}/>   
                             </Grid>
                         ))
                     }
@@ -28,4 +28,4 @@ function CommonProductsCards(props) {
     )
 }
 
-export default CommonProductsCards
+export default ProductsCards
