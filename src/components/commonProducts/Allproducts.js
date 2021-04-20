@@ -1,49 +1,50 @@
-import { Button, Grid, Paper, Typography } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Button, Grid, Paper, Typography } from '@material-ui/core'
 import React,{useEffect, useState} from 'react'
-// import {Link} from 'react-router-dom'
 import useStyles from './styles'
-import Categories from './categories'  
-import Colors from './colors'
+// import Categories from './categories'  
+// import Colors from './colors'
 import StarIcon from '@material-ui/icons/Star';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProductsCards from './ProductsCards'
-import Data from './Data'
 import axios from 'axios'
 import {BaseUrl} from '../constants/baseUrl'
 
 function Commonproducts() {
     const classes = useStyles()
-    // const [products,setProducts] = useState(Data)
     const [productData,setProductData] = useState()
 
-    // const sortProducts = (data,parameter) => {
-    //     let list = []
-    //     if(parameter === "ascending"){
-    //         list = data.sort((a,b) => {
-    //             return a.price - b.price
-    //         })
-    //     }
-    //     else if(parameter === "descending"){
-    //         list = data.sort((a,b) => {
-    //             return b.price - a.price
-    //         }) 
-    //     }
-    //     else if(parameter === 'Rating'){
-    //         list = data.sort((a,b) => {
-    //             return b.avgRating - a.avgRating
-    //         })
-    //         console.log(list)
-    //     }
-    //     setProductData([...list])
-    // }
-
     useEffect(() => {
-        axios.get(`${BaseUrl}/api/product`)
+        axios.get(`${BaseUrl}/api/product?limit=9&page=1`)
         .then((res) => {
             setProductData(res.data.data.docs)
         })
     },[])
+
+    const sort = (order) => {
+        axios.get(`${BaseUrl}/api/product?limit=9&page=1&sortby=price&orderby=${order}`)
+        .then((res) => {
+            const temp = res.data.data.docs
+            setProductData(temp)
+        })
+    }
+
+    const getCategories = (category_id) => {
+        axios.get(`${BaseUrl}/api/product?limit=9&page=1&category=${category_id}`)
+        .then((res) => {
+            const temp = res.data.data.docs
+            setProductData(temp)
+        })
+    }
+
+    const getColors = (color_id) => {
+        axios.get(`${BaseUrl}/api/product?page=1&limit=9&color=${color_id}`)
+        .then((res) => {
+            const temp = res.data.data.docs
+            setProductData(temp)
+        })
+    }
     return (
         <>
             <hr className={classes.hor_rule}></hr>
@@ -54,7 +55,7 @@ function Commonproducts() {
                 <Button 
                     className={classes.sort_btn_color}
                     onClick={() => {
-                        axios.get(`${BaseUrl}/api/product?limit=5&page=1&sortby=rating&orderby=desc`)
+                        axios.get(`${BaseUrl}/api/product?limit=9&page=1&sortby=rating&orderby=desc`)
                         .then((res) => {
                             const temp = res.data.data.docs
                             setProductData(temp)
@@ -65,25 +66,13 @@ function Commonproducts() {
                 </Button>
                 <Button 
                     className={classes.sort_btn_color}
-                    onClick={() => {
-                        axios.get(`${BaseUrl}/api/product?sortby=price&rating&orderby=desc`)
-                        .then((res) => {
-                            const temp = res.data.data.docs
-                            setProductData(temp)
-                        })
-                    }}
+                    onClick={() => sort("desc")}
                 >   
                     ₹<ArrowUpwardIcon/>
                 </Button>
                 <Button 
                     className={classes.sort_btn_color}
-                    onClick={() => {
-                        axios.get(`${BaseUrl}/api/product?sortby=price&orderby=asc`)
-                        .then((res) => {
-                            const temp = res.data.data.docs
-                            setProductData(temp)
-                        })
-                    }}
+                    onClick={() => sort("asc")}
                 >
                     ₹<ArrowDownwardIcon/>
                 </Button>
@@ -91,12 +80,12 @@ function Commonproducts() {
              
                     
             <Grid container className={classes.allproducts_root}>
-                    <Grid item lg={2} className={classes.grid1}>
+                    <Grid item md={2} lg={2} className={classes.grid1}>
                         <Paper className={classes.allproducts_paper}>
                             <Button 
                                 className={classes.allproducts_link}
                                 onClick={() => {
-                                    axios.get(`${BaseUrl}/api/product`)
+                                    axios.get(`${BaseUrl}/api/product?limit=9&page=1`)
                                     .then((res) => {
                                         const temp = res.data.data.docs
                                         setProductData(temp)
@@ -106,13 +95,89 @@ function Commonproducts() {
                                 All Products
                             </Button>
                         </Paper>
-                        <Categories/>
-                        <Colors/>
+
+
+                        {/* <Categories stateChange={productData}/> */}
+
+                        <Accordion className={classes.categories_root}>
+                            <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            >
+                                <Typography className={classes.heading}>Categories</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Button
+                                    onClick={() => getColors("6065ca24cec0196a6fe56e3d")}
+                                    className={classes.list_button}
+                                >
+                                    Table
+                                </Button>
+                            </AccordionDetails>
+                            <AccordionDetails>
+                                <Button 
+                                    onClick={() => getColors("6065ca24cec0196a6fe56e3d")}
+                                    className={classes.list_button}>
+                                    Sofa
+                                </Button>
+                            </AccordionDetails>
+                            <AccordionDetails>
+                                <Button 
+                                    onClick={() => getColors("6065ca24cec0196a6fe56e3d")}
+                                    className={classes.list_button}>
+                                    Bed
+                                </Button>
+                            </AccordionDetails>
+                            <AccordionDetails>
+                                <Button 
+                                    onClick={() => getColors("6065ca24cec0196a6fe56e3d")}
+                                    className={classes.list_button}>
+                                    Cupboard
+                                </Button>
+                            </AccordionDetails>
+                        </Accordion>
+
+                        {/* Colors Accordion----------------------- */}
+                        {/* <Colors/> */}
+                        <Accordion className={classes.colors_root}>
+                            <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            >
+                                <Typography className={classes.heading}>Colors</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Button 
+                                    onClick={() => getCategories("6065c425f45ada6429eb42c9")}
+                                    className={classes.list_button}>
+                                    Brown
+                                </Button>
+                            </AccordionDetails>
+                            <AccordionDetails>
+                                <Button 
+                                    onClick={() => getCategories("6065c425f45ada6429eb42c9")}
+                                    className={classes.list_button}>
+                                    Blue
+                                </Button>
+                            </AccordionDetails>
+                            <AccordionDetails>
+                                <Button 
+                                    onClick={() => getCategories("6065c425f45ada6429eb42c9")}
+                                    className={classes.list_button}>
+                                    Black
+                                </Button>
+                            </AccordionDetails>
+                            <AccordionDetails>
+                                <Button 
+                                    onClick={() => getCategories("6065c425f45ada6429eb42c9")}
+                                    className={classes.list_button}>
+                                    White
+                                </Button>
+                            </AccordionDetails>
+                        </Accordion>
                     </Grid>
-                <Grid item lg={10}>
+                <Grid item md={10} lg={10}>
                     <ProductsCards products={productData}/>
                 </Grid>
-            </Grid>
+            </Grid> 
         </>
     )
 }

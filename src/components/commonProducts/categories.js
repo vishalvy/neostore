@@ -28,7 +28,6 @@ function Categories() {
                 <AccordionDetails>
                     <Button 
                         className={classes.list_button}
-                        // onClick={() => filterProduct(Data,'table')}
                     >
                         Table
                     </Button>

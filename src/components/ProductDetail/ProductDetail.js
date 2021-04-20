@@ -6,7 +6,7 @@ import {Tab,Tabs, Button,
 from '@material-ui/core'
 
 import { Rating,} from '@material-ui/lab'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import useStyles from './styles'
 import ShareIcon from '@material-ui/icons/Share';
 import {FacebookShareButton, FacebookIcon, 
@@ -18,16 +18,35 @@ import {FacebookShareButton, FacebookIcon,
 from "react-share";
 import {useHistory} from 'react-router-dom'
 import ReactImageZoom from 'react-image-zoom';
+import axios from 'axios';
+import {BaseUrl} from '../constants/baseUrl'
 
 function ProductDetail(props) {
     const history = useHistory()
-    const {id,name,description,features,mainImage,subImages,price,avgRating} = props.location.product.product
+    const newid = props.match.params.id
+
+    const [product,setProduct] = useState()
+
+    useEffect(() => {
+        axios.get(`${BaseUrl}/api/product/details/${newid}`)
+        .then((res) => {
+            const temp = res.data.data
+            console.log("inside useEffect",temp)
+            setProduct(temp)
+            setImage(temp.mainImage)
+            
+        })
+    },[])
+    // console.log(product)
+
+    
+
+    // const {id,name,description,features,mainImage,subImages,price,avgRating} = props.location.product.product
 
     const classes = useStyles()
-    const defaultImage = `${mainImage}`
     const [tabvalue, setTabValue] = useState(0);
     const [controlledRating, setControlledRating] = useState(3);
-    const [imageVal,setImage] = useState(defaultImage)
+    const [imageVal,setImage] = useState()
 
     const style = {
         // backgroundColor: `${color}`
@@ -61,7 +80,8 @@ function ProductDetail(props) {
     };
     return (
         <>
-            <Container className={classes.root}>
+
+        { product && <Container className={classes.root}>
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={6} className={classes.image_grid}>
 
@@ -71,22 +91,22 @@ function ProductDetail(props) {
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
-                                src={subImages[0]}
-                                alt={name}
+                                src={product.subImages[0]}
+                                alt={product.name}
                             />
 
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
-                                src={subImages[1]}
-                                alt={name}
+                                src={product.subImages[1]}
+                                alt={product.name}
                             />
                     
                             <img 
                                 onClick={(e) => setImage(e.target.currentSrc)}
                                 className={classes.small_img} 
-                                src={mainImage}
-                                alt={name}
+                                src={product.mainImage}
+                                alt={product.name}
                             />
                         </div>
                     </Grid>
@@ -95,20 +115,20 @@ function ProductDetail(props) {
                         <Typography 
                             className={classes.product_title}
                             variant={'h5'}> 
-                            {name}
+                            {product.name}
                         </Typography>
 
-                        <Rating className={classes.product_rating} defaultValue={avgRating} precision={0.5} readOnly />
+                        <Rating className={classes.product_rating} value={product.avgRating} precision={0.5} readOnly />
 
                         <hr className={classes.hor_rule}></hr>
 
                         <Typography className={classes.price_root}>
-                            Price: ₹<span className={classes.price_color}>{price}</span>
+                            Price: ₹<span className={classes.price_color}>{product.price}</span>
                         </Typography>
 
                         <Typography className={classes.color_box}>
                             Color: 
-                            <div style={style} className={classes.color_display}></div>
+                            {/* <div style={style} className={classes.color_display}></div> */}
                         </Typography>
 
                         <br/>
@@ -122,7 +142,7 @@ function ProductDetail(props) {
                         <div>
                             {/* Share to Socials Section --------------------------------------- */}
                             <FacebookShareButton 
-                                url={`http://localhost:3000/product/${id}`}
+                                url={`http://localhost:3000/product/${product.id}`}
                                 hashtag="#neostore"
                                 className={classes.socialMediaButton}
                             >
@@ -130,7 +150,7 @@ function ProductDetail(props) {
                             </FacebookShareButton>
 
                             <WhatsappShareButton 
-                                url={`http://localhost:3000/product/${id}`}
+                                url={`http://localhost:3000/product/${product.id}`}
                                 hashtag="#neostore"
                                 className={classes.socialMediaButton}
                             >
@@ -138,7 +158,7 @@ function ProductDetail(props) {
                             </WhatsappShareButton>
 
                             <EmailShareButton 
-                                url={`http://localhost:3000/product/${id}`}
+                                url={`http://localhost:3000/product/${product.id}`}
                                 hashtag="#neostore"
                                 className={classes.socialMediaButton}
                             >
@@ -146,7 +166,7 @@ function ProductDetail(props) {
                             </EmailShareButton>
 
                             <PinterestShareButton 
-                                url={`http://localhost:3000/product/${id}`}
+                                url={`http://localhost:3000/product/${product.id}`}
                                 hashtag="#neostore"
                                 className={classes.socialMediaButton}
                             >
@@ -154,7 +174,7 @@ function ProductDetail(props) {
                             </PinterestShareButton>
 
                             <TwitterShareButton 
-                                url={`http://localhost:3000/product/${id}`}
+                                url={`http://localhost:3000/product/${product.id}`}
                                 hashtag="#neostore"
                                 className={classes.socialMediaButton}
                             >
@@ -167,7 +187,7 @@ function ProductDetail(props) {
                         <div>
                             {/* Add to Cart Button------------------ */}
                             <Button
-                                onClick = {() => AddToCart(props.location.product.product)}
+                                onClick = {() => AddToCart(product)}
                                 className={classes.add_cart_btn}
                                 variant="contained" 
                             >
@@ -193,29 +213,27 @@ function ProductDetail(props) {
                         <Tab label="Features"></Tab>
                     </Tabs>
                     <TabPanel value={tabvalue} index={0}>
-                        {description}
+                        {product.description}
                     </TabPanel>
                     <TabPanel value={tabvalue} index={1}>
-                        {features}
+                        {product.features}
                     </TabPanel>
                 </Paper>
 
             </Container>
-
-
-            {/* Rate this product Pop Up Window-------------------------------------------------- */}
-            <div>
+        }
+        {/* Rate this product Pop Up Window-------------------------------------------------- */}
                 <Dialog
                     open={open}
                     onClose={closePopup}
                 >
                     <DialogTitle>
-                        {name}
+                        {/* {product.name} */}
                         <hr className={classes.hor_rule}></hr>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            <img src={mainImage} alt="" width="30%" height="30%"/>
+                            {/* <img src={product.mainImage} alt="" width="30%" height="30%"/> */}
                             <br/>
                             <Typography>Rate this product</Typography>
                             <Rating
@@ -240,7 +258,6 @@ function ProductDetail(props) {
                         </Button>
                     </DialogActions>
                 </Dialog>
-            </div>
         </>
     )
 }

@@ -1,6 +1,9 @@
-import { Container, Grid, Typography } from '@material-ui/core'
+import { Container, Grid, Link, Typography } from '@material-ui/core'
 import React from 'react'
 import useStyles from './styles'
+import SortIcon from '@material-ui/icons/Sort';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import HomeIcon from '@material-ui/icons/Home';
 
 function Orderdetail() {
     const classes = useStyles()
@@ -23,7 +26,22 @@ function Orderdetail() {
                         <Typography variant="h5">
                             Vishal Yadav
                         </Typography>
+                        <br/>
+                        <Typography className={classes.order_root} component="">
+                            <Link className={classes.order_link}>
+                                <SortIcon color="primary"/> Order
+                            </Link>
 
+                            
+                        </Typography>
+                        <br/>
+                        <Typography className={classes.profile_root}>
+                            <AccountBoxIcon color="primary"/> Profile
+                        </Typography>
+                        <br/>
+                        <Typography className={classes.address_root}>
+                            <HomeIcon color="primary"/> Address
+                        </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={8} lg={8}>
             

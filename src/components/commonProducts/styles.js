@@ -6,18 +6,18 @@ const useStyles = makeStyles((theme) => ({
     },
     allproducts_paper: {
         padding: "1vh 0",
-        width: "70%",
+        width: "80%",
     },
     allproducts_link: {
         textDecoration: "none",
         color: "black",
     },
     categories_root: {
-        width: "70%",
+        width: "80%",
         margin: "10%"
     },
     colors_root: {
-        width: "70%"
+        width: "80%"
     },
     grid1:{
         display: "flex",

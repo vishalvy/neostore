@@ -29,8 +29,8 @@ export default function MediaCard(props) {
     }
 
   return (
-    <Card className={classes.root} onClick={() => handleCards(props.product)}>
-        <CardActionArea>
+    <Card>
+        <CardActionArea className={classes.root} onClick={() => handleCards(props.product)}>
             <CardMedia
                 className={classes.media}
                 image={props.image}

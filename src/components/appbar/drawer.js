@@ -71,7 +71,7 @@ const DrawerComponent = () => {
           </ListItem>
 
           <ListItem divider button onClick={() => {
-            history.push('/commonproducts') 
+            history.push('/allproducts') 
             setOpenDrawer(false)
           }}>
             <ListItemIcon>

@@ -2,7 +2,6 @@ import React,{useState,useEffect} from 'react'
 import Grid from '@material-ui/core/Grid';
 import Cards from './cards'
 import { Container } from '@material-ui/core';
-import Products from './products'
 import useStyles from './productstyles'
 import Typography from '@material-ui/core/Typography'
 import {Link,useHistory} from 'react-router-dom'
@@ -26,7 +25,7 @@ function TopProducts() {
             <Typography variant="h6" className={classes.cards_header}>
                 Popular Products
             </Typography>
-            <Link onClick={() => history.push("/allproducts")}>See All Products</Link> 
+            <Link to="/allproducts">See All Products</Link> 
             <Grid container spacing={3} className={classes.card_container}>
                 {   
                   productData && productData.map((product,index) => (

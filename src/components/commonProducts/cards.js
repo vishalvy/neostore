@@ -55,7 +55,7 @@ export default function MediaCard(props) {
                 Add to Cart
             </Button>
             <br/><br/>
-            <Rating defaultValue={props.rating} precision={0.5} readOnly />
+            <Rating value={props.rating} precision={0.5} readOnly />
         </div>
     </Card>
   );

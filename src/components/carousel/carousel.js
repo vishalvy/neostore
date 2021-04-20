@@ -25,7 +25,6 @@ function CarouselComp(props)
         .then((res) => {
             const temp = res.data.data
             setCarouselData(temp)
-            console.log(temp)
         })
     },[])
     return (
