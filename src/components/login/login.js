@@ -16,11 +16,15 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import EmailIcon from '@material-ui/icons/Email';
 import Social from './social'
 import {Link} from 'react-router-dom'
+import axios from 'axios';
+import {useHistory} from 'react-router-dom'
+import { BaseUrl } from '../constants/baseUrl';
 
 
 
 function Login() {
     const classes = useStyles()
+    const history = useHistory()
     const [showPassword,setshowPassword] = useState(false)
     const [error,setError] = useState({});
     const [email,setEmail] = useState('')
@@ -30,9 +34,28 @@ function Login() {
     const togglePassword = () => {
         setshowPassword(showPassword ? false : true)   
     }
+
     const handleLogin = (e) => {
         e.preventDefault();
         setError(validate(email,password));
+        if(email !== "" && password !== ""){
+            const user = {
+                email : email,
+                password: password
+            }
+            axios.post(`${BaseUrl}/api/auth/login`,user)
+            .then((res) => {
+                console.log(res.data.data)
+                localStorage.setItem('userdata',JSON.stringify(res.data.data))
+                if(res.request.status === 200) {
+                    history.push('/allproducts')
+                }
+                
+            })
+            .catch(() => {
+                alert("Invalid Email or Password")
+            })
+        }
     }
 
     return (
@@ -41,6 +64,7 @@ function Login() {
             <Paper elevation={2} className={classes.login_paper}>
                 <Container>
                 <form
+                    onSubmit={handleLogin}
                     className={classes.form_root}>
                     <Typography 
                         className={classes.login_form_heading}
@@ -81,7 +105,7 @@ function Login() {
                         className={classes.login_button}
                         variant="contained"
                         color="primary"
-                        onClick={handleLogin}
+                        type="submit"
                     >
                         Login
                     </Button>

@@ -19,9 +19,13 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
 import validate from './validate'
+import axios from 'axios';
+import {useHistory} from 'react-router-dom'
+import { BaseUrl } from '../constants/baseUrl';
 
 function Register() {
     const classes = useStyles()
+    const history = useHistory()
     const [showPassword,setShowPassword] = useState(false)
     const [showConfirmPassword,setshowConfirmPassword] = useState(false)
     // const [values,setValues] = useState({
@@ -52,6 +56,27 @@ function Register() {
     const handleSubmit = (e) => {
         e.preventDefault()
         setError(validate(fname,lname,email,password,confirmpassword,mobile))
+        if(fname !== "" && lname!== "" && email!== "" && password!== "" && confirmpassword!== ""){
+        // if(error === {}) {
+            const userData = {
+                firstName: fname,
+                lastName: lname,
+                email: email,
+                mobile: mobile,
+                gender: gender,
+                password: password,
+                confirm_password: confirmpassword
+            }
+            axios.post(`${BaseUrl}/api/auth/register`,userData)
+            .then((res) => {
+                console.log(res)
+                history.push('/login')
+            })
+            .catch((err) => {
+                // console.log(err)
+                alert("Already Register")
+            })
+        }
     }
 
     return (
@@ -65,7 +90,7 @@ function Register() {
             <Grid className={classes.register_root}>
                 <Paper elevation={2} className={classes.register_paper}>
                     <Container>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <Typography 
                                 className={classes.register_heading}
                                 variant="h5" 
@@ -178,7 +203,7 @@ function Register() {
                                 className={classes.register_button}
                                 variant="contained"
                                 color="primary" 
-                                onClick={handleSubmit}
+                                type="submit"
                             >
                                 Register
                             </Button>

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import useStyles from './appbarstyles'
 import {useHistory} from 'react-router-dom'
 import {
@@ -11,6 +11,8 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import DrawerComponent from './drawer'
+import axios from 'axios';
+import { BaseUrl } from '../constants/baseUrl';
 
 
 
@@ -18,6 +20,7 @@ export default function Layout() {
   const classes = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [cartCount,setcartCount] = useState()
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -34,6 +37,21 @@ export default function Layout() {
     history.push('/register')
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    const userdata = JSON.parse(localStorage.getItem("userdata"));
+    const token = userdata.token;
+    
+    axios.get(`${BaseUrl}/api/cart`, {
+      headers: {
+        Authorization: `${token}`
+      }
+    })
+      .then((res) => {
+        const temp = res.data.data.products
+        setcartCount(temp.length)
+    })
+  })
 
   //Mediaquery
   const theme = useTheme()
@@ -88,7 +106,7 @@ export default function Layout() {
                 <Button 
                     onClick={() => history.push("/getcartdata")}
                     variant="contained"
-                    startIcon={<Badge badgeContent={5} color="secondary">
+                    startIcon={<Badge badgeContent={cartCount} color="secondary">
                     <ShoppingCartIcon/>
                 </Badge>}
                     className={classes.nav_cart_btn} 

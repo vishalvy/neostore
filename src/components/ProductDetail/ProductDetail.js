@@ -219,21 +219,19 @@ function ProductDetail(props) {
                         {product.features}
                     </TabPanel>
                 </Paper>
-
-            </Container>
-        }
-        {/* Rate this product Pop Up Window-------------------------------------------------- */}
+                
+                {/* Rate this product Pop Up Window-------------------------------------------------- */}
                 <Dialog
                     open={open}
                     onClose={closePopup}
                 >
                     <DialogTitle>
-                        {/* {product.name} */}
+                        {product.name}
                         <hr className={classes.hor_rule}></hr>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {/* <img src={product.mainImage} alt="" width="30%" height="30%"/> */}
+                            <img src={product.mainImage} alt="" width="30%" height="30%"/>
                             <br/>
                             <Typography>Rate this product</Typography>
                             <Rating
@@ -258,6 +256,8 @@ function ProductDetail(props) {
                         </Button>
                     </DialogActions>
                 </Dialog>
+            </Container>
+        }       
         </>
     )
 }

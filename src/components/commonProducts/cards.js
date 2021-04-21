@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,11 +8,25 @@ import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import useStyles from '../TopProducts/productstyles'
 import {useHistory} from 'react-router-dom'
+import axios from 'axios';
+import { BaseUrl } from '../constants/baseUrl';
+import { Snackbar } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 export default function MediaCard(props) {
     const classes = useStyles();
     const history = useHistory()
+    const [open, setOpen] = useState(false);
+    const handleClick = () => {
+        setOpen(true);
+    }
+    const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+        setOpen(false);
+    };
     
     const handleCards = (product) => {
         history.push({
@@ -21,42 +35,72 @@ export default function MediaCard(props) {
         })
     }
 
+    const handleAddToCart = (product_id,quantity) => {
+        const userdata = JSON.parse(localStorage.getItem('userdata'))
+        const token = userdata.token
+        const cartData = {
+            productId: product_id,
+            quantity: quantity
+        }
+        axios.post(`${BaseUrl}/api/cart`,cartData,{
+            headers: {
+                Authorization: token
+            }
+        })
+        .then((res) => {
+            handleClick()
+        })
+    }
+   
     const AddToCart = (product) => {
         history.push({
-            pathname: "/getcartdata",
+            // pathname: "/getcartdata",
             product: {product}
         })
+        handleAddToCart(props.id,1)
     }
 
 
   return (
-    <Card className={classes.root}>
-        <CardActionArea onClick={() => handleCards(props.product)}>
-            <CardMedia
-                onClick={() => handleCards(props.product)}
-                className={classes.media}
-                image={props.image}
-            />
-            <CardContent>
-                <Typography gutterBottom className={classes.card_title}>
-                    {props.title}
+    <>
+        <Card className={classes.root}>
+            <CardActionArea onClick={() => handleCards(props.product)}>
+                <CardMedia
+                    onClick={() => handleCards(props.product)}
+                    className={classes.media}
+                    image={props.image}
+                />
+                <CardContent>
+                    <Typography gutterBottom className={classes.card_title}>
+                        {props.title}
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+            <div>
+                <Typography gutterBottom variant="h6">
+                    ₹ {props.price}
                 </Typography>
-            </CardContent>
-        </CardActionArea>
-        <div>
-            <Typography gutterBottom variant="h6">
-                ₹ {props.price}
-            </Typography>
-            <Button 
-                onClick={() => AddToCart(props.product)}
-                variant="contained" 
-                size="small" 
-                color="primary">
-                Add to Cart
-            </Button>
-            <br/><br/>
-            <Rating value={props.rating} precision={0.5} readOnly />
-        </div>
-    </Card>
+                <Button 
+                    onClick={() => AddToCart(props.product)}
+                    variant="contained" 
+                    size="small" 
+                    color="primary">
+                    Add to Cart
+                </Button>
+                <br/><br/>
+                <Rating value={props.rating} precision={0.5} readOnly />
+            </div>
+        </Card>
+
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+                Product Added To Cart
+            </Alert>
+        </Snackbar>
+    </>
   );
+}
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
