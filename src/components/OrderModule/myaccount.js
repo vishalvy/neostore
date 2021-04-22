@@ -1,11 +1,14 @@
-import { Container, Grid, Link, Typography } from '@material-ui/core'
+import { Button, Container, Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import useStyles from './styles'
 import SortIcon from '@material-ui/icons/Sort';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import HomeIcon from '@material-ui/icons/Home';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import Order from './order';
+import Address from './Address';
 
-function Orderdetail() {
+function Myaccount() {
     const classes = useStyles()
     return (
         <>
@@ -21,6 +24,7 @@ function Orderdetail() {
                         <img 
                             className={classes.profile_img}
                             src="https://i.stack.imgur.com/l60Hf.png"
+                            alt= ""
                         />
 
                         <Typography variant="h5">
@@ -28,23 +32,35 @@ function Orderdetail() {
                         </Typography>
                         <br/>
                         <Typography className={classes.order_root} component="">
-                            <Link className={classes.order_link}>
+                            <Button className={classes.order_btn}>
                                 <SortIcon color="primary"/> Order
-                            </Link>
+                            </Button>
 
                             
                         </Typography>
                         <br/>
-                        <Typography className={classes.profile_root}>
-                            <AccountBoxIcon color="primary"/> Profile
+                        <Typography className={classes.order_root}>
+                            <Button className={classes.order_btn}>
+                                <AccountBoxIcon color="primary"/> Profile
+                            </Button>
+                            
                         </Typography>
                         <br/>
-                        <Typography className={classes.address_root}>
-                            <HomeIcon color="primary"/> Address
+                        <Typography className={classes.order_root}>
+                            <Button className={classes.order_btn}>
+                                <HomeIcon color="primary"/> Address
+                            </Button>
+                        </Typography>
+                        <br/>
+                        <Typography className={classes.order_root}>
+                            <Button className={classes.order_btn}>
+                                <VpnKeyIcon color="primary"/> Change Password
+                            </Button>
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={8} lg={8}>
-            
+                        <Order/>
+                        {/* <Address/> */}
                     </Grid>
                 </Grid>
             </Container>
@@ -52,4 +68,4 @@ function Orderdetail() {
     )
 }
 
-export default Orderdetail
+export default Myaccount

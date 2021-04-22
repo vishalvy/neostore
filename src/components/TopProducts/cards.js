@@ -23,7 +23,7 @@ export default function MediaCard(props) {
 
     const AddToCart = (product) => {
         history.push({
-            pathname: "/getcartdata",
+            pathname: "/cart",
             product: {product}
         })
     }

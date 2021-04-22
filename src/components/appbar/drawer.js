@@ -81,7 +81,7 @@ const DrawerComponent = () => {
 
           <ListItem divider button onClick={() => {
             setOpenDrawer(false)
-            history.push("/getcartdata")
+            history.push("/cart")
           }}>
             <ListItemIcon>
               <ListItemText>Order</ListItemText>

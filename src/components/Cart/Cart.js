@@ -21,60 +21,82 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import axios from "axios";
-import { BaseUrl } from "../constants/baseUrl";
+import { BaseUrl, rupees } from "../constants/baseUrl";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
-function Cart(props) {
-    // const { name, mainImage, price } = props.location.product.product;
-
-    // const newprice = price
-
+function Cart() {
+    const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
-    const [productCount, setProductCount] = useState(1);
-    const [totalPrice, setTotalPrice] = useState();
-    const [cartProducts,setCartProducts] = useState()
-
+    const [productQuantity, setProductQuantity] = useState([]);
+    const [productPrice,setProductPrice] = useState([])
+    const [grandTotal, setGrandTotal] = useState();
+    const [cartProducts, setCartProducts] = useState()
+    const [deleteFlag, setDeleteFlag] = useState(false)
+    const [sweetAlert,setSweetAlert] = useState(null)
+    // console.log(productPrice)
     // const defaultGST = (totalPrice / 100) * 5;
     // const [GST, setGST] = useState(defaultGST);
 
-    const classes = useStyles();
-
-    // //Add Item function
-    // const Additem = () => {
-    //     if (productCount < 10) {
-    //         setProductCount(productCount + 1);
-    //         setTotalPrice(price + totalPrice);
-    //         setGST((totalPrice / 100) * 5);
-    //     }
-    // };
-    const Additem = () => {
-        if (productCount < 10) {
-            setProductCount(productCount + 1)
-        }
-    }
-    const Removeitem = () => {
-        if (productCount > 1) {
-            setProductCount(productCount - 1)
-        }
-    }
-
-    // //Remove Item function
-    // const Removeitem = () => {
-    //     if (productCount > 1) {
-    //         setProductCount(productCount - 1);
-    //         setTotalPrice(totalPrice - price);
-    //         setGST(GST - ((totalPrice / 100) * 5 - GST));
-    //     }
-    // };
     
-    // const deleteCartProduct = (p_id) => {
-    //     const userdata = JSON.parse(localStorage.getItem("userdata"));
-    //     const token = userdata.token;
-    //     axios.delete(`${BaseUrl}/api/cart/${p_id}`, {
-    //         headers: {
-    //             Authorization: `${token}`
-    //         }
-    //     })
-    // }
+
+    const Additem = (index,price) => {
+        const quantity_arr = [...productQuantity]
+        const productcost = [...productPrice]
+        if (quantity_arr[index] < 10) {
+            quantity_arr[index] += 1
+
+            setProductQuantity(quantity_arr)
+
+            const updatePrice = productcost.map((val, newindex) => {
+                if (index === newindex) {
+                    const newPrice = price * quantity_arr[newindex]
+                    return newPrice
+                }
+                return val
+            })
+            setProductPrice(updatePrice)
+            console.log(productPrice)
+            const totalCost = updatePrice.reduce((a, b) => a + b, 0)
+            setGrandTotal(totalCost)
+        }
+    }
+    const Removeitem = (index,price) => {
+        const quantity_arr = [...productQuantity]
+        const productcost = [...productPrice]
+        if (quantity_arr[index] > 1) {
+            quantity_arr[index] -= 1
+            
+            setProductQuantity(quantity_arr)
+            
+            const updatePrice = productcost.map((val, newindex) => {
+                if (index === newindex) {
+                    const newPrice = price * quantity_arr[newindex]
+                    return newPrice
+                }
+                return val
+            })
+            setProductPrice(updatePrice)
+            console.log(productPrice)
+            const totalCost = updatePrice.reduce((a, b) => a - b, 0)
+            setGrandTotal(totalCost)
+        }
+    }
+
+    const deleteCartProduct = (p_id) => {
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        const token = userdata.token;
+        axios.delete(`${BaseUrl}/api/cart/${p_id}`, {
+            headers: {
+                Authorization: `${token}`
+            }
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                setDeleteFlag(true)
+            }
+        })
+        hideAlert()
+    }
 
 
     
@@ -82,6 +104,7 @@ function Cart(props) {
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         const token = userdata.token;
+        const price_arr = []
         // console.log(token)
         axios.get(`${BaseUrl}/api/cart`,{
             headers: {
@@ -89,16 +112,46 @@ function Cart(props) {
             }
         })
         .then((res) => {
-            console.log("Response data",res.data.data.products)
+            // console.log("Response data",res.data.data.products)
             const temp = res.data.data.products
             setCartProducts(temp)
-            // console.log(temp.productId.price)
-            // setTotalPrice(temp.productId.price)
-            
-            
+            setGrandTotal(res.data.data.grandTotal)
+            // console.log(temp)
+            if (res.status === 200) {
+                const q_arr = new Array(res.data.data.products.length).fill(1)
+                setProductQuantity(q_arr)
+                temp.map((val) => {
+                    price_arr.push(val.productId.price)
+                })
+                setProductPrice(price_arr)
+            }
         })
-    },[]);
-    console.log(cartProducts)
+    },[deleteFlag]);
+    // console.log(cartProducts)
+
+
+
+    const deleteProduct = (id) => {
+        const getAlert = () => (
+          <SweetAlert 
+            warning
+            showCancel
+            confirmBtnText="Yes, remove it!"
+            confirmBtnBsStyle="danger"
+            cancelBtnBsStyle="light"
+            title="Are you sure?"
+            onConfirm={() => deleteCartProduct(id)}
+            onCancel={() => hideAlert()}
+            focusCancelBtn
+          >
+            Are you sure you want to remove this product?
+          </SweetAlert>
+        );
+        setSweetAlert(getAlert())
+    }
+    const hideAlert = () => {
+        setSweetAlert(null)
+    }
     return (
         <>
         {cartProducts && <div>
@@ -158,7 +211,7 @@ function Cart(props) {
                                                         {cartProduct.productId.name}
                                                     </Typography>
                                                     <Typography>
-                                                        Status:{" "}
+                                                        Status: {" "}
                                                         <span
                                                             className={
                                                                 classes.status_color
@@ -177,15 +230,15 @@ function Cart(props) {
                                                     }
                                                 >
                                                     <IconButton
-                                                        onClick={Additem}
+                                                        onClick={() => Additem(index,cartProduct.productId.price)}
                                                         color="secondary"
                                                         component="span"
                                                     >
                                                         <AddCircleIcon />
                                                     </IconButton>
-                                                    {productCount}
+                                                    {productQuantity[index]}
                                                     <IconButton
-                                                        onClick={Removeitem}
+                                                        onClick={() => Removeitem(index,cartProduct.productId.price)}
                                                         color="secondary"
                                                         component="span"
                                                     >
@@ -195,15 +248,15 @@ function Cart(props) {
                                             </TableCell>
 
                                             <TableCell>
-                                                {cartProduct.productId.price}
+                                                {rupees}{cartProduct.productId.price}
                                             </TableCell>
                                             <TableCell>
-                                                {cartProduct.productId.totalPrice}
+                                                {rupees}{productPrice[index]}
                                             </TableCell>
                                             
                                             <TableCell>
                                                 <IconButton
-                                                    // onClick={deleteCartProduct(cartProduct.id)}
+                                                    onClick={() => deleteProduct(cartProduct.id)}
                                                     color="secondary"
                                                     component="span"
                                                 >
@@ -237,33 +290,34 @@ function Cart(props) {
                                         <TableRow>
                                             <TableCell>Subtotal</TableCell>
                                             <TableCell align="right">
-                                                {/* {totalPrice} */}
+                                                {rupees}{grandTotal}
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>GST(5%)</TableCell>
                                             <TableCell align="right">
-                                                {/* {GST} */}
+                                                {rupees}{(grandTotal / 100 * 5).toFixed(2)}
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>Order Total</TableCell>
                                             <TableCell align="right">
-                                                {/* {totalPrice + GST} */}
+                                                {rupees}{(grandTotal - (grandTotal / 100 * 5)).toFixed(2)}
                                             </TableCell>
                                         </TableRow>
-                                        {/* <TableRow > */}
-                                        <Button
-                                            onClick={() =>
-                                                setActiveStep(activeStep + 1)
-                                            }
-                                            className={classes.buy_button}
-                                            variant="contained"
-                                            color="primary"
-                                        >
-                                            Proceed to Buy
-                                        </Button>
-                                        {/* </TableRow>  */}
+
+                                        <div className={classes.buy_button_root}>
+                                            <Button
+                                                onClick={() =>
+                                                    setActiveStep(activeStep + 1)
+                                                }
+                                                className={classes.buy_button}
+                                                variant="contained"
+                                                color="primary"
+                                            >
+                                                Proceed to Buy
+                                            </Button>  
+                                        </div>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
@@ -271,6 +325,10 @@ function Cart(props) {
                     </Grid>
                 </Grid>
                 </div>
+
+                {/* Sweet Alert----------------------------------------- */}
+                {sweetAlert}
+
             </div>
             }
         </>

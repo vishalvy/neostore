@@ -104,7 +104,7 @@ export default function Layout() {
                 />
 
                 <Button 
-                    onClick={() => history.push("/getcartdata")}
+                    onClick={() => history.push("/cart")}
                     variant="contained"
                     startIcon={<Badge badgeContent={cartCount} color="secondary">
                     <ShoppingCartIcon/>

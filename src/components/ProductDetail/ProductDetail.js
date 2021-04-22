@@ -49,7 +49,7 @@ function ProductDetail(props) {
     const [imageVal,setImage] = useState()
 
     const style = {
-        // backgroundColor: `${color}`
+        backgroundColor: "blue"
     };
 
     const handleTabs = (event, val) => {
@@ -58,7 +58,7 @@ function ProductDetail(props) {
 
     const AddToCart = (product) => {
         history.push({
-            pathname: "/getcartdata",
+            pathname: "/cart",
             product: {product}
         })
     }
@@ -128,7 +128,9 @@ function ProductDetail(props) {
 
                         <Typography className={classes.color_box}>
                             Color: 
-                            {/* <div style={style} className={classes.color_display}></div> */}
+                            <div style={style} className={classes.color_display}>
+                                
+                            </div>
                         </Typography>
 
                         <br/>

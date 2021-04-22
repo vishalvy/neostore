@@ -16,30 +16,30 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "50%"
     },
     order_root: {
-        border: "solid 1px black",
-        borderRadius: "5px",
-        // display: "flex",
-        // justifyContent: "center",
-        padding: "1%"
-    },
-    order_link: {
         display: "flex",
         justifyContent: "center",
-        color: "black",
-        '&:hover': {
-            textDecoration: "none"
-        }
-        
     },
-    profile_link: {
+    order_btn: {
         display: "flex",
         justifyContent: "center",
-        padding: "1%"
+        color: "black"
     },
-    address_link: {
-        display: "flex",
-        justifyContent: "center",
-        padding: "1%"
+    transit_text: {
+        color: "brown",
+        paddingRight: "1%"
+    },
+    price_text: {
+        color: "green",
+        paddingLeft: "1%"
+    },
+    order_paper: {
+        textAlign: "left"
+    },
+
+
+    ///addresss styling
+    address_root_paper: {
+        textAlign:"left"
     }
 }))
 export default useStyles

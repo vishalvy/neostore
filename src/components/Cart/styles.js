@@ -21,10 +21,15 @@ const useStyles = makeStyles((theme) => ({
         margin: "3% 0",
         marginLeft: "35%"
     },
+    buy_button_root: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
     buy_button: {
         margin: "5% 0",
-        marginLeft: "25%",
-        width: "90%"
+        marginLeft: "30%", 
+        // width: "60%"
     },
 }))
 export default useStyles
