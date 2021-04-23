@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     order_root: {
         display: "flex",
         justifyContent: "center",
+
     },
     order_btn: {
         display: "flex",
@@ -33,13 +34,34 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: "1%"
     },
     order_paper: {
-        textAlign: "left"
+        textAlign: "left",
+        margin: "3%"
     },
 
 
     ///addresss styling
     address_root_paper: {
         textAlign:"left"
+    },
+    address_paper: {
+        margin: "3% 0"
+    },
+    address_heading: {
+        fontSize: "5vh",
+        padding: "1%"
+    },
+    cancel_icon: {
+        float: "right"
+    },
+    address_text: {
+        padding: "2% 0"
+    },
+    add_address_btn: {
+        margin: "2% 0",
+        textTransform: "none"
+    },
+    error_msg: {
+        color: "red"
     }
 }))
 export default useStyles

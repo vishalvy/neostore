@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
+import {useHistory} from 'react-router-dom'
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -26,6 +27,7 @@ import SweetAlert from 'react-bootstrap-sweetalert';
 
 function Cart() {
     const classes = useStyles();
+    const history = useHistory()
     const [activeStep, setActiveStep] = useState(0);
     const [productQuantity, setProductQuantity] = useState([]);
     const [productPrice,setProductPrice] = useState([])
@@ -60,6 +62,7 @@ function Cart() {
             setGrandTotal(totalCost)
         }
     }
+    
     const Removeitem = (index,price) => {
         const quantity_arr = [...productQuantity]
         const productcost = [...productPrice]
@@ -78,7 +81,7 @@ function Cart() {
             setProductPrice(updatePrice)
             console.log(productPrice)
             const totalCost = updatePrice.reduce((a, b) => a - b, 0)
-            setGrandTotal(totalCost)
+            setGrandTotal(Math.abs(totalCost))
         }
     }
 
@@ -127,8 +130,6 @@ function Cart() {
             }
         })
     },[deleteFlag]);
-    // console.log(cartProducts)
-
 
 
     const deleteProduct = (id) => {
@@ -138,13 +139,12 @@ function Cart() {
             showCancel
             confirmBtnText="Yes, remove it!"
             confirmBtnBsStyle="danger"
-            cancelBtnBsStyle="light"
             title="Are you sure?"
             onConfirm={() => deleteCartProduct(id)}
             onCancel={() => hideAlert()}
             focusCancelBtn
           >
-            Are you sure you want to remove this product?
+            Are you sure, want to remove this product?
           </SweetAlert>
         );
         setSweetAlert(getAlert())
@@ -305,12 +305,13 @@ function Cart() {
                                                 {rupees}{(grandTotal - (grandTotal / 100 * 5)).toFixed(2)}
                                             </TableCell>
                                         </TableRow>
-
+                                                
                                         <div className={classes.buy_button_root}>
                                             <Button
-                                                onClick={() =>
+                                                onClick={() => {
                                                     setActiveStep(activeStep + 1)
-                                                }
+                                                    history.push('/orderdetails')
+                                                }}
                                                 className={classes.buy_button}
                                                 variant="contained"
                                                 color="primary"
@@ -330,7 +331,8 @@ function Cart() {
                 {sweetAlert}
 
             </div>
-            }
+        } 
+            
         </>
     );
 }

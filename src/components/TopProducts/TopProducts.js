@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import Grid from '@material-ui/core/Grid';
-import Cards from './cards'
+import Cards from '../commonProducts/cards'
 import { Container } from '@material-ui/core';
 import useStyles from './productstyles'
 import Typography from '@material-ui/core/Typography'
@@ -30,7 +30,7 @@ function TopProducts() {
                 {   
                   productData && productData.map((product,index) => (
                         <Grid item key={index} xs={12} sm={6} md={4} lg={4}>
-                            <Cards product={product} image={product.mainImage} title={product.name} 
+                            <Cards product={product} id={product.id} image={product.mainImage} title={product.name} 
                             price={product.price} rating={product.avgRating}/>   
                         </Grid>
                     ))

@@ -10,7 +10,7 @@ import ForgetPassword from './components/forgetpassword/forgerpassword'
 import AllProducts from './components/commonProducts/Allproducts'
 import ProductDetail from './components/ProductDetail/ProductDetail';
 import Cart from './components/Cart/Cart';
-import Orderdetail from './components/OrderModule/myaccount';
+import Orderdetail from './components/OrderModule/Myaccount';
 import Error from './components/ErrorPage/Error';
 
 function App() {

@@ -1,2 +1,2 @@
-export const BaseUrl = "http://ce61dbbabdca.ngrok.io";
+export const BaseUrl = "https://neostore-api.herokuapp.com";
 export const rupees = "₹"
