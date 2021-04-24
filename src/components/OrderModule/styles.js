@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
         height: "200px",
         borderRadius: "50%"
     },
+    account_username: {
+        color: "brown"
+    },
     order_root: {
         display: "flex",
         justifyContent: "center",
@@ -62,6 +65,27 @@ const useStyles = makeStyles((theme) => ({
     },
     error_msg: {
         color: "red"
+    },
+
+    //Profile styling
+
+    profile_heading: {
+        fontSize: "5vh",
+        padding: "1%",
+        display: "flex"
+    },
+    profile_grid1: {
+        textAlign: "left"
+    },
+    profile_grid2: {
+        paddingLeft: "30%",
+        textAlign: "left"
+    },
+    edit_profile: {
+        display: "flex",
+    },
+    radio_root: {
+        display: "inline"
     }
 }))
 export default useStyles

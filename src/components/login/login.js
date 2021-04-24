@@ -45,8 +45,8 @@ function Login() {
             }
             axios.post(`${BaseUrl}/api/auth/login`,user)
             .then((res) => {
-                console.log(res.data.data)
-                localStorage.setItem('userdata',JSON.stringify(res.data.data))
+                localStorage.setItem('userdata', JSON.stringify(res.data.data))
+                localStorage.setItem('isLoggedIn',true)
                 if(res.request.status === 200) {
                     history.push('/allproducts')
                 }

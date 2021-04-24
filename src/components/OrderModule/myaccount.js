@@ -12,9 +12,9 @@ import ChangePass from './ChangePass'
 
 function Myaccount() {
     const classes = useStyles()
-    const [isOrder, setIsOrder] = useState(true)
+    const [isOrder, setIsOrder] = useState(false)
     const [isAddress, setIsAddress] = useState(false)
-    const [isProfile, setIsProfile] = useState(false)
+    const [isProfile, setIsProfile] = useState(true)
     const [isChangePass, setIsChangePass] = useState(false)
 
 
@@ -60,7 +60,9 @@ function Myaccount() {
                             alt= ""
                         />
 
-                        <Typography variant="h5">
+                        <Typography
+                            className={classes.account_username}
+                            variant="h5">
                             Vishal Yadav
                         </Typography>
                         <br/>

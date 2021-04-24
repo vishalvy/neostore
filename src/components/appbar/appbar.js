@@ -27,6 +27,7 @@ export default function Layout() {
     const history = useHistory();
     const [anchorEl, setAnchorEl] = useState(null);
     const [cartCount, setcartCount] = useState();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
@@ -46,6 +47,9 @@ export default function Layout() {
 
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
+        const isLogin = localStorage.getItem("isLoggedIn");
+        console.log(isLogin);
+        setIsLoggedIn(isLogin);
         const token = userdata.token;
 
         axios
@@ -93,10 +97,7 @@ export default function Layout() {
                             >
                                 Products
                             </Button>
-                            <Button
-                                onClick={() => history.push("/orderdetails")}
-                                color="inherit">Order
-                              </Button>
+                            <Button color="inherit">Order</Button>
                         </div>
 
                         {/* <div className={classes.nav_cart_container}> */}
@@ -147,11 +148,34 @@ export default function Layout() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleLogin}>Login</MenuItem>
+                            {/* {isLoggedIn === false && ( */}
+                                <MenuItem onClick={handleLogin}>Login</MenuItem>
+                            {/* )} */}
                             <MenuItem onClick={handleRegister}>
                                 Register
                             </MenuItem>
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            {/* {isLoggedIn && ( */}
+                                <>
+                                    <MenuItem
+                                        onClick={() => {
+                                            history.push("/profile");
+                                            handleClose();
+                                        }}
+                                    >
+                                        Profile
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => {
+                                                localStorage.removeItem("userdata");
+                                                localStorage.removeItem("isLoggedIn");
+                                            handleClose();
+                                            history.push("/login");
+                                        }}
+                                    >
+                                        Logout
+                                    </MenuItem>
+                                </>
+                            {/* )} */}
                         </Menu>
                     </>
                 )}

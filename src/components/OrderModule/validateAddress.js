@@ -12,7 +12,7 @@ export default function validateAddress(addressLine,pincode,city,state,country) 
     if(pincode === ''){
         errors.pincode = "Enter Pincode"
     }
-    else if(pincode.length > 6){
+    else if(!/^.{6,6}$/s.test(pincode)){
         errors.pincode = "Pincode should be of 6 Digits"
     }
     else if(!/^[0-9]*$/.test(pincode)) {
@@ -32,3 +32,7 @@ export default function validateAddress(addressLine,pincode,city,state,country) 
     
     return errors;
 }
+
+
+
+

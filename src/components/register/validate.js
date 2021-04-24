@@ -7,7 +7,7 @@ export default function validateRegister(fname,lname,email,password,confirmpassw
     if(fname === ''){
         errors.fname = "Please Enter Firstname"
     }
-    else if(fname.length > 12){
+    else if(!/^.{1,12}$/s.test(fname)){
         errors.fname = "Length should be less than 12 Alphabets"
     }
     else if(!/^[a-zA-Z]+(\s[a-zA-Z]+)?$/.test(fname)) {
@@ -18,7 +18,7 @@ export default function validateRegister(fname,lname,email,password,confirmpassw
     if(lname === ''){
         errors.lname = "Please Enter Laststname"
     }
-    else if(lname.length > 12){
+    else if(!/^.{1,12}$/s.test(lname)){
         errors.lname = "Length should be less than 12 Alphabets"
     }
     else if(!/^[a-zA-Z]+(\s[a-zA-Z]+)?$/.test(lname)) {
@@ -37,7 +37,7 @@ export default function validateRegister(fname,lname,email,password,confirmpassw
     if(password === ''){
         errors.password = "Please Enter Password"
     }
-    else if(password.length < 8 || password.length >12){
+    else if(!/^.{8,12}$/s.test(password)){
         errors.password = "Length should be 8 to 12 Characters"
     }
     else if(!/^(?=.*\d)(?=.*[a-z]).{4,14}$/.test(password)){
@@ -48,7 +48,7 @@ export default function validateRegister(fname,lname,email,password,confirmpassw
     if(confirmpassword === ''){
         errors.confirmpassword = "Please Re-Enter Password"
     }
-    else if(confirmpassword.length < 8 || confirmpassword.length >12){
+    else if(!/^.{8,12}$/s.test(confirmpassword)){
         errors.confirmpassword = "Length should be 8 to 12 Characters"
     }
     else if(!/^(?=.*\d)(?=.*[a-z]).{4,14}$/.test(confirmpassword)){

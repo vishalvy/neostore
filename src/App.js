@@ -35,7 +35,7 @@ function App() {
           <Route exact path='/allproducts' component={AllProducts}/>
           <Route exact path='/product/:id?' component={ProductDetail}/>
           <Route exact path='/cart' component={Cart}/>
-          <Route exact path='/orderdetails' component={Orderdetail}/>
+          <Route exact path='/profile' component={Orderdetail}/>
           <Route exact path='/404' component={Error} />
           <Redirect to="/404" />
         </Switch>
