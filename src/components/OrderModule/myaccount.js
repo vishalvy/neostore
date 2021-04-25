@@ -16,7 +16,11 @@ function Myaccount() {
     const [isAddress, setIsAddress] = useState(false)
     const [isProfile, setIsProfile] = useState(true)
     const [isChangePass, setIsChangePass] = useState(false)
+    const [userInfo,setUserInfo] = useState()
 
+    const borderStyle = {
+        border: "1px solid black"
+    }
 
     const handleOrderPage = () => {
         setIsOrder(true)
@@ -43,6 +47,14 @@ function Myaccount() {
         setIsProfile(false)
         setIsChangePass(true)
     }
+
+    useEffect(() => {
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        if (userdata) {
+            setUserInfo(userdata)
+        }
+    })
+    
     return (
         <>
             <Container className={classes.root}>
@@ -63,11 +75,12 @@ function Myaccount() {
                         <Typography
                             className={classes.account_username}
                             variant="h5">
-                            Vishal Yadav
+                            {userInfo && userInfo.firstName} {userInfo && userInfo.lastName}
                         </Typography>
                         <br/>
                         <Typography className={classes.order_root} component="">
                             <Button
+                                style={isOrder ? {backgroundColor: "#EFC768", border: "1px solid black"} : {}}
                                 onClick={() => handleOrderPage()}
                                 className={classes.order_btn}>
                                 <SortIcon color="primary"/> Order
@@ -78,6 +91,7 @@ function Myaccount() {
                         <br/>
                         <Typography className={classes.order_root}>
                             <Button
+                                style={isProfile ? {backgroundColor: "#EFC768", border: "1px solid black"} : {}}
                                 onClick={() => handleProfilePage()}
                                 className={classes.order_btn}>
                                 <AccountBoxIcon color="primary"/> Profile
@@ -87,6 +101,7 @@ function Myaccount() {
                         <br/>
                         <Typography className={classes.order_root}>
                             <Button
+                                style={isAddress? {backgroundColor: "#EFC768", border: "1px solid black"} : {}}
                                 onClick={() => handleAddressPage()}
                                 className={classes.order_btn}>
                                 <HomeIcon color="primary"/> Address
@@ -95,6 +110,7 @@ function Myaccount() {
                         <br/>
                         <Typography className={classes.order_root}>
                             <Button
+                                style={isChangePass ? {backgroundColor: "#EFC768", border: "1px solid black"} : {}}
                                 onClick={() => handleChangePassPage()}
                                 className={classes.order_btn}>
                                 <VpnKeyIcon color="primary"/> Change Password

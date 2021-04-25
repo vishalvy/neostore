@@ -23,6 +23,6 @@ const useStyles = makeStyles((theme) => ({
     },
     footer_heading: {
         fontWeight: "bold"
-    }
+    },
 }))
 export default useStyles

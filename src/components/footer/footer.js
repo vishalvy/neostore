@@ -13,9 +13,23 @@ function Footer() {
     const [open, setOpen] = useState(false);
     const [footerEmail,setFooterEmail] = useState("")
 
-    const openPopup = () => {
-        setOpen(true);
-    };
+    const validateSubscribe = (footerEmail) => {
+        if (footerEmail === "") {
+            alert("Enter Email Before Subscribing!")
+        }
+        else if (!/^(([^<>!@#$%&^*()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(footerEmail)) {
+            alert("Enter Email Valid Email")
+        }
+        else {
+            setOpen(true);
+        }
+    }
+        
+
+
+    const handleSubscribe = () => {
+        validateSubscribe(footerEmail)
+    }
 
     const closePopup = () => {
         setOpen(false);
@@ -91,7 +105,8 @@ function Footer() {
                         <br/>
 
                         <form>
-                            <TextField 
+                            <TextField
+                                className={classes.footerEmail}
                                 value={footerEmail}
                                 onChange={(e) => setFooterEmail(e.target.value)}
                                 placeholder="Your Email.."
@@ -101,7 +116,7 @@ function Footer() {
                             </TextField>
                             <br/> <br/>
                             <Button 
-                                onClick={openPopup}
+                                onClick={handleSubscribe}
                                 variant="contained"
                                 className={classes.footer_button}
                                 size="small"

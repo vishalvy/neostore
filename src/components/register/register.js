@@ -28,15 +28,6 @@ function Register() {
     const history = useHistory()
     const [showPassword,setShowPassword] = useState(false)
     const [showConfirmPassword,setshowConfirmPassword] = useState(false)
-    // const [values,setValues] = useState({
-    //     fname: "",
-    //     lname: "",
-    //     email: "",
-    //     password: "",
-    //     confirmpassword: "",
-    //     mobile: "",
-    //     gender: "male"
-    // })
     const [fname,setFname] = useState("")
     const [lname,setLname] = useState("")
     const [email,setREmail] = useState("")

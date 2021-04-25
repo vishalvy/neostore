@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
     error_tag: {
         float: "left",
         color: "red"
+    },
+    getcode_btn: {
+        display: "flex",
+        marginTop: "2%"
     }
 }))
 export default useStyles

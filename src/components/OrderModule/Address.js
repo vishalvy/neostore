@@ -19,6 +19,7 @@ import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import MuiAlert from "@material-ui/lab/Alert";
 import SweetAlert from "react-bootstrap-sweetalert";
+import UpdateAddress from "./UpdateAddress";
 
 function Address() {
     const classes = useStyles();
@@ -84,7 +85,7 @@ function Address() {
             });
     };
 
-    const deleteCall = (address_id) => {
+    const deleteAddressCall = (address_id) => {
         axios
             .delete(`${BaseUrl}/api/user/address/${address_id}`, {
                 headers: {
@@ -102,7 +103,7 @@ function Address() {
                 confirmBtnText="Yes, remove it!"
                 confirmBtnBsStyle="danger"
                 title="Are you sure?"
-                onConfirm={() => deleteCall(id)}
+                onConfirm={() => deleteAddressCall(id)}
                 onCancel={() => hideAlert()}
                 focusCancelBtn
             >
@@ -274,6 +275,7 @@ function Address() {
                     </Button>
                 </DialogActions>
             </Dialog>
+            {/* <UpdateAddress/> */}
 
             <Snackbar
                 open={openSnackbar}

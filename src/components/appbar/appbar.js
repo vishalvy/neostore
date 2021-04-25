@@ -50,18 +50,20 @@ export default function Layout() {
         const isLogin = localStorage.getItem("isLoggedIn");
         console.log(isLogin);
         setIsLoggedIn(isLogin);
-        const token = userdata.token;
+        if (userdata) {
+            const token = userdata.token;
 
-        axios
-            .get(`${BaseUrl}/api/cart`, {
-                headers: {
-                    Authorization: `${token}`,
-                },
-            })
-            .then((res) => {
-                const temp = res.data.data.products;
-                setcartCount(temp.length);
-            });
+            axios
+                .get(`${BaseUrl}/api/cart`, {
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                })
+                .then((res) => {
+                    const temp = res.data.data.products;
+                    setcartCount(temp.length);
+                });
+        }
     }, [cartCount]);
 
     //Mediaquery
@@ -149,32 +151,32 @@ export default function Layout() {
                             onClose={handleClose}
                         >
                             {/* {isLoggedIn === false && ( */}
-                                <MenuItem onClick={handleLogin}>Login</MenuItem>
+                            <MenuItem onClick={handleLogin}>Login</MenuItem>
                             {/* )} */}
                             <MenuItem onClick={handleRegister}>
                                 Register
                             </MenuItem>
                             {/* {isLoggedIn && ( */}
-                                <>
-                                    <MenuItem
-                                        onClick={() => {
-                                            history.push("/profile");
-                                            handleClose();
-                                        }}
-                                    >
-                                        Profile
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                                localStorage.removeItem("userdata");
-                                                localStorage.removeItem("isLoggedIn");
-                                            handleClose();
-                                            history.push("/login");
-                                        }}
-                                    >
-                                        Logout
-                                    </MenuItem>
-                                </>
+                            <>
+                                <MenuItem
+                                    onClick={() => {
+                                        history.push("/profile");
+                                        handleClose();
+                                    }}
+                                >
+                                    Profile
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        localStorage.removeItem("userdata");
+                                        localStorage.removeItem("isLoggedIn");
+                                        handleClose();
+                                        history.push("/login");
+                                    }}
+                                >
+                                    Logout
+                                </MenuItem>
+                            </>
                             {/* )} */}
                         </Menu>
                     </>

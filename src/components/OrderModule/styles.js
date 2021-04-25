@@ -86,6 +86,29 @@ const useStyles = makeStyles((theme) => ({
     },
     radio_root: {
         display: "inline"
-    }
+    },
+
+
+
+    //Change Password Styling
+    ChangePass_root_paper: {
+        marginTop: "4%",
+        display: "flex",
+        justifyContent: "center",
+        "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: "1px solid #484850",
+        },
+    },
+    recover_heading: {
+        marginTop: "2%",
+        fontWeight: "bold",
+    },
+    input_field: {
+        width: "70%"
+    },
+    recover_button: {
+        margin: "2% 0",
+        textTransform: "none",
+    },
 }))
 export default useStyles
