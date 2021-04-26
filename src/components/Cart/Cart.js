@@ -35,9 +35,6 @@ function Cart() {
     const [cartProducts, setCartProducts] = useState();
     const [deleteFlag, setDeleteFlag] = useState(false);
     const [sweetAlert, setSweetAlert] = useState(null);
-    // console.log(productPrice)
-    // const defaultGST = (totalPrice / 100) * 5;
-    // const [GST, setGST] = useState(defaultGST);
 
     const Additem = (index, price) => {
         const quantity_arr = [...productQuantity];
@@ -262,7 +259,7 @@ function Cart() {
                                                                         </IconButton>
                                                                         {
                                                                             productQuantity[
-                                                                                index
+                                                                            index
                                                                             ]
                                                                         }
                                                                         <IconButton
@@ -294,7 +291,7 @@ function Cart() {
                                                                     {rupees}
                                                                     {
                                                                         productPrice[
-                                                                            index
+                                                                        index
                                                                         ]
                                                                     }
                                                                 </TableCell>
@@ -367,12 +364,12 @@ function Cart() {
                                                         {(
                                                             grandTotal -
                                                             (grandTotal / 100) *
-                                                                5
+                                                            5
                                                         ).toFixed(2)}
                                                     </TableCell>
                                                 </TableRow>
 
-                                                <div
+                                                <TableCell align="center"
                                                     className={
                                                         classes.buy_button_root
                                                     }
@@ -383,9 +380,9 @@ function Cart() {
                                                                 activeStep + 1
                                                             );
                                                             history.push(
-                                                                "/orderdetails"
+                                                                "/ordersummary"
                                                             );
-                                                        }}
+                                                        }}  
                                                         className={
                                                             classes.buy_button
                                                         }
@@ -394,7 +391,7 @@ function Cart() {
                                                     >
                                                         Proceed to Buy
                                                     </Button>
-                                                </div>
+                                                </TableCell>
                                             </TableBody>
                                         </Table>
                                     </TableContainer>

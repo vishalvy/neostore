@@ -19,28 +19,33 @@ import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import MuiAlert from "@material-ui/lab/Alert";
 import SweetAlert from "react-bootstrap-sweetalert";
-import UpdateAddress from "./UpdateAddress";
 
 function Address() {
     const classes = useStyles();
     const [openForm, setOpenForm] = useState(false);
+    const [openEditForm, setOpenEditForm] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [addressList, setAddressList] = useState();
-    const [addressLine, setAddressLine] = useState("");
-    const [pincode, setPincode] = useState("");
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
-    const [country, setCountry] = useState("");
     const [error, setError] = useState({});
     const [sweetAlert, setSweetAlert] = useState(null);
+    const [addressId,setAddressId] = useState()
+    const [addressData, setAddressData] = useState({
+        addressLine: "",
+        pincode: "",
+        city: "",
+        state: "",
+        country: "",
+    })
 
-    const handleClickOpenForm = () => {
-        setOpenForm(true);
-    };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setAddressData({
+            ...addressData,
+            [name]: value
+        })
+    }
 
-    const handleCloseForm = () => {
-        setOpenForm(false);
-    };
+    //Snackbar Functions--------------
     const handleClickSnackbar = (msg) => {
         if (msg === "success") {
             setOpenSnackbar(true);
@@ -53,28 +58,30 @@ function Address() {
         setOpenSnackbar(false);
     };
 
+    // Add Address form handleSubmit 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        setError(validateAddress(addressLine, pincode, city, state, country));
+        setError(validateAddress(addressData.addressLine, addressData.pincode, addressData.city, addressData.state, addressData.country));
         if (Object.keys(error).length === 0) {
             setOpenForm(false);
             AddAddress();
         }
     };
 
-    const userdata = JSON.parse(localStorage.getItem("userdata"));
-    const token = userdata.token;
+    //Add address function
     const AddAddress = () => {
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
         const address = {
-            addressLine: addressLine,
-            pincode: pincode,
-            city: city,
-            state: state,
-            country: country,
+            addressLine: addressData.addressLine,
+            pincode: addressData.pincode,
+            city: addressData.city,
+            state: addressData.state,
+            country: addressData.country,
         };
-
-        axios
+        if (userdata) {
+            const token = userdata.token;
+            axios
             .post(`${BaseUrl}/api/user/address`, address, {
                 headers: {
                     Authorization: `${token}`,
@@ -83,16 +90,71 @@ function Address() {
             .then(() => {
                 handleClickSnackbar("success");
             });
+        }   
     };
 
+    // Edit Address form function
+    const handleEditFormSubmit = (e) => {
+        e.preventDefault();
+
+        setError(validateAddress(addressData.addressLine, addressData.pincode, addressData.city, addressData.state, addressData.country));
+        if (Object.keys(error).length === 0) {
+            setOpenEditForm(false);
+            EditAddress();
+        }
+    };
+
+    const handleEdit = (address) => {
+        setAddressData({
+            addressLine: address.addressLine,
+            pincode: address.pincode,
+            city: address.city,
+            state: address.state,
+            country: address.country,
+        })
+        setAddressId(address._id)
+        handleOpenEditForm(true)
+    }
+
+    const EditAddress = () => {
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        const address = {
+            addressLine: addressData.addressLine,
+            pincode: addressData.pincode,
+            city: addressData.city,
+            state: addressData.state,
+            country: addressData.country,
+        };
+        if (userdata) {
+            const token = userdata.token;
+            axios
+            .put(`${BaseUrl}/api/user/address/${addressId}`, address, {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            })
+            .then(() => {
+                handleClickSnackbar("success");
+            });
+        }
+        
+    };
+
+
+    // Delete Address Functions----------------
     const deleteAddressCall = (address_id) => {
-        axios
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        if (userdata) {
+            const token = userdata.token;
+            axios
             .delete(`${BaseUrl}/api/user/address/${address_id}`, {
                 headers: {
                     Authorization: `${token}`,
                 },
             })
         hideAlert();
+        }
+        
     };
 
     const deleteAddress = (id) => {
@@ -116,18 +178,41 @@ function Address() {
         setSweetAlert(null);
     };
 
+
+    //Form Open and Close Function--------------
+    const handleOpenForm = () => {
+        setOpenForm(true);
+    };
+
+    const handleCloseForm = () => {
+        setOpenForm(false);
+    };
+
+    const handleOpenEditForm = () => {
+        setOpenEditForm(true);
+    };
+
+    const handleCloseEditForm = () => {
+        setOpenEditForm(false);
+    };
+
+
+    // UseEffect 
     useEffect(() => {
-        axios
-            .get(`${BaseUrl}/api/user/address`, {
-                headers: {
-                    Authorization: `${token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res.data.data.address);
-                const temp = res.data.data.address;
-                setAddressList(temp);
-            });
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        if (userdata) {
+            const token = userdata.token;
+            axios
+                .get(`${BaseUrl}/api/user/address`, {
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                })
+                .then((res) => {
+                    const temp = res.data.data.address;
+                    setAddressList(temp);
+                })
+        }
     }, [addressList]);
 
     return (
@@ -165,7 +250,9 @@ function Address() {
                                         {address.country}
                                     </Typography>
 
-                                    <Button variant="contained" color="primary">
+                                    <Button
+                                        onClick={() => handleEdit(address)}
+                                        variant="contained" color="primary">
                                         Edit
                                     </Button>
                                     <br />
@@ -175,7 +262,7 @@ function Address() {
                         ))}
                     <hr className={classes.hor_rule}></hr>
                     <Button
-                        onClick={handleClickOpenForm}
+                        onClick={handleOpenForm}
                         className={classes.add_address_btn}
                         variant="contained"
                     >
@@ -195,10 +282,12 @@ function Address() {
                         autoFocus
                         margin="dense"
                         label="Address Line"
+                        name="addressLine"
                         type="text"
                         fullWidth
-                        value={addressLine}
-                        onChange={(e) => setAddressLine(e.target.value)}
+                        value={addressData.addressLine}
+                        onChange={handleChange}
+                        // onChange={(e) => setAddressLine(e.target.value)}
                     />
                     {error.addressLine && (
                         <small className={classes.error_msg}>
@@ -208,10 +297,12 @@ function Address() {
                     <TextField
                         margin="dense"
                         label="Pincode"
+                        name="pincode"
                         type="text"
                         fullWidth
-                        value={pincode}
-                        onChange={(e) => setPincode(e.target.value)}
+                        value={addressData.pincode}
+                        onChange={handleChange}
+                        // onChange={(e) => setPincode(e.target.value)}
                     />
                     {error.pincode && (
                         <small className={classes.error_msg}>
@@ -221,10 +312,12 @@ function Address() {
                     <TextField
                         margin="dense"
                         label="City"
+                        name="city"
                         type="text"
                         fullWidth
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
+                        value={addressData.city}
+                        onChange={handleChange}
+                        // onChange={(e) => setCity(e.target.value)}
                     />
                     {error.city && (
                         <small className={classes.error_msg}>
@@ -234,10 +327,12 @@ function Address() {
                     <TextField
                         margin="dense"
                         label="State"
+                        name="state"
                         type="text"
                         fullWidth
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
+                        value={addressData.state}
+                        onChange={handleChange}
+                        // onChange={(e) => setState(e.target.value)}
                     />
                     {error.state && (
                         <small className={classes.error_msg}>
@@ -247,10 +342,12 @@ function Address() {
                     <TextField
                         margin="dense"
                         label="Country"
+                        name="country"
                         type="text"
                         fullWidth
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
+                        value={addressData.country}
+                        onChange={handleChange}
+                        // onChange={(e) => setCountry(e.target.value)}
                     />
                     {error.country && (
                         <small className={classes.error_msg}>
@@ -275,7 +372,109 @@ function Address() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            {/* <UpdateAddress/> */}
+
+            <Dialog
+                open={openEditForm}
+                onClose={handleCloseEditForm}
+                aria-labelledby="form-dialog-title"
+            >
+                <DialogTitle id="form-dialog-title">Edit Address</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Address Line"
+                        name="addressLine"
+                        type="text"
+                        fullWidth
+                        value={addressData.addressLine}
+                        onChange={handleChange}
+                        // onChange={(e) => setAddressLine(e.target.value)}
+                    />
+                    {error.addressLine && (
+                        <small className={classes.error_msg}>
+                            {error.addressLine}
+                        </small>
+                    )}
+                    <TextField
+                        margin="dense"
+                        label="Pincode"
+                        name="pincode"
+                        type="text"
+                        fullWidth
+                        value={addressData.pincode}
+                        onChange={handleChange}
+                        // onChange={(e) => setPincode(e.target.value)}
+                    />
+                    {error.pincode && (
+                        <small className={classes.error_msg}>
+                            {error.pincode}
+                        </small>
+                    )}
+                    <TextField
+                        margin="dense"
+                        label="City"
+                        name="city"
+                        type="text"
+                        fullWidth
+                        value={addressData.city}
+                        onChange={handleChange}
+                        // onChange={(e) => setCity(e.target.value)}
+                    />
+                    {error.city && (
+                        <small className={classes.error_msg}>
+                            {error.city}
+                        </small>
+                    )}
+                    <TextField
+                        margin="dense"
+                        label="State"
+                        name="state"
+                        type="text"
+                        fullWidth
+                        value={addressData.state}
+                        onChange={handleChange}
+                        // onChange={(e) => setState(e.target.value)}
+                    />
+                    {error.state && (
+                        <small className={classes.error_msg}>
+                            {error.state}
+                        </small>
+                    )}
+                    <TextField
+                        margin="dense"
+                        label="Country"
+                        name="country"
+                        type="text"
+                        fullWidth
+                        value={addressData.country}
+                        onChange={handleChange}
+                        // onChange={(e) => setCountry(e.target.value)}
+                    />
+                    {error.country && (
+                        <small className={classes.error_msg}>
+                            {error.country}
+                        </small>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="outlined"
+                        onClick={handleCloseEditForm}
+                        color="secondary"
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        onClick={handleEditFormSubmit}
+                        color="primary"
+                    >
+                        Submit
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
 
             <Snackbar
                 open={openSnackbar}

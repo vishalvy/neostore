@@ -151,11 +151,14 @@ export default function Layout() {
                             onClose={handleClose}
                         >
                             {/* {isLoggedIn === false && ( */}
-                            <MenuItem onClick={handleLogin}>Login</MenuItem>
+                                <MenuItem onClick={handleLogin}>Login</MenuItem>
                             {/* )} */}
-                            <MenuItem onClick={handleRegister}>
-                                Register
-                            </MenuItem>
+
+                            {/* {isLoggedIn === false && ( */}
+                                <MenuItem onClick={handleRegister}>
+                                    Register
+                                </MenuItem>  
+                            {/* )} */}
                             {/* {isLoggedIn && ( */}
                             <>
                                 <MenuItem
@@ -169,7 +172,7 @@ export default function Layout() {
                                 <MenuItem
                                     onClick={() => {
                                         localStorage.removeItem("userdata");
-                                        localStorage.removeItem("isLoggedIn");
+                                        localStorage.setItem('isLoggedIn',false)
                                         handleClose();
                                         history.push("/login");
                                     }}

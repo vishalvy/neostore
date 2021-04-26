@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
     },
     buy_button: {
         margin: "5% 0",
-        marginLeft: "30%", 
-        // width: "60%"
+        marginLeft: "30%",
+        textTransform: "none"
     },
 }))
 export default useStyles

@@ -1,7 +1,10 @@
+// import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@material-ui/core";
 // import React, { useState } from "react";
 // import validateAddress from './validateAddress'
+// import useStyles from './styles'
 
-// function UpdateAddress() {
+// function UpdateAddress(props) {
+//     const classes = useStyles()
 //     const [openForm, setOpenForm] = useState(false);
 //     const [openSnackbar, setOpenSnackbar] = useState(false);
 //     const [addressList, setAddressList] = useState();
@@ -12,13 +15,13 @@
 //     const [country, setCountry] = useState("");
 //     const [error, setError] = useState({});
 
-//     const handleClickOpenForm = () => {
-//         setOpenForm(true);
-//     };
+//     // const handleClickOpenForm = () => {
+//     //     setOpenForm(true);
+//     // };
 
-//     const handleCloseForm = () => {
-//         setOpenForm(false);
-//     };
+//     // const handleCloseForm = () => {
+//     //     setOpenForm(false);
+//     // };
 //     const handleClickSnackbar = (msg) => {
 //         if (msg === "success") {
 //             setOpenSnackbar(true);
@@ -43,9 +46,8 @@
 //     return (
 //         <>
 //             <Dialog
-//                 open={openForm}
-//                 onClose={handleCloseForm}
-//                 aria-labelledby="form-dialog-title"
+//                 open={props.openEditForm}
+//                 onClose={props.handleEditCloseForm}
 //             >
 //                 <DialogTitle id="form-dialog-title">Enter Address</DialogTitle>
 //                 <DialogContent>
@@ -119,7 +121,7 @@
 //                 <DialogActions>
 //                     <Button
 //                         variant="outlined"
-//                         onClick={handleCloseForm}
+//                         onClick={props.handleCloseEditForm}
 //                         color="secondary"
 //                     >
 //                         Cancel

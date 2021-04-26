@@ -12,6 +12,7 @@ import ProductDetail from './components/ProductDetail/ProductDetail';
 import Cart from './components/Cart/Cart';
 import Orderdetail from './components/OrderModule/Myaccount';
 import Error from './components/ErrorPage/Error';
+import Ordersummary from './components/Cart/Ordersummary';
 
 function App() {
 //   const theme = createMuiTheme({
@@ -35,7 +36,8 @@ function App() {
           <Route exact path='/allproducts' component={AllProducts}/>
           <Route exact path='/product/:id?' component={ProductDetail}/>
           <Route exact path='/cart' component={Cart}/>
-          <Route exact path='/profile' component={Orderdetail}/>
+          <Route exact path='/profile' component={Orderdetail} />
+          <Route exact path='/ordersummary' component={Ordersummary}/>
           <Route exact path='/404' component={Error} />
           <Redirect to="/404" />
         </Switch>

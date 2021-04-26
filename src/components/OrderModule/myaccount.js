@@ -53,7 +53,7 @@ function Myaccount() {
         if (userdata) {
             setUserInfo(userdata)
         }
-    })
+    },[])
     
     return (
         <>
