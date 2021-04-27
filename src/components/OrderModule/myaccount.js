@@ -68,8 +68,8 @@ function Myaccount() {
                     <Grid item xs={12} sm={12} md={4} lg={4}>
                         <img 
                             className={classes.profile_img}
-                            src="https://i.stack.imgur.com/l60Hf.png"
-                            alt= ""
+                            src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
+                            alt= "user image"
                         />
 
                         <Typography

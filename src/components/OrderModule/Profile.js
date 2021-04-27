@@ -3,6 +3,7 @@ import React,{useState} from "react";
 import useStyles from "./styles";
 import Box from "@material-ui/core/Box";
 import validateProfile from './validateProfile'
+import EditIcon from '@material-ui/icons/Edit';
 
 function Profile() {
     const classes = useStyles();
@@ -89,7 +90,7 @@ function Profile() {
                         onClick={handleClickOpenForm}
                         className={classes.edit_profile}
                         variant="contained" color="primary">
-                        Edit
+                        <EditIcon fontSize="small" />Edit
                     </Button>
                     <br/>
                 </Container>

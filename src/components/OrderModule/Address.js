@@ -19,6 +19,9 @@ import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import MuiAlert from "@material-ui/lab/Alert";
 import SweetAlert from "react-bootstrap-sweetalert";
+import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+
 
 function Address() {
     const classes = useStyles();
@@ -244,7 +247,7 @@ function Address() {
                                         className={classes.address_text}
                                     >
                                         {address.addressLine},<br />
-                                        {address.city}:-{address.pincode}
+                                        {address.city} - {address.pincode}
                                         <br />
                                         {address.state} <br />
                                         {address.country}
@@ -253,7 +256,7 @@ function Address() {
                                     <Button
                                         onClick={() => handleEdit(address)}
                                         variant="contained" color="primary">
-                                        Edit
+                                        <EditIcon fontSize="small" />Edit
                                     </Button>
                                     <br />
                                     <br />
@@ -266,7 +269,7 @@ function Address() {
                         className={classes.add_address_btn}
                         variant="contained"
                     >
-                        Add Address
+                        <AddIcon/> Add
                     </Button>
                 </Container>
             </Paper>

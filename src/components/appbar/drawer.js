@@ -55,12 +55,16 @@ const DrawerComponent = () => {
         open={openDrawer}
         onOpen={() => setOpenDrawer(true)}>
         <List>
-          <ListItem divider button onClick={() => setOpenDrawer(false)}>
+
+          <ListItem divider button onClick={() => {
+            history.push('/profile') 
+            setOpenDrawer(false)
+          }}>
             <ListItemIcon>
-            {/* <AccountCircleIcon/> */}
               <ListItemText className={classes.list_item}> Profile</ListItemText>
             </ListItemIcon>
           </ListItem>
+
           <ListItem divider button onClick={() => {
             history.push('/') 
             setOpenDrawer(false)
@@ -81,13 +85,16 @@ const DrawerComponent = () => {
 
           <ListItem divider button onClick={() => {
             setOpenDrawer(false)
-            history.push("/cart")
+            // history.push("/cart")
           }}>
             <ListItemIcon>
               <ListItemText>Order</ListItemText>
             </ListItemIcon>
           </ListItem>
-          <ListItem divider button onClick={() => setOpenDrawer(false)}>
+          <ListItem divider button onClick={() => {
+            setOpenDrawer(false)
+            history.push("/cart")
+          }}>
             <ListItemIcon>
               <ListItemText>
                   Cart

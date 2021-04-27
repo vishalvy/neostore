@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     place_order_btn: {
         marginBottom: "4%",
         width: "80%"
+    },
+    no_ordersummary: {
+        margin: "20% 0"
     }
 }))
 export default useStyles

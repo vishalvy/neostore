@@ -14,7 +14,10 @@ function Ordersummary() {
     const [selectedAddress, setSelectedAddress] = useState()
     const [openSnackbarPlaced, setOpenSnackbarPlaced] = useState(false);
     const [openSnackbarSelected, setOpenSnackbarSelected] = useState(false);
+    const [openSnackbarError, setOpenSnackbarError] = useState(false);
 
+
+    //Order Summary UseEffect
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
@@ -41,13 +44,16 @@ function Ordersummary() {
     }, [])
 
 
-    //Snackbar
+    //Snackbar Functions
     const handleClickSnackbar = (msg) => {
         if (msg === "placed") {
             setOpenSnackbarPlaced(true);
         }
         else if (msg === "selected") {
             setOpenSnackbarSelected(true);
+        }
+        else if (msg === "error") {
+            setOpenSnackbarError(true);
         }
     };
     const handleCloseSnackbarPlaced = (event, reason) => {
@@ -63,15 +69,23 @@ function Ordersummary() {
         }
         setOpenSnackbarSelected(false);
     };
+    const handleCloseSnackbarError = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenSnackbarError(false);
+    };
 
     
 
-
+    //Select Address Function
     const selectAddress = (id) => {
         console.log(id)
         setSelectedAddress(id)
         handleClickSnackbar("selected");
     }
+
+    //Place Order Function
     const placeOrder = () => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
@@ -84,11 +98,14 @@ function Ordersummary() {
                     Authorization: token
                 }
             })
-            .then((res) => {
+            .then(() => {
                 handleClickSnackbar("placed");
                 setTimeout(() => {
                     history.push('/profile')
                 },2000)
+            })
+            .catch(() => {
+                handleClickSnackbar("error");
             })
         }
     }
@@ -154,11 +171,11 @@ function Ordersummary() {
                                     addressList && addressList.map((address, index) => (
                                     <div key={index}>
                                         <Paper>
-                                            <Container>
+                                            <Container style={(selectedAddress === address._id ? {backgroundColor: "#EFC768"} : {})}>
                                                 <Typography>
                                                 ------ Address {index + 1}-------
                                                 </Typography>
-                                               
+                                               {/* <br/> */}
                                                 <Typography className={classes.address_text}>
                                                     {address.addressLine} <br />
                                                     {address.pincode} <br />
@@ -206,6 +223,15 @@ function Ordersummary() {
                 >
                     <Alert onClose={handleCloseSnackbarSelected} severity="success">
                         Address Selected
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={openSnackbarError}
+                    autoHideDuration={2000}
+                    onClose={handleCloseSnackbarError}
+                >
+                    <Alert onClose={handleCloseSnackbarError} severity="error">
+                        Please Select Address
                     </Alert>
                 </Snackbar>
                 

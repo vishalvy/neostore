@@ -3,17 +3,19 @@ import React, { useState,useEffect } from "react";
 import useStyles from './styles'
 import { BaseUrl, rupees } from '../constants/baseUrl';
 import axios from "axios";
+import { useHistory } from "react-router";
 
 
 function Order() {
     const classes = useStyles()
+    const history = useHistory()
     const [orderProducts,setOrderProducts] = useState()
 
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        const token = userdata.token;
-        axios
-            .get(`${BaseUrl}/api/order`, {
+        if (userdata) {
+            const token = userdata.token;
+            axios.get(`${BaseUrl}/api/order`, {
                 headers: {
                     Authorization: `${token}`
                 }
@@ -23,7 +25,16 @@ function Order() {
                 const temp = res.data.data.orders
                 setOrderProducts(temp)
             })
+        }
+        
     },[])
+
+
+    const ProductDetail = (id) => {
+        history.push({
+            pathname: `product/${id}`
+        });
+    };
     return (
         <>
             {
@@ -32,7 +43,7 @@ function Order() {
                         <Container>
                             <Typography variant="h6">
                                 <span className={classes.transit_text}>TRANSIT</span>
-                                Order By: {order.id}
+                                Order ID: {order.id}
                             </Typography>
                             <small>
                                 Posted on: {order.createdAt.substr(0,10)} /
@@ -41,13 +52,26 @@ function Order() {
                                 </span>
                             </small>
                             <hr className={classes.hor_rule}></hr>
-                            <img
-                                // src={product.productId.mainImage}
-                                width="15%"
-                                height="15%"
-                                alt=""
-                            />
-                            <hr className={classes.hor_rule}></hr>
+                            {
+                                order.items.map((item) => (
+                                    <div className={classes.orderlist_images}>
+                                        <img
+                                            onClick={() => ProductDetail(item.productId.id)}
+                                            src={item.productId.mainImage}
+                                            width="100px"
+                                            height="100px"
+                                            alt=""
+                                        />
+                                        <Typography>
+                                            {item.productId.name}
+                                        </Typography>
+                                        <hr className={classes.hor_rule}></hr>
+                                    </div>
+                                    
+                                ))
+                            }
+                            
+                            {/* <hr className={classes.hor_rule}></hr> */}
 
                             <Button
                                 className={classes.download_invoice_btn}

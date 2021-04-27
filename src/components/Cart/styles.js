@@ -31,5 +31,11 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: "30%",
         textTransform: "none"
     },
+    empty_cart: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "20% 0"
+    }
 }))
 export default useStyles

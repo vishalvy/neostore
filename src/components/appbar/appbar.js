@@ -28,6 +28,7 @@ export default function Layout() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [cartCount, setcartCount] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username,setUsername] = useState()
 
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
@@ -52,6 +53,7 @@ export default function Layout() {
         setIsLoggedIn(isLogin);
         if (userdata) {
             const token = userdata.token;
+            setUsername(userdata.firstName)
 
             axios
                 .get(`${BaseUrl}/api/cart`, {
@@ -141,7 +143,7 @@ export default function Layout() {
                             aria-controls="simple-menu"
                             className={classes.nav_dropdown_btn}
                         >
-                            <KeyboardArrowDownIcon />
+                            {username}<KeyboardArrowDownIcon />
                         </Button>
                         <Menu
                             id="simple-menu"

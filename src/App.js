@@ -17,7 +17,7 @@ import Ordersummary from './components/Cart/Ordersummary';
 function App() {
 //   const theme = createMuiTheme({
 //     typography: {
-//      "fontFamily": `"Roboto", "Helvetica", "Arial", sans-serif`,
+//      "fontFamily": `"Verdana", "Arial", "Helvetica", sans-serif`,
 //      "fontSize": 14,
 //      "fontWeightLight": 300,
 //      "fontWeightRegular": 400,

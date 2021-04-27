@@ -23,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
 
     },
+    orderlist_images: {
+        // display: "inline",
+        // paddingLeft: "2%",
+        // textAlign: "left"
+    },
     order_btn: {
         display: "flex",
         justifyContent: "center",

@@ -29,8 +29,7 @@ export default function MediaCard(props) {
 
     const handleCards = (product) => {
         history.push({
-            pathname: `product/${product.id}`,
-            // product: { product },
+            pathname: `product/${product.id}`
         });
     };
 
