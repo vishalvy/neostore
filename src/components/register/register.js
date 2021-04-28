@@ -64,8 +64,8 @@ function Register() {
                 history.push('/login')
             })
             .catch((err) => {
-                // console.log(err)
-                alert("Already Register")
+                console.log(err)
+                alert("Something went Wrong")
             })
         }
     }

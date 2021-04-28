@@ -6,6 +6,10 @@ import { Pagination } from '@material-ui/lab'
 
 function ProductsCards(props) {
     const classes = useStyles()
+    const [page, setPage] = React.useState(1);
+    const handlePage = (event, value) => {
+        setPage(value);
+    };
     return (
         <>
             <Container>
@@ -22,7 +26,7 @@ function ProductsCards(props) {
                     }
                 </Grid>
                 <div className={classes.pagination_root}>
-                    <Pagination count={10} shape="rounded" />
+                    <Pagination count={5} page={page} onChange={handlePage} shape="rounded" />
                 </div>
             </Container>
         </>

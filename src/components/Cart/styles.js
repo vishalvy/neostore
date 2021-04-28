@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
     },
     review_heading:{
         margin: "3% 0",
-        marginLeft: "35%"
+        marginLeft: "35%",
+        fontWeight: "bold"
     },
     buy_button_root: {
         display: "flex",
@@ -32,10 +33,8 @@ const useStyles = makeStyles((theme) => ({
         textTransform: "none"
     },
     empty_cart: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: "20% 0"
+        width: "40%",
+        marginTop: "8%"
     }
 }))
 export default useStyles

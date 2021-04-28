@@ -10,9 +10,9 @@ const useStyles = makeStyles((theme) => ({
         // width: "89%",
         // margin: "20px",
         display:"flex",
-      justifyContent: "center",
-      height: "250px",
-      margin: "5%"
+        justifyContent: "center",
+        height: "250px",
+        margin: "5%"
       },
       top_product_container: {
           marginTop: "5%"
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         margin: "1%"
       },
       card_title: {
-        
+        fontSize: "2.4vh"
       }
 }))
 

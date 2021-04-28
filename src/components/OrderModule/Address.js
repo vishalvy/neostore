@@ -320,8 +320,7 @@ function Address() {
                         fullWidth
                         value={addressData.city}
                         onChange={handleChange}
-                        // onChange={(e) => setCity(e.target.value)}
-                    />
+                                         />
                     {error.city && (
                         <small className={classes.error_msg}>
                             {error.city}
@@ -335,8 +334,7 @@ function Address() {
                         fullWidth
                         value={addressData.state}
                         onChange={handleChange}
-                        // onChange={(e) => setState(e.target.value)}
-                    />
+                                          />
                     {error.state && (
                         <small className={classes.error_msg}>
                             {error.state}
@@ -350,7 +348,7 @@ function Address() {
                         fullWidth
                         value={addressData.country}
                         onChange={handleChange}
-                        // onChange={(e) => setCountry(e.target.value)}
+                       
                     />
                     {error.country && (
                         <small className={classes.error_msg}>
@@ -392,13 +390,9 @@ function Address() {
                         fullWidth
                         value={addressData.addressLine}
                         onChange={handleChange}
-                        // onChange={(e) => setAddressLine(e.target.value)}
+                      
                     />
-                    {error.addressLine && (
-                        <small className={classes.error_msg}>
-                            {error.addressLine}
-                        </small>
-                    )}
+                    {error.addressLine && <small className={classes.error_msg}>{error.addressLine}</small>}
                     <TextField
                         margin="dense"
                         label="Pincode"
@@ -407,13 +401,9 @@ function Address() {
                         fullWidth
                         value={addressData.pincode}
                         onChange={handleChange}
-                        // onChange={(e) => setPincode(e.target.value)}
+                       
                     />
-                    {error.pincode && (
-                        <small className={classes.error_msg}>
-                            {error.pincode}
-                        </small>
-                    )}
+                    {error.pincode && <small className={classes.error_msg}>{error.pincode}</small>}
                     <TextField
                         margin="dense"
                         label="City"
@@ -422,13 +412,8 @@ function Address() {
                         fullWidth
                         value={addressData.city}
                         onChange={handleChange}
-                        // onChange={(e) => setCity(e.target.value)}
                     />
-                    {error.city && (
-                        <small className={classes.error_msg}>
-                            {error.city}
-                        </small>
-                    )}
+                    {error.city && <small className={classes.error_msg}>{error.city}</small>}
                     <TextField
                         margin="dense"
                         label="State"
@@ -437,13 +422,9 @@ function Address() {
                         fullWidth
                         value={addressData.state}
                         onChange={handleChange}
-                        // onChange={(e) => setState(e.target.value)}
+                    
                     />
-                    {error.state && (
-                        <small className={classes.error_msg}>
-                            {error.state}
-                        </small>
-                    )}
+                    {error.state && <small className={classes.error_msg}>{error.state}</small>}
                     <TextField
                         margin="dense"
                         label="Country"
@@ -452,13 +433,9 @@ function Address() {
                         fullWidth
                         value={addressData.country}
                         onChange={handleChange}
-                        // onChange={(e) => setCountry(e.target.value)}
+                       
                     />
-                    {error.country && (
-                        <small className={classes.error_msg}>
-                            {error.country}
-                        </small>
-                    )}
+                    {error.country && <small className={classes.error_msg}>{error.country}</small>}
                 </DialogContent>
                 <DialogActions>
                     <Button

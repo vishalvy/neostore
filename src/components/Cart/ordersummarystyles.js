@@ -23,10 +23,17 @@ const useStyles = makeStyles((theme) => ({
     },
     place_order_btn: {
         marginBottom: "4%",
-        width: "80%"
+        width: "40%"
     },
     no_ordersummary: {
         margin: "20% 0"
+    },
+    add_address_btn: {
+        display: "flex",
+        marginBottom: "2%"
+    },
+    error_msg: {
+        color: "red"
     }
 }))
 export default useStyles

@@ -101,7 +101,17 @@ export default function Layout() {
                             >
                                 Products
                             </Button>
-                            <Button color="inherit">Order</Button>
+                            <Button
+                                    onClick={() => {
+                                        history.push({
+                                            pathname: "/profile",
+                                            // order: {true},
+                                        }
+                                    )}}
+                                color="inherit"
+                            >
+                                    Order
+                            </Button>
                         </div>
 
                         {/* <div className={classes.nav_cart_container}> */}

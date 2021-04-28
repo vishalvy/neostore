@@ -55,7 +55,7 @@ export default function validateRegister(fname,lname,email,password,confirmpassw
         errors.confirmpassword = "Password should be Alphanumeric"
     }
     else if(password !== confirmpassword){
-        alert("Password Mismatch")
+        errors.confirmpassword = "Password Mismatched"
     }
 
     

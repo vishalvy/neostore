@@ -36,7 +36,7 @@ export default function validatePassword(oldPass,newPassword,confirmPassword) {
         errors.confirmPassword = "Password should be Alphanumeric"
     }
     else if(newPassword !== confirmPassword){
-        alert("Password Mismatch")
+        errors.confirmPassword = "Password Mismatch"
     }
 
     

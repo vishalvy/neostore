@@ -12,6 +12,7 @@ import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
+import LinesEllipsis from "react-lines-ellipsis";
 
 export default function MediaCard(props) {
     const classes = useStyles();
@@ -21,11 +22,9 @@ export default function MediaCard(props) {
     const handleClick = (msg) => {
         if (msg === "success") {
             setOpen(true);
-        }
-        else if (msg === "error") {
+        } else if (msg === "error") {
             setOpenError(true);
         }
-        
     };
     const handleClose = (event, reason) => {
         if (reason === "clickaway") {
@@ -64,8 +63,7 @@ export default function MediaCard(props) {
             })
             .catch(() => {
                 handleClick("error");
-            }
-        )
+            });
     };
 
     const AddToCart = () => {
@@ -82,9 +80,17 @@ export default function MediaCard(props) {
                         image={props.image}
                     />
                     <CardContent>
-                        <Typography gutterBottom className={classes.card_title}>
+                        {/* <Typography gutterBottom className={classes.card_title}>
                             {props.title}
-                        </Typography>
+                        </Typography> */}
+                        <LinesEllipsis
+                            className={classes.card_title}
+                            text= {props.title}
+                            maxLine='1'
+                            ellipsis='..'
+                            trimRight
+                            basedOn='letters'
+                        />
                     </CardContent>
                 </CardActionArea>
                 <div>
@@ -110,7 +116,11 @@ export default function MediaCard(props) {
                     Product Added To Cart
                 </Alert>
             </Snackbar>
-            <Snackbar open={openError} autoHideDuration={3000} onClose={handleCloseError}>
+            <Snackbar
+                open={openError}
+                autoHideDuration={3000}
+                onClose={handleCloseError}
+            >
                 <Alert onClose={handleCloseError} severity="error">
                     Product is Already in Cart!
                 </Alert>

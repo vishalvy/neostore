@@ -13,12 +13,19 @@ import {BaseUrl} from '../constants/baseUrl'
 
 function Commonproducts() {
     const classes = useStyles()
-    const [productData,setProductData] = useState()
+    const [productData, setProductData] = useState()
+    const [categories,setCategories] = useState()
 
     useEffect(() => {
         axios.get(`${BaseUrl}/api/product?limit=9&page=1`)
         .then((res) => {
             setProductData(res.data.data.docs)
+        })
+
+        axios.get(`${BaseUrl}/api/category`)
+        .then((res) => {
+            console.log(res.data.data)
+            setCategories(res.data.data)
         })
     },[])
 
@@ -31,7 +38,8 @@ function Commonproducts() {
     }
 
     const getCategories = (category_id) => {
-        axios.get(`${BaseUrl}/api/product?limit=9&page=1&category=${category_id}`)
+        console.log(category_id)
+        axios.get(`${BaseUrl}/api/product?limit=100&page=1..10&category=${category_id}`)
         .then((res) => {
             const temp = res.data.data.docs
             setProductData(temp)
@@ -97,23 +105,27 @@ function Commonproducts() {
                         </Paper>
 
 
-                        {/* <Categories stateChange={productData}/> */}
-
                         <Accordion className={classes.categories_root}>
                             <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             >
                                 <Typography className={classes.heading}>Categories</Typography>
                             </AccordionSummary>
-                            <AccordionDetails>
-                                <Button
-                                    onClick={() => getColors("6065ca24cec0196a6fe56e3d")}
-                                    className={classes.list_button}
-                                >
-                                    Table
-                                </Button>
-                            </AccordionDetails>
-                            <AccordionDetails>
+                            {
+                                categories &&
+                                categories.map((category, index) => (
+                                <AccordionDetails>
+                                    <Button
+                                        onClick={() => getCategories(category.id)}
+                                        className={classes.list_button}
+                                    >
+                                        {category.name}
+                                    </Button>
+                                </AccordionDetails>    
+                                ))
+                            }
+                            
+                            {/* <AccordionDetails>
                                 <Button 
                                     onClick={() => getColors("6065ca24cec0196a6fe56e3d")}
                                     className={classes.list_button}>
@@ -133,11 +145,10 @@ function Commonproducts() {
                                     className={classes.list_button}>
                                     Cupboard
                                 </Button>
-                            </AccordionDetails>
+                            </AccordionDetails> */}
                         </Accordion>
 
-                        {/* Colors Accordion----------------------- */}
-                        {/* <Colors/> */}
+                        
                         <Accordion className={classes.colors_root}>
                             <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -146,21 +157,21 @@ function Commonproducts() {
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Button 
-                                    onClick={() => getCategories("6065c425f45ada6429eb42c9")}
+                                    onClick={() => getColors("6065c425f45ada6429eb42c9")}
                                     className={classes.list_button}>
                                     Brown
                                 </Button>
                             </AccordionDetails>
                             <AccordionDetails>
                                 <Button 
-                                    onClick={() => getCategories("6065c425f45ada6429eb42c9")}
+                                    onClick={() => getColors("6065c425f45ada6429eb42c9")}
                                     className={classes.list_button}>
                                     Blue
                                 </Button>
                             </AccordionDetails>
                             <AccordionDetails>
                                 <Button 
-                                    onClick={() => getCategories("6065c425f45ada6429eb42c9")}
+                                    onClick={() => getColors("6065c425f45ada6429eb42c9")}
                                     className={classes.list_button}>
                                     Black
                                 </Button>

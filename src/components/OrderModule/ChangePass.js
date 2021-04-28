@@ -60,10 +60,15 @@ function ChangePass() {
                 }
             })
             .then(() => {
-                handleClickSnackbar("success");
-                localStorage.removeItem("userdata");
-                localStorage.removeItem("isLoggedIn");
-                history.push("/login");
+                if (newPassword === confirmPassword) {
+                    handleClickSnackbar("success");
+                    localStorage.removeItem("userdata");
+                    localStorage.removeItem("isLoggedIn");
+                    history.push("/login");
+                }
+            })
+            .catch(() => {
+                alert("Old Password is Incorrect")
             })
         }
     }

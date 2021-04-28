@@ -24,7 +24,7 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import axios from "axios";
 import { BaseUrl, rupees } from "../constants/baseUrl";
 import SweetAlert from "react-bootstrap-sweetalert";
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 function Cart() {
     const classes = useStyles();
@@ -37,14 +37,26 @@ function Cart() {
     const [deleteFlag, setDeleteFlag] = useState(false);
     const [sweetAlert, setSweetAlert] = useState(null);
 
-    const Additem = (index, price) => {
+    const Additem = (index, price,id) => {
         const quantity_arr = [...productQuantity];
         const productcost = [...productPrice];
+        console.log("inside array",quantity_arr)
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        const token = userdata.token;
         if (quantity_arr[index] < 10) {
             quantity_arr[index] += 1;
 
             setProductQuantity(quantity_arr);
 
+            const putQuantity = {
+                quantity: `${quantity_arr[index]}`
+            }
+            axios.put(`${BaseUrl}/api/cart/${id}`,putQuantity, {
+                headers: {
+                    Authorization: `${token}`
+                }
+            })
+
             const updatePrice = productcost.map((val, newindex) => {
                 if (index === newindex) {
                     const newPrice = price * quantity_arr[newindex];
@@ -53,19 +65,29 @@ function Cart() {
                 return val;
             });
             setProductPrice(updatePrice);
-            console.log(productPrice);
             const totalCost = updatePrice.reduce((a, b) => a + b, 0);
             setGrandTotal(totalCost);
         }
     };
 
-    const Removeitem = (index, price) => {
+    const Removeitem = (index, price,id) => {
         const quantity_arr = [...productQuantity];
         const productcost = [...productPrice];
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        const token = userdata.token;
         if (quantity_arr[index] > 1) {
             quantity_arr[index] -= 1;
 
             setProductQuantity(quantity_arr);
+
+            const putQuantity = {
+                quantity: `${quantity_arr[index]}`
+            }
+            axios.put(`${BaseUrl}/api/cart/${id}`,putQuantity, {
+                headers: {
+                    Authorization: `${token}`
+                }
+            })
 
             const updatePrice = productcost.map((val, newindex) => {
                 if (index === newindex) {
@@ -75,7 +97,6 @@ function Cart() {
                 return val;
             });
             setProductPrice(updatePrice);
-            console.log(productPrice);
             const totalCost = updatePrice.reduce((a, b) => a - b, 0);
             setGrandTotal(Math.abs(totalCost));
         }
@@ -83,19 +104,20 @@ function Cart() {
 
     const deleteCartProduct = (p_id) => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        const token = userdata.token;
-        axios
-            .delete(`${BaseUrl}/api/cart/${p_id}`, {
-                headers: {
-                    Authorization: `${token}`,
-                },
-            })
-            .then((res) => {
-                if (res.status === 200) {
-                    setDeleteFlag(true);
-                }
-            });
-        hideAlert();
+        if (userdata) {
+            const token = userdata.token;
+            axios.delete(`${BaseUrl}/api/cart/${p_id}`, {
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                })
+                .then((res) => {
+                    if (res.status === 200) {
+                        setDeleteFlag(true);
+                    }
+                });
+            hideAlert();
+        }
     };
 
     useEffect(() => {
@@ -103,6 +125,7 @@ function Cart() {
         if (userdata) {
             const token = userdata.token;
             const price_arr = [];
+            const q_arr = [];
             axios
                 .get(`${BaseUrl}/api/cart`, {
                     headers: {
@@ -114,13 +137,16 @@ function Cart() {
                     setCartProducts(temp);
                     setGrandTotal(res.data.data.grandTotal);
                     if (res.status === 200) {
-                        const q_arr = new Array(
-                            res.data.data.products.length
-                        ).fill(1);
+                        temp.map((val) => {
+                            q_arr.push(val.quantity)
+                        })
+
                         setProductQuantity(q_arr);
+
                         temp.map((val) => {
                             price_arr.push(val.productId.price);
                         });
+                        
                         setProductPrice(price_arr);
                     }
                 });
@@ -223,7 +249,7 @@ function Cart() {
                                                                     <div className={classes.quantity_root}>
                                                                         <IconButton
                                                                             onClick={() =>
-                                                                                Additem(index, cartProduct.productId.price)
+                                                                                Additem(index,cartProduct.productId.price,cartProduct.id)
                                                                             }
                                                                             color="secondary"
                                                                             component="span"
@@ -233,7 +259,7 @@ function Cart() {
                                                                         {productQuantity[index]}
                                                                         <IconButton
                                                                             onClick={() =>
-                                                                                Removeitem(index, cartProduct.productId.price)
+                                                                                Removeitem(index,cartProduct.productId.price,cartProduct.id)
                                                                             }
                                                                             color="secondary"
                                                                             component="span"
@@ -343,9 +369,19 @@ function Cart() {
             
             </>
         ) : (
-                <Typography variant="h3" className={classes.empty_cart}>
-                    <ShoppingCartIcon fontSize="large"/> Cart is Empty
-                </Typography>
+                <>
+                    <img
+                        className={classes.empty_cart}
+                        src="https://www.kindpng.com/picc/m/174-1749396_empty-cart-your-cart-is-empty-hd-png.png" alt="Cart Is Empty"
+                    />
+                    <br />
+                    <br/>
+                    <Button
+                        onClick={() => history.push("/allproducts")}
+                        variant="outlined" color="primary">
+                        <ArrowBackIcon/>Get Products
+                    </Button>
+                </>
             )}
         </>
     );
