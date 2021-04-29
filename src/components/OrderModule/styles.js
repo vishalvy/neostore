@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "2% 0"
     },
     add_address_btn: {
-        margin: "2% 0",
+        margin: "1% 0",
         textTransform: "none"
     },
     error_msg: {

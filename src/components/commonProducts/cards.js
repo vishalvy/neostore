@@ -19,11 +19,18 @@ export default function MediaCard(props) {
     const history = useHistory();
     const [open, setOpen] = useState(false);
     const [openError, setOpenError] = useState(false);
+    const [openNotLogin, setOpenNotLogin] = useState(false);
+
+
+    //Snackbar Functions
     const handleClick = (msg) => {
         if (msg === "success") {
             setOpen(true);
         } else if (msg === "error") {
             setOpenError(true);
+        }
+        else if (msg === "notlogin") {
+            setOpenNotLogin(true);
         }
     };
     const handleClose = (event, reason) => {
@@ -38,7 +45,15 @@ export default function MediaCard(props) {
         }
         setOpenError(false);
     };
+    const handleCloseNotLogin = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenNotLogin(false);
+    };
 
+
+    //Handle Card Function
     const handleCards = (product) => {
         history.push({
             pathname: `/product/${product.id}`,
@@ -47,23 +62,28 @@ export default function MediaCard(props) {
 
     const handleAddToCart = (product_id, quantity) => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        const token = userdata.token;
-        const cartData = {
-            productId: product_id,
-            quantity: quantity,
-        };
-        axios
-            .post(`${BaseUrl}/api/cart`, cartData, {
-                headers: {
-                    Authorization: token,
-                },
-            })
-            .then(() => {
-                handleClick("success");
-            })
-            .catch(() => {
-                handleClick("error");
-            });
+        if (userdata) {
+            const token = userdata.token;
+            const cartData = {
+                productId: product_id,
+                quantity: quantity,
+            };
+            axios
+                .post(`${BaseUrl}/api/cart`, cartData, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then(() => {
+                    handleClick("success");
+                })
+                .catch(() => {
+                    handleClick("error");
+                });
+        }
+        else {
+            handleClick("notlogin");
+        }
     };
 
     const AddToCart = () => {
@@ -123,6 +143,15 @@ export default function MediaCard(props) {
             >
                 <Alert onClose={handleCloseError} severity="error">
                     Product is Already in Cart!
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={openNotLogin}
+                autoHideDuration={3000}
+                onClose={handleCloseNotLogin}
+            >
+                <Alert onClose={handleCloseNotLogin} severity="error">
+                    Please Login to Add in Cart!
                 </Alert>
             </Snackbar>
         </>

@@ -6,9 +6,6 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center"
       },
       media: {
-        // height: 150,
-        // width: "89%",
-        // margin: "20px",
         display:"flex",
         justifyContent: "center",
         height: "250px",

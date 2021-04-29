@@ -13,6 +13,8 @@ import Cart from './components/Cart/Cart';
 import Orderdetail from './components/OrderModule/Myaccount';
 import Error from './components/ErrorPage/Error';
 import Ordersummary from './components/Cart/Ordersummary';
+import ScrollToTop from "react-scroll-to-top";
+
 
 function App() {
 //   const theme = createMuiTheme({
@@ -40,7 +42,8 @@ function App() {
           <Route exact path='/ordersummary' component={Ordersummary}/>
           <Route exact path='/404' component={Error} />
           <Redirect to="/404" />
-        </Switch>
+      </Switch>
+      <ScrollToTop smooth />
       <Footer/>
       {/* </MuiThemeProvider> */}
     </div>

@@ -78,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
     color_box: {
         display: "flex",
         alignItems: "center",
+    },
+    dailog_root: {
+        textAlign: "center"
     }
 }))
 export default useStyles

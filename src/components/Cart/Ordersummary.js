@@ -7,6 +7,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from 'react-router';
 import AddIcon from '@material-ui/icons/Add';
 import validateAddress from '../OrderModule/validateAddress'
+import LoadingScreen from 'react-loading-screen'
+
 
 function Ordersummary() {
     const classes = useStyles()
@@ -19,6 +21,8 @@ function Ordersummary() {
     const [openSnackbarError, setOpenSnackbarError] = useState(false);
     const [error, setError] = useState({});
     const [openForm, setOpenForm] = useState(false);
+    const [loading, setLoading] = useState(true)
+    
     const [addressData, setAddressData] = useState({
         addressLine: "",
         pincode: "",
@@ -104,6 +108,7 @@ function Ordersummary() {
             })
             .then((res) => {
                 setProductsList(res.data.data.products)
+                setLoading(false)
             })
         }
     }, [addressList])
@@ -177,241 +182,253 @@ function Ordersummary() {
 
 
     return (
-        <>
-            <Container className={classes.root_container}>
-                <Typography variant="h4" style={{ fontWeight: "bold" }}>
-                    Confirm Address
+        <>{loading ?
+            <LoadingScreen
+                loading={true}
+                bgColor='#f1f1f1'
+                spinnerColor='#9ee5f8'
+                textColor='#676767'
+                // logoSrc='/logo.png'
+                text='Please wait'
+            /> :
+            <div>
+                <Container className={classes.root_container}>
+                    <Typography variant="h4" style={{ fontWeight: "bold" }}>
+                        Confirm Address
                 </Typography>
-                <hr className={classes.hor_rule}></hr>
+                    <hr className={classes.hor_rule}></hr>
 
-                <Grid container spacing={3}>
-                    <Grid item xs={12} sm={12} md={7} lg={7}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} sm={12} md={7} lg={7}>
 
-                    <Paper className={classes.root_paper}>
-                            <Container>
-                                <Typography variant="h5" style={{ fontWeight: "bold" }}> 
-                                    Select Address
+                            <Paper className={classes.root_paper}>
+                                <Container>
+                                    <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                                        Select Address
                                 </Typography>
 
+                                    <hr className={classes.hor_rule}></hr>
+                                    <br />
+
+                                    <Button
+                                        onClick={handleOpenForm}
+                                        className={classes.add_address_btn}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        <AddIcon />Add
+                                </Button>
+                                    {
+                                        addressList && addressList.map((address, index) => (
+                                            <div key={index}>
+                                                <Paper>
+                                                    <Container style={(selectedAddress === address._id ? { backgroundColor: "#EFC768" } : {})}>
+                                                        <Typography style={{ fontWeight: "bold" }}>
+                                                            ------ Address {index + 1}-------
+                                                </Typography>
+                                                        {/* <br/> */}
+                                                        <Typography className={classes.address_text}>
+                                                            {address.addressLine} <br />
+                                                            {address.pincode} <br />
+                                                            {address.city} <br />
+                                                            {address.state} <br />
+                                                            {address.country}
+                                                        </Typography>
+                                                        <br />
+                                                        <Button
+                                                            onClick={() => selectAddress(address._id)}
+                                                            className={classes.select_button}
+                                                            size="small"
+                                                            variant="contained" color="primary">
+                                                            Select
+                                                    </Button>
+                                                    </Container>
+                                                </Paper>
+                                                <br />
+                                            </div>
+                                        )
+                                        )}
+                                    <Button
+                                        onClick={placeOrder}
+                                        className={classes.place_order_btn}
+                                        variant="contained" color="primary">
+                                        Place Order
+                                </Button>
+                                </Container>
+                            </Paper>
+                        </Grid>
+
+                        <Grid item xs={12} sm={12} md={5} lg={5}>
+                            <Container>
+                                <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                                    Products Summary
+                            </Typography>
                                 <hr className={classes.hor_rule}></hr>
                                 <br />
-
-                                <Button
-                                    onClick={handleOpenForm}
-                                    className={classes.add_address_btn}
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    <AddIcon />Add
-                                </Button>
-                                {
-                                    addressList && addressList.map((address, index) => (
-                                    <div key={index}>
-                                        <Paper>
-                                            <Container style={(selectedAddress === address._id ? {backgroundColor: "#EFC768"} : {})}>
-                                                <Typography style={{ fontWeight: "bold" }}>
-                                                ------ Address {index + 1}-------
-                                                </Typography>
-                                               {/* <br/> */}
-                                                <Typography className={classes.address_text}>
-                                                    {address.addressLine} <br />
-                                                    {address.pincode} <br />
-                                                    {address.city} <br />
-                                                    {address.state} <br />
-                                                    {address.country}
-                                                    </Typography>
-                                                    <br/>
-                                                    <Button
-                                                        onClick={() => selectAddress(address._id)}
-                                                        className={classes.select_button}
-                                                        size="small"
-                                                        variant="contained" color="primary">
-                                                        Select
-                                                    </Button>
-                                            </Container>
-                                        </Paper> 
-                                        <br />
-                                    </div>
-                                    )
-                                )}
-                                <Button
-                                    onClick={placeOrder}
-                                    className={classes.place_order_btn}
-                                    variant="contained" color="primary">
-                                    Place Order
-                                </Button>
-                            </Container>
-                        </Paper>
-                    </Grid>
-
-                    <Grid item xs={12} sm={12} md={5} lg={5}>
-                        <Container>
-                            <Typography variant="h5" style={{ fontWeight: "bold" }}>
-                                Products Summary
-                            </Typography>
-                            <hr className={classes.hor_rule}></hr>
-                            <br />
                             
-                            {
-                                productsList && productsList.map((product, index) => (
-                                    <div key={index}>
-                                        <Paper>
-                                            <Container>
-                                                <div>
-                                                    <img
-                                                        src={product.productId.mainImage}
-                                                        alt="" width="35%" height="35%"
-                                                    />
-                                                    <br/><br/>
-                                                    <Typography style={{ fontWeight: "bold" }}>
-                                                        {product.productId.name}
-                                                    </Typography>
+                                {
+                                    productsList && productsList.map((product, index) => (
+                                        <div key={index}>
+                                            <Paper>
+                                                <Container>
+                                                    <div>
+                                                        <br />
+                                                        <img
+                                                            src={product.productId.mainImage}
+                                                            alt="" width="35%" height="35%"
+                                                        />
+                                                        <br /><br />
+                                                        <Typography style={{ fontWeight: "bold" }}>
+                                                            {product.productId.name}
+                                                        </Typography>
                                                     
-                                                    <Typography style={{ color: "green" }}>
-                                                        Quantity: {product.quantity}
-                                                    </Typography>
-                                                </div>      
-                                            </Container>
+                                                        <Typography style={{ color: "green" }}>
+                                                            Quantity: {product.quantity}
+                                                        </Typography>
+                                                    </div>
+                                                </Container>
 
-                                        </Paper>
-                                        <br/>
-                                    </div>
-                                )
-                            )}
-                        </Container>
+                                            </Paper>
+                                            <br />
+                                        </div>
+                                    )
+                                    )}
+                            </Container>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Snackbar
-                    open={openSnackbarPlaced}
-                    autoHideDuration={2000}
-                    onClose={handleCloseSnackbarPlaced}
-                >
-                    <Alert onClose={handleCloseSnackbarPlaced} severity="success">
-                        Order Placed
+                    <Snackbar
+                        open={openSnackbarPlaced}
+                        autoHideDuration={2000}
+                        onClose={handleCloseSnackbarPlaced}
+                    >
+                        <Alert onClose={handleCloseSnackbarPlaced} severity="success">
+                            Order Placed
                     </Alert>
-                </Snackbar>
-                <Snackbar
-                    open={openSnackbarSelected}
-                    autoHideDuration={2000}
-                    onClose={handleCloseSnackbarSelected}
-                >
-                    <Alert onClose={handleCloseSnackbarSelected} severity="success">
-                        Address Selected
+                    </Snackbar>
+                    <Snackbar
+                        open={openSnackbarSelected}
+                        autoHideDuration={2000}
+                        onClose={handleCloseSnackbarSelected}
+                    >
+                        <Alert onClose={handleCloseSnackbarSelected} severity="success">
+                            Address Selected
                     </Alert>
-                </Snackbar>
-                <Snackbar
-                    open={openSnackbarError}
-                    autoHideDuration={2000}
-                    onClose={handleCloseSnackbarError}
-                >
-                    <Alert onClose={handleCloseSnackbarError} severity="error">
-                        Please Select Address
+                    </Snackbar>
+                    <Snackbar
+                        open={openSnackbarError}
+                        autoHideDuration={2000}
+                        onClose={handleCloseSnackbarError}
+                    >
+                        <Alert onClose={handleCloseSnackbarError} severity="error">
+                            Please Select Address
                     </Alert>
-                </Snackbar>
-            </Container>
+                    </Snackbar>
+                </Container>
 
-            <Dialog
-                open={openForm}
-                onClose={handleCloseForm}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Enter Address</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Address Line"
-                        name="addressLine"
-                        type="text"
-                        fullWidth
-                        value={addressData.addressLine}
-                        onChange={handleChange}
+                <Dialog
+                    open={openForm}
+                    onClose={handleCloseForm}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Enter Address</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Address Line"
+                            name="addressLine"
+                            type="text"
+                            fullWidth
+                            value={addressData.addressLine}
+                            onChange={handleChange}
                         // onChange={(e) => setAddressLine(e.target.value)}
-                    />
-                    {error.addressLine && (
-                        <small className={classes.error_msg}>
-                            {error.addressLine}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="Pincode"
-                        name="pincode"
-                        type="text"
-                        fullWidth
-                        value={addressData.pincode}
-                        onChange={handleChange}
+                        />
+                        {error.addressLine && (
+                            <small className={classes.error_msg}>
+                                {error.addressLine}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="Pincode"
+                            name="pincode"
+                            type="text"
+                            fullWidth
+                            value={addressData.pincode}
+                            onChange={handleChange}
                         // onChange={(e) => setPincode(e.target.value)}
-                    />
-                    {error.pincode && (
-                        <small className={classes.error_msg}>
-                            {error.pincode}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="City"
-                        name="city"
-                        type="text"
-                        fullWidth
-                        value={addressData.city}
-                        onChange={handleChange}
+                        />
+                        {error.pincode && (
+                            <small className={classes.error_msg}>
+                                {error.pincode}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="City"
+                            name="city"
+                            type="text"
+                            fullWidth
+                            value={addressData.city}
+                            onChange={handleChange}
                         // onChange={(e) => setCity(e.target.value)}
-                    />
-                    {error.city && (
-                        <small className={classes.error_msg}>
-                            {error.city}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="State"
-                        name="state"
-                        type="text"
-                        fullWidth
-                        value={addressData.state}
-                        onChange={handleChange}
+                        />
+                        {error.city && (
+                            <small className={classes.error_msg}>
+                                {error.city}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="State"
+                            name="state"
+                            type="text"
+                            fullWidth
+                            value={addressData.state}
+                            onChange={handleChange}
                         // onChange={(e) => setState(e.target.value)}
-                    />
-                    {error.state && (
-                        <small className={classes.error_msg}>
-                            {error.state}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="Country"
-                        name="country"
-                        type="text"
-                        fullWidth
-                        value={addressData.country}
-                        onChange={handleChange}
+                        />
+                        {error.state && (
+                            <small className={classes.error_msg}>
+                                {error.state}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="Country"
+                            name="country"
+                            type="text"
+                            fullWidth
+                            value={addressData.country}
+                            onChange={handleChange}
                         // onChange={(e) => setCountry(e.target.value)}
-                    />
-                    {error.country && (
-                        <small className={classes.error_msg}>
-                            {error.country}
-                        </small>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="outlined"
-                        onClick={handleCloseForm}
-                        color="secondary"
-                    >
-                        Cancel
+                        />
+                        {error.country && (
+                            <small className={classes.error_msg}>
+                                {error.country}
+                            </small>
+                        )}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            variant="outlined"
+                            onClick={handleCloseForm}
+                            color="secondary"
+                        >
+                            Cancel
                     </Button>
-                    <Button
-                        variant="outlined"
-                        onClick={handleFormSubmit}
-                        color="primary"
-                    >
-                        Submit
+                        <Button
+                            variant="outlined"
+                            onClick={handleFormSubmit}
+                            color="primary"
+                        >
+                            Submit
                     </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        }
+    </>
     )
 }
 

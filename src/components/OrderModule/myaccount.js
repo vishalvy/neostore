@@ -12,9 +12,9 @@ import ChangePass from './ChangePass'
 
 function Myaccount() {
     const classes = useStyles()
-    const [isOrder, setIsOrder] = useState(false)
+    const [isOrder, setIsOrder] = useState(true)
     const [isAddress, setIsAddress] = useState(false)
-    const [isProfile, setIsProfile] = useState(true)
+    const [isProfile, setIsProfile] = useState(false)
     const [isChangePass, setIsChangePass] = useState(false)
     const [userInfo,setUserInfo] = useState()
 

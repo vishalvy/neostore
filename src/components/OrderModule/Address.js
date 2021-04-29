@@ -21,6 +21,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import SweetAlert from "react-bootstrap-sweetalert";
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
+import LoadingScreen from 'react-loading-screen'
 
 
 function Address() {
@@ -31,7 +32,9 @@ function Address() {
     const [addressList, setAddressList] = useState();
     const [error, setError] = useState({});
     const [sweetAlert, setSweetAlert] = useState(null);
-    const [addressId,setAddressId] = useState()
+    const [addressId, setAddressId] = useState()
+    const [loading, setLoading] = useState(true)
+    
     const [addressData, setAddressData] = useState({
         addressLine: "",
         pincode: "",
@@ -214,260 +217,274 @@ function Address() {
                 .then((res) => {
                     const temp = res.data.data.address;
                     setAddressList(temp);
+                    setLoading(false)
                 })
         }
     }, [addressList]);
 
     return (
-        <>
-            <Paper className={classes.address_root_paper}>
-                <Container>
-                    <Typography className={classes.address_heading}>
-                        Address
+        <>{
+            loading ?
+            <LoadingScreen
+                loading={true}
+                bgColor='#f1f1f1'
+                spinnerColor='#9ee5f8'
+                textColor='#676767'
+                // logoSrc='/logo.png'
+                text='Please wait'
+            /> :
+            <div>
+                <Paper className={classes.address_root_paper}>
+                    <Container>
+                        <Typography className={classes.address_heading}>
+                            Address
                     </Typography>
-                    <hr className={classes.hor_rule}></hr>
-                    {addressList &&
-                        addressList.map((address, index) => (
-                            <Paper
-                                className={classes.address_paper}
-                                key={index}
-                            >
-                                <Container>
-                                    <IconButton
-                                        className={classes.cancel_icon}
-                                        color="secondary"
-                                        component="span"
-                                        onClick={() =>
-                                            deleteAddress(address._id)
-                                        }
-                                    >
-                                        <CancelPresentationOutlinedIcon />
-                                    </IconButton>
-                                    <Typography
-                                        className={classes.address_text}
-                                    >
-                                        {address.addressLine},<br />
-                                        {address.city} - {address.pincode}
-                                        <br />
-                                        {address.state} <br />
-                                        {address.country}
-                                    </Typography>
+                        <hr className={classes.hor_rule}></hr>
+                        <Button
+                            onClick={handleOpenForm}
+                            className={classes.add_address_btn}
+                            variant="contained"
+                        >
+                            <AddIcon /> Add
+                    </Button>
+                        {addressList &&
+                            addressList.map((address, index) => (
+                                <Paper
+                                    className={classes.address_paper}
+                                    key={index}
+                                >
+                                    <Container>
+                                        <IconButton
+                                            className={classes.cancel_icon}
+                                            color="secondary"
+                                            component="span"
+                                            onClick={() =>
+                                                deleteAddress(address._id)
+                                            }
+                                        >
+                                            <CancelPresentationOutlinedIcon />
+                                        </IconButton>
+                                        <Typography
+                                            className={classes.address_text}
+                                        >
+                                            {address.addressLine},<br />
+                                            {address.city} - {address.pincode}
+                                            <br />
+                                            {address.state} <br />
+                                            {address.country}
+                                        </Typography>
 
-                                    <Button
-                                        onClick={() => handleEdit(address)}
-                                        variant="contained" color="primary">
-                                        <EditIcon fontSize="small" />Edit
+                                        <Button
+                                            onClick={() => handleEdit(address)}
+                                            variant="contained" color="primary">
+                                            <EditIcon fontSize="small" />Edit
                                     </Button>
-                                    <br />
-                                    <br />
-                                </Container>
-                            </Paper>
-                        ))}
-                    <hr className={classes.hor_rule}></hr>
-                    <Button
-                        onClick={handleOpenForm}
-                        className={classes.add_address_btn}
-                        variant="contained"
-                    >
-                        <AddIcon/> Add
-                    </Button>
-                </Container>
-            </Paper>
-
-            <Dialog
-                open={openForm}
-                onClose={handleCloseForm}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Enter Address</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Address Line"
-                        name="addressLine"
-                        type="text"
-                        fullWidth
-                        value={addressData.addressLine}
-                        onChange={handleChange}
-                        // onChange={(e) => setAddressLine(e.target.value)}
-                    />
-                    {error.addressLine && (
-                        <small className={classes.error_msg}>
-                            {error.addressLine}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="Pincode"
-                        name="pincode"
-                        type="text"
-                        fullWidth
-                        value={addressData.pincode}
-                        onChange={handleChange}
-                        // onChange={(e) => setPincode(e.target.value)}
-                    />
-                    {error.pincode && (
-                        <small className={classes.error_msg}>
-                            {error.pincode}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="City"
-                        name="city"
-                        type="text"
-                        fullWidth
-                        value={addressData.city}
-                        onChange={handleChange}
-                                         />
-                    {error.city && (
-                        <small className={classes.error_msg}>
-                            {error.city}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="State"
-                        name="state"
-                        type="text"
-                        fullWidth
-                        value={addressData.state}
-                        onChange={handleChange}
-                                          />
-                    {error.state && (
-                        <small className={classes.error_msg}>
-                            {error.state}
-                        </small>
-                    )}
-                    <TextField
-                        margin="dense"
-                        label="Country"
-                        name="country"
-                        type="text"
-                        fullWidth
-                        value={addressData.country}
-                        onChange={handleChange}
-                       
-                    />
-                    {error.country && (
-                        <small className={classes.error_msg}>
-                            {error.country}
-                        </small>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="outlined"
-                        onClick={handleCloseForm}
-                        color="secondary"
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        onClick={handleFormSubmit}
-                        color="primary"
-                    >
-                        Submit
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog
-                open={openEditForm}
-                onClose={handleCloseEditForm}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Edit Address</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Address Line"
-                        name="addressLine"
-                        type="text"
-                        fullWidth
-                        value={addressData.addressLine}
-                        onChange={handleChange}
-                      
-                    />
-                    {error.addressLine && <small className={classes.error_msg}>{error.addressLine}</small>}
-                    <TextField
-                        margin="dense"
-                        label="Pincode"
-                        name="pincode"
-                        type="text"
-                        fullWidth
-                        value={addressData.pincode}
-                        onChange={handleChange}
-                       
-                    />
-                    {error.pincode && <small className={classes.error_msg}>{error.pincode}</small>}
-                    <TextField
-                        margin="dense"
-                        label="City"
-                        name="city"
-                        type="text"
-                        fullWidth
-                        value={addressData.city}
-                        onChange={handleChange}
-                    />
-                    {error.city && <small className={classes.error_msg}>{error.city}</small>}
-                    <TextField
-                        margin="dense"
-                        label="State"
-                        name="state"
-                        type="text"
-                        fullWidth
-                        value={addressData.state}
-                        onChange={handleChange}
+                                        <br />
+                                        <br />
+                                    </Container>
+                                </Paper>
+                            ))}
+                        <hr className={classes.hor_rule}></hr>
                     
-                    />
-                    {error.state && <small className={classes.error_msg}>{error.state}</small>}
-                    <TextField
-                        margin="dense"
-                        label="Country"
-                        name="country"
-                        type="text"
-                        fullWidth
-                        value={addressData.country}
-                        onChange={handleChange}
+                    </Container>
+                </Paper>
+
+                <Dialog
+                    open={openForm}
+                    onClose={handleCloseForm}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Enter Address</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Address Line"
+                            name="addressLine"
+                            type="text"
+                            fullWidth
+                            value={addressData.addressLine}
+                            onChange={handleChange}
+                        // onChange={(e) => setAddressLine(e.target.value)}
+                        />
+                        {error.addressLine && (
+                            <small className={classes.error_msg}>
+                                {error.addressLine}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="Pincode"
+                            name="pincode"
+                            type="text"
+                            fullWidth
+                            value={addressData.pincode}
+                            onChange={handleChange}
+                        // onChange={(e) => setPincode(e.target.value)}
+                        />
+                        {error.pincode && (
+                            <small className={classes.error_msg}>
+                                {error.pincode}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="City"
+                            name="city"
+                            type="text"
+                            fullWidth
+                            value={addressData.city}
+                            onChange={handleChange}
+                        />
+                        {error.city && (
+                            <small className={classes.error_msg}>
+                                {error.city}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="State"
+                            name="state"
+                            type="text"
+                            fullWidth
+                            value={addressData.state}
+                            onChange={handleChange}
+                        />
+                        {error.state && (
+                            <small className={classes.error_msg}>
+                                {error.state}
+                            </small>
+                        )}
+                        <TextField
+                            margin="dense"
+                            label="Country"
+                            name="country"
+                            type="text"
+                            fullWidth
+                            value={addressData.country}
+                            onChange={handleChange}
                        
-                    />
-                    {error.country && <small className={classes.error_msg}>{error.country}</small>}
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="outlined"
-                        onClick={handleCloseEditForm}
-                        color="secondary"
-                    >
-                        Cancel
+                        />
+                        {error.country && (
+                            <small className={classes.error_msg}>
+                                {error.country}
+                            </small>
+                        )}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            variant="outlined"
+                            onClick={handleCloseForm}
+                            color="secondary"
+                        >
+                            Cancel
                     </Button>
-                    <Button
-                        variant="outlined"
-                        onClick={handleEditFormSubmit}
-                        color="primary"
-                    >
-                        Submit
+                        <Button
+                            variant="outlined"
+                            onClick={handleFormSubmit}
+                            color="primary"
+                        >
+                            Submit
                     </Button>
-                </DialogActions>
-            </Dialog>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    open={openEditForm}
+                    onClose={handleCloseEditForm}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Edit Address</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Address Line"
+                            name="addressLine"
+                            type="text"
+                            fullWidth
+                            value={addressData.addressLine}
+                            onChange={handleChange}
+                      
+                        />
+                        {error.addressLine && <small className={classes.error_msg}>{error.addressLine}</small>}
+                        <TextField
+                            margin="dense"
+                            label="Pincode"
+                            name="pincode"
+                            type="text"
+                            fullWidth
+                            value={addressData.pincode}
+                            onChange={handleChange}
+                       
+                        />
+                        {error.pincode && <small className={classes.error_msg}>{error.pincode}</small>}
+                        <TextField
+                            margin="dense"
+                            label="City"
+                            name="city"
+                            type="text"
+                            fullWidth
+                            value={addressData.city}
+                            onChange={handleChange}
+                        />
+                        {error.city && <small className={classes.error_msg}>{error.city}</small>}
+                        <TextField
+                            margin="dense"
+                            label="State"
+                            name="state"
+                            type="text"
+                            fullWidth
+                            value={addressData.state}
+                            onChange={handleChange}
+                    
+                        />
+                        {error.state && <small className={classes.error_msg}>{error.state}</small>}
+                        <TextField
+                            margin="dense"
+                            label="Country"
+                            name="country"
+                            type="text"
+                            fullWidth
+                            value={addressData.country}
+                            onChange={handleChange}
+                       
+                        />
+                        {error.country && <small className={classes.error_msg}>{error.country}</small>}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            variant="outlined"
+                            onClick={handleCloseEditForm}
+                            color="secondary"
+                        >
+                            Cancel
+                    </Button>
+                        <Button
+                            variant="outlined"
+                            onClick={handleEditFormSubmit}
+                            color="primary"
+                        >
+                            Submit
+                    </Button>
+                    </DialogActions>
+                </Dialog>
 
 
-            <Snackbar
-                open={openSnackbar}
-                autoHideDuration={3000}
-                onClose={handleCloseSnackbar}
-            >
-                <Alert onClose={handleCloseSnackbar} severity="success">
-                    Address has been Added
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={3000}
+                    onClose={handleCloseSnackbar}
+                >
+                    <Alert onClose={handleCloseSnackbar} severity="success">
+                        Address has been Added
                 </Alert>
-            </Snackbar>
+                </Snackbar>
 
-            {sweetAlert}
-        </>
+                {sweetAlert}
+            </div>
+        }
+    </>
     );
 }
 function Alert(props) {

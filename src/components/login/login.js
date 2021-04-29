@@ -48,7 +48,7 @@ function Login() {
                 localStorage.setItem('userdata', JSON.stringify(res.data.data))
                 localStorage.setItem('isLoggedIn',true)
                 if(res.request.status === 200) {
-                    history.push('/allproducts')
+                    history.push('/')
                 }
                 
             })

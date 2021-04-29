@@ -4,12 +4,14 @@ import useStyles from './styles'
 import { BaseUrl, rupees } from '../constants/baseUrl';
 import axios from "axios";
 import { useHistory } from "react-router";
+import LoadingScreen from 'react-loading-screen'
 
 
 function Order() {
     const classes = useStyles()
     const history = useHistory()
-    const [orderProducts,setOrderProducts] = useState()
+    const [orderProducts, setOrderProducts] = useState()
+    const [loading,setLoading] = useState(true)
 
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
@@ -24,6 +26,7 @@ function Order() {
                 console.log(res.data.data.orders)
                 const temp = res.data.data.orders
                 setOrderProducts(temp)
+                setLoading(false)
             })
         }
         
@@ -36,7 +39,17 @@ function Order() {
         });
     };
     return (
-        <>
+        <>{
+            loading ?
+            <LoadingScreen
+                loading={true}
+                bgColor='#f1f1f1'
+                spinnerColor='#9ee5f8'
+                textColor='#676767'
+                // logoSrc='/logo.png'
+                text='Please wait'
+            /> :
+            <div>
             {
                 orderProducts && orderProducts.map((order,index) => (
                     <Paper className={classes.order_paper} key={index}>
@@ -85,6 +98,8 @@ function Order() {
                         </Container>
                     </Paper>
                 ))}
+            </div>
+        }
         </>
     );
 }

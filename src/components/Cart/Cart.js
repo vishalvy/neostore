@@ -24,7 +24,8 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import axios from "axios";
 import { BaseUrl, rupees } from "../constants/baseUrl";
 import SweetAlert from "react-bootstrap-sweetalert";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import LoadingScreen from "react-loading-screen";
 
 function Cart() {
     const classes = useStyles();
@@ -36,11 +37,12 @@ function Cart() {
     const [cartProducts, setCartProducts] = useState();
     const [deleteFlag, setDeleteFlag] = useState(false);
     const [sweetAlert, setSweetAlert] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const Additem = (index, price,id) => {
+    const Additem = (index, price, id) => {
         const quantity_arr = [...productQuantity];
         const productcost = [...productPrice];
-        console.log("inside array",quantity_arr)
+        console.log("inside array", quantity_arr);
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         const token = userdata.token;
         if (quantity_arr[index] < 10) {
@@ -49,13 +51,13 @@ function Cart() {
             setProductQuantity(quantity_arr);
 
             const putQuantity = {
-                quantity: `${quantity_arr[index]}`
-            }
-            axios.put(`${BaseUrl}/api/cart/${id}`,putQuantity, {
+                quantity: `${quantity_arr[index]}`,
+            };
+            axios.put(`${BaseUrl}/api/cart/${id}`, putQuantity, {
                 headers: {
-                    Authorization: `${token}`
-                }
-            })
+                    Authorization: `${token}`,
+                },
+            });
 
             const updatePrice = productcost.map((val, newindex) => {
                 if (index === newindex) {
@@ -70,7 +72,7 @@ function Cart() {
         }
     };
 
-    const Removeitem = (index, price,id) => {
+    const Removeitem = (index, price, id) => {
         const quantity_arr = [...productQuantity];
         const productcost = [...productPrice];
         const userdata = JSON.parse(localStorage.getItem("userdata"));
@@ -81,13 +83,13 @@ function Cart() {
             setProductQuantity(quantity_arr);
 
             const putQuantity = {
-                quantity: `${quantity_arr[index]}`
-            }
-            axios.put(`${BaseUrl}/api/cart/${id}`,putQuantity, {
+                quantity: `${quantity_arr[index]}`,
+            };
+            axios.put(`${BaseUrl}/api/cart/${id}`, putQuantity, {
                 headers: {
-                    Authorization: `${token}`
-                }
-            })
+                    Authorization: `${token}`,
+                },
+            });
 
             const updatePrice = productcost.map((val, newindex) => {
                 if (index === newindex) {
@@ -106,7 +108,8 @@ function Cart() {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
             const token = userdata.token;
-            axios.delete(`${BaseUrl}/api/cart/${p_id}`, {
+            axios
+                .delete(`${BaseUrl}/api/cart/${p_id}`, {
                     headers: {
                         Authorization: `${token}`,
                     },
@@ -138,17 +141,18 @@ function Cart() {
                     setGrandTotal(res.data.data.grandTotal);
                     if (res.status === 200) {
                         temp.map((val) => {
-                            q_arr.push(val.quantity)
-                        })
+                            q_arr.push(val.quantity);
+                        });
 
                         setProductQuantity(q_arr);
 
                         temp.map((val) => {
                             price_arr.push(val.productId.price);
                         });
-                        
+
                         setProductPrice(price_arr);
                     }
+                    setLoading(false)
                 });
         }
     }, [deleteFlag]);
@@ -176,211 +180,292 @@ function Cart() {
 
     const ProductDetail = (id) => {
         history.push({
-            pathname: `product/${id}`
+            pathname: `product/${id}`,
         });
     };
     return (
-        <>{grandTotal !== 0 ? (
-            <>
-                {cartProducts && (
-                    <div>
-                        <div className={classes.stepper_root}>
-                            <Stepper activeStep={activeStep}>
-                                <Step>
-                                    <StepLabel>Cart</StepLabel>
-                                </Step>
-                                <Step>
-                                    <StepLabel>Delivery Address</StepLabel>
-                                </Step>
-                            </Stepper>
-                        </div>
-
-                        <div>
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={8}>
-                                    <Container>
-                                        <TableContainer component={Paper}>
-                                            <Table className={classes.table} aria-label="simple table">
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <TableCell>
-                                                            Product
-                                                    </TableCell>
-                                                        <TableCell>
-                                                            Quantity
-                                                    </TableCell>
-                                                        <TableCell>Price</TableCell>
-                                                        <TableCell>Total</TableCell>
-                                                        <TableCell></TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {cartProducts &&
-                                                        cartProducts.map((cartProduct, index) => (
-                                                            <TableRow key={index}>
-                                                                <TableCell
-                                                                    style={{ borderBottom: "none" }}
-                                                                    component="th"
-                                                                    className={classes.product_name_root}
-                                                                >
-                                                                    {/* <span> */}
-                                                                    <img
-                                                                        onClick={() => ProductDetail(cartProduct.productId.id)}
-                                                                            src={cartProduct.productId.mainImage}
-                                                                            alt=""
-                                                                            width="70px"
-                                                                            height="70px"
-                                                                        />
-                                                                    {/* </span> */}
-                                                                    <div className={classes.product_name}>
-                                                                        <Typography>
-                                                                            {cartProduct.productId.name}
-                                                                        </Typography>
-                                                                        <Typography>
-                                                                            Status:{" "}
-                                                                            <span className={classes.status_color}>
-                                                                                In Stock
-                                                                        </span>
-                                                                        </Typography>
-                                                                    </div>
-                                                                </TableCell>
-
-                                                                <TableCell style={{ borderBottom: "none" }}>
-                                                                    <div className={classes.quantity_root}>
-                                                                        <IconButton
-                                                                            onClick={() =>
-                                                                                Additem(index,cartProduct.productId.price,cartProduct.id)
-                                                                            }
-                                                                            color="secondary"
-                                                                            component="span"
-                                                                        >
-                                                                            <AddCircleIcon />
-                                                                        </IconButton>
-                                                                        {productQuantity[index]}
-                                                                        <IconButton
-                                                                            onClick={() =>
-                                                                                Removeitem(index,cartProduct.productId.price,cartProduct.id)
-                                                                            }
-                                                                            color="secondary"
-                                                                            component="span"
-                                                                        >
-                                                                            <RemoveCircleIcon />
-                                                                        </IconButton>
-                                                                    </div>
-                                                                </TableCell>
-
-                                                                <TableCell style={{ borderBottom: "none" }}>
-                                                                    {rupees}
-                                                                    {cartProduct.productId.price}
-                                                                </TableCell>
-                                                        
-                                                                <TableCell style={{ borderBottom: "none" }}>
-                                                                    {rupees}
-                                                                    {productPrice[index]}
-                                                                </TableCell>
-
-                                                                <TableCell style={{ borderBottom: "none" }}>
-                                                                    <IconButton
-                                                                        onClick={() =>
-                                                                            deleteProduct(cartProduct.id)
-                                                                        }
-                                                                        color="secondary"
-                                                                        component="span"
-                                                                    >
-                                                                        <DeleteOutlineIcon />
-                                                                    </IconButton>
-                                                                </TableCell>
-                                                        
-                                                            </TableRow>
-                                                        )
-                                                        )}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                    </Container>
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={4}>
-                                    <Container>
-                                        <TableContainer component={Paper}>
-                                            <Table>
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <Typography className={classes.review_heading} variant="h6">
-                                                            Review Order
-                                                    </Typography>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    <TableRow>
-                                                        <TableCell>
-                                                            Subtotal
-                                                    </TableCell>
-                                                        <TableCell align="right">
-                                                            {rupees}{grandTotal}
-                                                        </TableCell>
-                                                    </TableRow>
-                                                    <TableRow>
-                                                        <TableCell>
-                                                            GST(5%)
-                                                    </TableCell>
-                                                        <TableCell align="right">
-                                                            {rupees}{((grandTotal / 100) * 5).toFixed(2)}
-                                                        </TableCell>
-                                                    </TableRow>
-                                                    <TableRow>
-                                                        <TableCell>
-                                                            Order Total
-                                                    </TableCell>
-                                                        <TableCell align="right">
-                                                            {rupees}
-                                                            {(grandTotal - (grandTotal / 100) * 5).toFixed(2)}
-                                                        </TableCell>
-                                                    </TableRow>
-
-                                                    <TableCell align="center"
-                                                        className={classes.buy_button_root}
-                                                    >
-                                                        <Button
-                                                            onClick={() => {
-                                                                setActiveStep(activeStep + 1);
-                                                                setTimeout(() => {
-                                                                    history.push("/ordersummary");
-                                                                },1000)
-                                                            }}
-                                                            className={classes.buy_button}
-                                                            variant="contained"
-                                                            color="primary"
-                                                        >
-                                                            Proceed to Buy
-                                                    </Button>
-                                                    </TableCell>
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                    </Container>
-                                </Grid>
-                            </Grid>
-                        </div>
-
-                        {/* Sweet Alert----------------------------------------- */}
-                        {sweetAlert}
-                    </div>
-                )}
-            
-            </>
-        ) : (
+        <>
+            {loading ? (
+                <LoadingScreen
+                    loading={true}
+                    bgColor="#f1f1f1"
+                    spinnerColor="#9ee5f8"
+                    textColor="#676767"
+                    // logoSrc='/logo.png'
+                    text="Please wait"
+                />
+            ) : (
                 <>
-                    <img
-                        className={classes.empty_cart}
-                        src="https://www.kindpng.com/picc/m/174-1749396_empty-cart-your-cart-is-empty-hd-png.png" alt="Cart Is Empty"
-                    />
-                    <br />
-                    <br/>
-                    <Button
-                        onClick={() => history.push("/allproducts")}
-                        variant="outlined" color="primary">
-                        <ArrowBackIcon/>Get Products
-                    </Button>
+                    {grandTotal !== 0 ? (
+                        <>
+                            {cartProducts && (
+                                <div>
+                                    <div className={classes.stepper_root}>
+                                        <Stepper
+                                            style={
+                                                {backgroundColor: "rgb(243, 241, 241)"}}
+                                                activeStep={activeStep}
+                                            >
+                                            <Step>
+                                                <StepLabel>Cart</StepLabel>
+                                            </Step>
+                                            <Step>
+                                                <StepLabel>
+                                                    Delivery Address
+                                                </StepLabel>
+                                            </Step>
+                                        </Stepper>
+                                    </div>
+
+                                    <div>
+                                        <Grid container>
+                                            <Grid item xs={12} sm={12} md={8}>
+                                                <Container>
+                                                    <TableContainer
+                                                        component={Paper}
+                                                    >
+                                                        <Table
+                                                            className={
+                                                                classes.table
+                                                            }
+                                                            aria-label="simple table"
+                                                        >
+                                                            <TableHead>
+                                                                <TableRow>
+                                                                    <TableCell>
+                                                                        Product
+                                                                    </TableCell>
+                                                                    <TableCell>
+                                                                        Quantity
+                                                                    </TableCell>
+                                                                    <TableCell>
+                                                                        Price
+                                                                    </TableCell>
+                                                                    <TableCell>
+                                                                        Total
+                                                                    </TableCell>
+                                                                    <TableCell></TableCell>
+                                                                </TableRow>
+                                                            </TableHead>
+                                                            <TableBody>
+                                                                {cartProducts &&
+                                                                    cartProducts.map(
+                                                                        (cartProduct,index) => (
+                                                                            <TableRow
+                                                                                key={index}
+                                                                            >
+                                                                                <TableCell
+                                                                                    style={{borderBottom:"none",}}
+                                                                                    component="th"
+                                                                                    className={classes.product_name_root}
+                                                                                >
+                                                                            
+                                                                                    <img
+                                                                                        onClick={() => ProductDetail(cartProduct.productId.id)}
+                                                                                        src={cartProduct.productId.mainImage}
+                                                                                        alt=""
+                                                                                        width="70px"
+                                                                                        height="70px"
+                                                                                    />
+                                                                                    
+                                                                                    <div className={classes.product_name}>
+                                                                                        <Typography>
+                                                                                            {cartProduct.productId.name}
+                                                                                        </Typography>
+                                                                                        <Typography>
+                                                                                            Status:{" "}
+                                                                                            <span className={classes.status_color}>
+                                                                                                In Stock
+                                                                                            </span>
+                                                                                        </Typography>
+                                                                                    </div>
+                                                                                </TableCell>
+
+                                                                                <TableCell
+                                                                                    style={{borderBottom:"none",}}
+                                                                                >
+                                                                                    <div
+                                                                                        className={classes.quantity_root}>
+                                                                                        <IconButton
+                                                                                            onClick={() =>
+                                                                                                Additem(index,cartProduct.productId.price,cartProduct.id)
+                                                                                            }
+                                                                                            color="secondary"
+                                                                                            component="span"
+                                                                                        >
+                                                                                            <AddCircleIcon />
+                                                                                        </IconButton>
+                                                                                        {productQuantity[index]}
+                                                                                        <IconButton
+                                                                                            onClick={() =>
+                                                                                                Removeitem(index,cartProduct.productId.price,cartProduct.id)
+                                                                                            }
+                                                                                            color="secondary"
+                                                                                            component="span"
+                                                                                        >
+                                                                                            <RemoveCircleIcon />
+                                                                                        </IconButton>
+                                                                                    </div>
+                                                                                </TableCell>
+
+                                                                                <TableCell
+                                                                                    style={{
+                                                                                        borderBottom:"none",
+                                                                                    }}
+                                                                                >
+                                                                                    {rupees}
+                                                                                    {
+                                                                                        cartProduct.productId.price
+                                                                                    }
+                                                                                </TableCell>
+
+                                                                                <TableCell
+                                                                                    style={{
+                                                                                        borderBottom: "none",
+                                                                                    }}
+                                                                                >
+                                                                                    {rupees}
+                                                                                    {
+                                                                                        productPrice[index]
+                                                                                    }
+                                                                                </TableCell>
+
+                                                                                <TableCell
+                                                                                    style={{
+                                                                                        borderBottom:
+                                                                                            "none",
+                                                                                    }}
+                                                                                >
+                                                                                    <IconButton
+                                                                                        onClick={() =>
+                                                                                            deleteProduct(cartProduct.id)
+                                                                                        }
+                                                                                        color="secondary"
+                                                                                        component="span"
+                                                                                    >
+                                                                                        <DeleteOutlineIcon />
+                                                                                    </IconButton>
+                                                                                </TableCell>
+                                                                            </TableRow>
+                                                                        )
+                                                                    )}
+                                                            </TableBody>
+                                                        </Table>
+                                                    </TableContainer>
+                                                </Container>
+                                            </Grid>
+                                            <Grid item xs={12} sm={12} md={4}>
+                                                <Container>
+                                                    <TableContainer
+                                                        component={Paper}
+                                                    >
+                                                        <Table>
+                                                            <TableHead>
+                                                                <TableRow>
+                                                                    <Typography
+                                                                        className={
+                                                                            classes.review_heading
+                                                                        }
+                                                                        variant="h6"
+                                                                    >
+                                                                        Review
+                                                                        Order
+                                                                    </Typography>
+                                                                </TableRow>
+                                                            </TableHead>
+                                                            <TableBody>
+                                                                <TableRow>
+                                                                    <TableCell>
+                                                                        Subtotal
+                                                                    </TableCell>
+                                                                    <TableCell align="right">
+                                                                        {rupees}
+                                                                        {
+                                                                            grandTotal
+                                                                        }
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                                <TableRow>
+                                                                    <TableCell>
+                                                                        GST(5%)
+                                                                    </TableCell>
+                                                                    <TableCell align="right">
+                                                                        {rupees}
+                                                                        {(
+                                                                            (grandTotal / 100) * 5).toFixed(2)
+                                                                        }
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                                <TableRow>
+                                                                    <TableCell>
+                                                                        Order
+                                                                        Total
+                                                                    </TableCell>
+                                                                    <TableCell align="right">
+                                                                        {rupees}
+                                                                        {
+                                                                            (grandTotal - (grandTotal / 100) * 5).toFixed(2)
+                                                                        }
+                                                                    </TableCell>
+                                                                </TableRow>
+
+                                                                <TableCell
+                                                                    align="center"
+                                                                    className={
+                                                                        classes.buy_button_root
+                                                                    }
+                                                                >
+                                                                    <Button
+                                                                        onClick={() => {
+                                                                            setActiveStep( activeStep + 1);
+                                                                            setTimeout(
+                                                                                () => {
+                                                                                    history.push(
+                                                                                        "/ordersummary"
+                                                                                    );
+                                                                                },
+                                                                                1000
+                                                                            );
+                                                                        }}
+                                                                        className={classes.buy_button}
+                                                                        variant="contained"
+                                                                        color="primary"
+                                                                    >
+                                                                        Proceed to Buy
+                                                                    </Button>
+                                                                </TableCell>
+                                                            </TableBody>
+                                                        </Table>
+                                                    </TableContainer>
+                                                </Container>
+                                            </Grid>
+                                        </Grid>
+                                    </div>
+
+                                    {/* Sweet Alert----------------------------------------- */}
+                                    {sweetAlert}
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            <img
+                                className={classes.empty_cart}
+                                src="https://www.kindpng.com/picc/m/174-1749396_empty-cart-your-cart-is-empty-hd-png.png"
+                                alt="Cart Is Empty"
+                            />
+                            <br />
+                            <br />
+                            <Button
+                                onClick={() => history.push("/allproducts")}
+                                variant="outlined"
+                                color="primary"
+                            >
+                                <ArrowBackIcon />
+                                Get Products
+                            </Button>
+                        </>
+                    )}
                 </>
             )}
         </>

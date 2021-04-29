@@ -28,7 +28,7 @@ export default function Layout() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [cartCount, setcartCount] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username,setUsername] = useState()
+    const [username, setUsername] = useState()
 
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
@@ -49,7 +49,7 @@ export default function Layout() {
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         const isLogin = localStorage.getItem("isLoggedIn");
-        console.log(isLogin);
+        // console.log(isLogin);
         setIsLoggedIn(isLogin);
         if (userdata) {
             const token = userdata.token;
@@ -110,7 +110,7 @@ export default function Layout() {
                                     )}}
                                 color="inherit"
                             >
-                                    Order
+                                    Orders
                             </Button>
                         </div>
 
@@ -162,16 +162,16 @@ export default function Layout() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            {/* {isLoggedIn === false && ( */}
+                            {isLoggedIn === "false" && (
                                 <MenuItem onClick={handleLogin}>Login</MenuItem>
-                            {/* )} */}
+                            )}
 
-                            {/* {isLoggedIn === false && ( */}
+                            {isLoggedIn === "false" && (
                                 <MenuItem onClick={handleRegister}>
                                     Register
                                 </MenuItem>  
-                            {/* )} */}
-                            {/* {isLoggedIn && ( */}
+                            )}
+                            {isLoggedIn  === "true" && (
                             <>
                                 <MenuItem
                                     onClick={() => {
@@ -179,7 +179,7 @@ export default function Layout() {
                                         handleClose();
                                     }}
                                 >
-                                    Profile
+                                    My Account
                                 </MenuItem>
                                 <MenuItem
                                     onClick={() => {
@@ -192,7 +192,7 @@ export default function Layout() {
                                     Logout
                                 </MenuItem>
                             </>
-                            {/* )} */}
+                            )}
                         </Menu>
                     </>
                 )}
