@@ -22,6 +22,7 @@ import validate from './validate'
 import axios from 'axios';
 import {useHistory} from 'react-router-dom'
 import { BaseUrl } from '../constants/baseUrl';
+import { togglePassword,toggleConfirmPassword } from '../constants/utils';
 
 function Register() {
     const classes = useStyles()
@@ -40,6 +41,8 @@ function Register() {
     const togglePassword = () => {
         setShowPassword(showPassword ? false : true)
     }
+    // togglePassword(showPassword,setShowPassword)
+    // toggleConfirmPassword(showConfirmPassword,setshowConfirmPassword)
     const toggleConfirmPassword = () => {
         setshowConfirmPassword(showConfirmPassword ? false : true)
     }
@@ -48,7 +51,6 @@ function Register() {
         e.preventDefault()
         setError(validate(fname,lname,email,password,confirmpassword,mobile))
         if(fname !== "" && lname!== "" && email!== "" && password!== "" && confirmpassword!== ""){
-        // if(error === {}) {
             const userData = {
                 firstName: fname,
                 lastName: lname,
@@ -86,7 +88,7 @@ function Register() {
                                 className={classes.register_heading}
                                 variant="h5" 
                             >
-                                Register to NeoSTORE
+                                Register to Neo<span style={{ color: "red" }}>STORE</span>
                             </Typography>
                             <OutlinedInput
                                 className={classes.input_field}

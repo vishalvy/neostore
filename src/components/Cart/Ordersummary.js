@@ -7,7 +7,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from 'react-router';
 import AddIcon from '@material-ui/icons/Add';
 import validateAddress from '../OrderModule/validateAddress'
-import LoadingScreen from 'react-loading-screen'
+import Loader from '../Loader';
+import SnackbarAlert from '../constants/SnackbarAlert';
 
 
 function Ordersummary() {
@@ -182,15 +183,7 @@ function Ordersummary() {
 
 
     return (
-        <>{loading ?
-            <LoadingScreen
-                loading={true}
-                bgColor='#f1f1f1'
-                spinnerColor='#9ee5f8'
-                textColor='#676767'
-                // logoSrc='/logo.png'
-                text='Please wait'
-            /> :
+        <>{loading ? <Loader/> :
             <div>
                 <Container className={classes.root_container}>
                     <Typography variant="h4" style={{ fontWeight: "bold" }}>
@@ -296,33 +289,11 @@ function Ordersummary() {
                             </Container>
                         </Grid>
                     </Grid>
-                    <Snackbar
-                        open={openSnackbarPlaced}
-                        autoHideDuration={2000}
-                        onClose={handleCloseSnackbarPlaced}
-                    >
-                        <Alert onClose={handleCloseSnackbarPlaced} severity="success">
-                            Order Placed
-                    </Alert>
-                    </Snackbar>
-                    <Snackbar
-                        open={openSnackbarSelected}
-                        autoHideDuration={2000}
-                        onClose={handleCloseSnackbarSelected}
-                    >
-                        <Alert onClose={handleCloseSnackbarSelected} severity="success">
-                            Address Selected
-                    </Alert>
-                    </Snackbar>
-                    <Snackbar
-                        open={openSnackbarError}
-                        autoHideDuration={2000}
-                        onClose={handleCloseSnackbarError}
-                    >
-                        <Alert onClose={handleCloseSnackbarError} severity="error">
-                            Please Select Address
-                    </Alert>
-                    </Snackbar>
+
+                    <SnackbarAlert open={openSnackbarPlaced} close={handleCloseSnackbarPlaced} type={"success"} msg={"Order Placed"} />
+                    <SnackbarAlert open={openSnackbarSelected} close={handleCloseSnackbarSelected} type={"success"} msg={"Address Selected"} />
+                    <SnackbarAlert open={openSnackbarError} close={handleCloseSnackbarError} type={"error"} msg={"Please Select Address"} />
+
                 </Container>
 
                 <Dialog
@@ -341,7 +312,7 @@ function Ordersummary() {
                             fullWidth
                             value={addressData.addressLine}
                             onChange={handleChange}
-                        // onChange={(e) => setAddressLine(e.target.value)}
+                       
                         />
                         {error.addressLine && (
                             <small className={classes.error_msg}>
@@ -356,7 +327,7 @@ function Ordersummary() {
                             fullWidth
                             value={addressData.pincode}
                             onChange={handleChange}
-                        // onChange={(e) => setPincode(e.target.value)}
+                       
                         />
                         {error.pincode && (
                             <small className={classes.error_msg}>
@@ -371,7 +342,7 @@ function Ordersummary() {
                             fullWidth
                             value={addressData.city}
                             onChange={handleChange}
-                        // onChange={(e) => setCity(e.target.value)}
+                    
                         />
                         {error.city && (
                             <small className={classes.error_msg}>
@@ -386,7 +357,7 @@ function Ordersummary() {
                             fullWidth
                             value={addressData.state}
                             onChange={handleChange}
-                        // onChange={(e) => setState(e.target.value)}
+                    
                         />
                         {error.state && (
                             <small className={classes.error_msg}>
@@ -401,7 +372,7 @@ function Ordersummary() {
                             fullWidth
                             value={addressData.country}
                             onChange={handleChange}
-                        // onChange={(e) => setCountry(e.target.value)}
+                        
                         />
                         {error.country && (
                             <small className={classes.error_msg}>

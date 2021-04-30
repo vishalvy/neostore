@@ -4,7 +4,7 @@ import useStyles from './styles'
 import { BaseUrl, rupees } from '../constants/baseUrl';
 import axios from "axios";
 import { useHistory } from "react-router";
-import LoadingScreen from 'react-loading-screen'
+import Loader from "../Loader";
 
 
 function Order() {
@@ -40,15 +40,7 @@ function Order() {
     };
     return (
         <>{
-            loading ?
-            <LoadingScreen
-                loading={true}
-                bgColor='#f1f1f1'
-                spinnerColor='#9ee5f8'
-                textColor='#676767'
-                // logoSrc='/logo.png'
-                text='Please wait'
-            /> :
+            loading ? <Loader/> :
             <div>
             {
                 orderProducts && orderProducts.map((order,index) => (

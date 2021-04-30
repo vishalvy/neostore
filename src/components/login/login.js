@@ -19,10 +19,11 @@ import {Link} from 'react-router-dom'
 import axios from 'axios';
 import {useHistory} from 'react-router-dom'
 import { BaseUrl } from '../constants/baseUrl';
+import {loginUser} from '../Redux/actions/CartAction'
+import {connect} from 'react-redux'
 
 
-
-function Login() {
+function Login(props) {
     const classes = useStyles()
     const history = useHistory()
     const [showPassword,setshowPassword] = useState(false)
@@ -46,8 +47,10 @@ function Login() {
             axios.post(`${BaseUrl}/api/auth/login`,user)
             .then((res) => {
                 localStorage.setItem('userdata', JSON.stringify(res.data.data))
-                localStorage.setItem('isLoggedIn',true)
-                if(res.request.status === 200) {
+                // localStorage.setItem('isLoggedIn',true)
+                if (res.request.status === 200) {
+                    console.log("Before",props)
+                    props.loginUser()
                     history.push('/')
                 }
                 
@@ -57,7 +60,7 @@ function Login() {
             })
         }
     }
-
+    console.log(props,"Outside")
     return (
         <>
         <Grid className={classes.grid_container}>
@@ -69,7 +72,7 @@ function Login() {
                     <Typography 
                         className={classes.login_form_heading}
                         variant="h4">
-                        Login to NeoSTORE
+                            Login to Neo<span style={{ color: "red" }}>STORE</span>
                     </Typography>
                     <br/>
                     <OutlinedInput
@@ -130,4 +133,14 @@ function Login() {
     )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    loginUser: () => {
+        dispatch(loginUser())
+    }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login)

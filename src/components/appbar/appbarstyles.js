@@ -2,7 +2,11 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     nav_logo:{
         fontSize: "25px",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        backgroundColor: "black",
+        "&:hover": {
+            backgroundColor: "black",
+        }
     },
     logo_store: {
         color: "red"

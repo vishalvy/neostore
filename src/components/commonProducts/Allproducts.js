@@ -1,8 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, Grid, Paper, Typography } from '@material-ui/core'
 import React,{useEffect, useState} from 'react'
 import useStyles from './styles'
-// import Categories from './categories'  
-// import Colors from './colors'
 import StarIcon from '@material-ui/icons/Star';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -11,16 +9,15 @@ import ProductsCards from './ProductsCards'
 import axios from 'axios'
 import {BaseUrl} from '../constants/baseUrl'
 import { Pagination } from '@material-ui/lab';
-import { useHistory } from 'react-router-dom';
-import LoadingScreen from 'react-loading-screen'
+import Loader from '../Loader';
 
 function Commonproducts() {
     const classes = useStyles()
-    const history = useHistory()
     const [productData, setProductData] = useState()
     const [categories, setCategories] = useState()
     const [colors, setColors] = useState()
     const [pageValues, setPagesValues] = useState(1)
+    const [currentPage,setCurrentPage] = useState()
     const [loading,setLoading] = useState(true)
 
     const handlePage = (event, value) => {
@@ -28,12 +25,13 @@ function Commonproducts() {
         .then((res) => {
             setProductData(res.data.data.docs)
         })
+        setCurrentPage(value)
     };
 
 
     useEffect(() => {
         //All products data fetch
-        axios.get(`${BaseUrl}/api/product?limit=9&page=1`)
+        axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}`)
         .then((res) => {
             setProductData(res.data.data.docs)
             console.log(res.data.data.pages)
@@ -44,14 +42,14 @@ function Commonproducts() {
         //Categories Data fetch
         axios.get(`${BaseUrl}/api/category`)
         .then((res) => {
-            console.log(res.data.data)
+            // console.log(res.data.data)
             setCategories(res.data.data)
         })
 
         //Colors Data fetch
         axios.get(`${BaseUrl}/api/color`)
         .then((res) => {
-            console.log(res.data.data)
+            // console.log(res.data.data)
             setColors(res.data.data)
         })
         
@@ -59,7 +57,7 @@ function Commonproducts() {
     },[])
 
     const sort = (order) => {
-        axios.get(`${BaseUrl}/api/product?limit=9&page=1&sortby=price&orderby=${order}`)
+        axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}&sortby=price&orderby=${order}`)
         .then((res) => {
             const temp = res.data.data.docs
             setProductData(temp)
@@ -83,15 +81,7 @@ function Commonproducts() {
         })
     }
     return (
-        <>{loading ?
-            <LoadingScreen
-            loading={true}
-            bgColor='#f1f1f1'
-            spinnerColor='#9ee5f8'
-            textColor='#676767'
-            // logoSrc='/logo.png'
-            text='Please wait'
-        /> :
+        <>{loading ? <Loader/> :
             <div>
                 <hr className={classes.hor_rule}></hr>
                 <div className={classes.sort_root}>
@@ -101,7 +91,7 @@ function Commonproducts() {
                     <Button
                         className={classes.sort_btn_color}
                         onClick={() => {
-                            axios.get(`${BaseUrl}/api/product?limit=9&page=1&sortby=rating&orderby=desc`)
+                            axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}&sortby=rating&orderby=desc`)
                                 .then((res) => {
                                     const temp = res.data.data.docs
                                     setProductData(temp)

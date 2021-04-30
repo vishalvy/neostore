@@ -24,8 +24,8 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import axios from "axios";
 import { BaseUrl, rupees } from "../constants/baseUrl";
 import SweetAlert from "react-bootstrap-sweetalert";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import LoadingScreen from "react-loading-screen";
+import Loader from "../Loader";
+import EmptyCart from "../constants/EmptyCart";
 
 function Cart() {
     const classes = useStyles();
@@ -178,23 +178,9 @@ function Cart() {
         setSweetAlert(null);
     };
 
-    const ProductDetail = (id) => {
-        history.push({
-            pathname: `product/${id}`,
-        });
-    };
     return (
         <>
-            {loading ? (
-                <LoadingScreen
-                    loading={true}
-                    bgColor="#f1f1f1"
-                    spinnerColor="#9ee5f8"
-                    textColor="#676767"
-                    // logoSrc='/logo.png'
-                    text="Please wait"
-                />
-            ) : (
+            {loading ? <Loader /> :
                 <>
                     {grandTotal !== 0 ? (
                         <>
@@ -244,7 +230,7 @@ function Cart() {
                                                                     <TableCell>
                                                                         Total
                                                                     </TableCell>
-                                                                    <TableCell></TableCell>
+                                                                    <TableCell/>
                                                                 </TableRow>
                                                             </TableHead>
                                                             <TableBody>
@@ -261,7 +247,7 @@ function Cart() {
                                                                                 >
                                                                             
                                                                                     <img
-                                                                                        onClick={() => ProductDetail(cartProduct.productId.id)}
+                                                                                        onClick={() => history.push(`product/${cartProduct.productId.id}`)}
                                                                                         src={cartProduct.productId.mainImage}
                                                                                         alt=""
                                                                                         width="70px"
@@ -448,26 +434,10 @@ function Cart() {
                             )}
                         </>
                     ) : (
-                        <>
-                            <img
-                                className={classes.empty_cart}
-                                src="https://www.kindpng.com/picc/m/174-1749396_empty-cart-your-cart-is-empty-hd-png.png"
-                                alt="Cart Is Empty"
-                            />
-                            <br />
-                            <br />
-                            <Button
-                                onClick={() => history.push("/allproducts")}
-                                variant="outlined"
-                                color="primary"
-                            >
-                                <ArrowBackIcon />
-                                Get Products
-                            </Button>
-                        </>
+                       <EmptyCart/>
                     )}
                 </>
-            )}
+            }
         </>
     );
 }

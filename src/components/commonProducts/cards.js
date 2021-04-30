@@ -10,9 +10,8 @@ import useStyles from "../TopProducts/productstyles";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
-import { Snackbar } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
 import LinesEllipsis from "react-lines-ellipsis";
+import SnackbarAlert from "../constants/SnackbarAlert";
 
 export default function MediaCard(props) {
     const classes = useStyles();
@@ -21,15 +20,13 @@ export default function MediaCard(props) {
     const [openError, setOpenError] = useState(false);
     const [openNotLogin, setOpenNotLogin] = useState(false);
 
-
     //Snackbar Functions
     const handleClick = (msg) => {
         if (msg === "success") {
             setOpen(true);
         } else if (msg === "error") {
             setOpenError(true);
-        }
-        else if (msg === "notlogin") {
+        } else if (msg === "notlogin") {
             setOpenNotLogin(true);
         }
     };
@@ -52,14 +49,6 @@ export default function MediaCard(props) {
         setOpenNotLogin(false);
     };
 
-
-    //Handle Card Function
-    const handleCards = (product) => {
-        history.push({
-            pathname: `/product/${product.id}`,
-        });
-    };
-
     const handleAddToCart = (product_id, quantity) => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
@@ -80,8 +69,7 @@ export default function MediaCard(props) {
                 .catch(() => {
                     handleClick("error");
                 });
-        }
-        else {
+        } else {
             handleClick("notlogin");
         }
     };
@@ -93,9 +81,13 @@ export default function MediaCard(props) {
     return (
         <>
             <Card className={classes.root}>
-                <CardActionArea onClick={() => handleCards(props.product)}>
+                <CardActionArea
+                    onClick={() => history.push(`/product/${props.product.id}`)}
+                >
                     <CardMedia
-                        onClick={() => handleCards(props.product)}
+                        onClick={() =>
+                            history.push(`/product/${props.product.id}`)
+                        }
                         className={classes.media}
                         image={props.image}
                     />
@@ -105,11 +97,11 @@ export default function MediaCard(props) {
                         </Typography> */}
                         <LinesEllipsis
                             className={classes.card_title}
-                            text= {props.title}
-                            maxLine='1'
-                            ellipsis='..'
+                            text={props.title}
+                            maxLine="1"
+                            ellipsis=".."
                             trimRight
-                            basedOn='letters'
+                            basedOn="letters"
                         />
                     </CardContent>
                 </CardActionArea>
@@ -131,33 +123,24 @@ export default function MediaCard(props) {
                 </div>
             </Card>
 
-            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success">
-                    Product Added To Cart
-                </Alert>
-            </Snackbar>
-            <Snackbar
+            <SnackbarAlert
+                open={open}
+                close={handleClose}
+                type={"success"}
+                msg={"Product Added To Cart"}
+            />
+            <SnackbarAlert
                 open={openError}
-                autoHideDuration={3000}
-                onClose={handleCloseError}
-            >
-                <Alert onClose={handleCloseError} severity="error">
-                    Product is Already in Cart!
-                </Alert>
-            </Snackbar>
-            <Snackbar
+                close={handleCloseError}
+                type={"error"}
+                msg={"Product is Already in Cart!"}
+            />
+            <SnackbarAlert
                 open={openNotLogin}
-                autoHideDuration={3000}
-                onClose={handleCloseNotLogin}
-            >
-                <Alert onClose={handleCloseNotLogin} severity="error">
-                    Please Login to Add in Cart!
-                </Alert>
-            </Snackbar>
+                close={handleCloseNotLogin}
+                type={"error"}
+                msg={"Please Login to Add in Cart!"}
+            />
         </>
     );
-}
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }

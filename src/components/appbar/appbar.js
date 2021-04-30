@@ -21,14 +21,16 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import DrawerComponent from "./drawer";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
+import { connect } from 'react-redux'
+import {logoutUser} from '../Redux/actions/CartAction'
 
-export default function Layout() {
+function Layout(props) {
     const classes = useStyles();
     const history = useHistory();
     const [anchorEl, setAnchorEl] = useState(null);
     const [cartCount, setcartCount] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState()
+    const [username, setUsername] = useState();
 
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
@@ -48,12 +50,12 @@ export default function Layout() {
 
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        const isLogin = localStorage.getItem("isLoggedIn");
-        // console.log(isLogin);
-        setIsLoggedIn(isLogin);
+        // const isLogin = localStorage.getItem("isLoggedIn");
+        // setIsLoggedIn(isLogin);
+
         if (userdata) {
             const token = userdata.token;
-            setUsername(userdata.firstName)
+            setUsername(userdata.firstName);
 
             axios
                 .get(`${BaseUrl}/api/cart`, {
@@ -75,13 +77,15 @@ export default function Layout() {
     return (
         <AppBar elevation={2} className={classes.appbar}>
             <Toolbar>
-                <Typography
+                <Button
+                    variant="contained"
+                    color="inherit"
                     className={classes.nav_logo}
                     onClick={() => history.push("/")}
                 >
                     Neo
                     <span className={classes.logo_store}>STORE</span>
-                </Typography>
+                </Button>
 
                 {isMatch ? (
                     <DrawerComponent />
@@ -102,19 +106,18 @@ export default function Layout() {
                                 Products
                             </Button>
                             <Button
-                                    onClick={() => {
-                                        history.push({
-                                            pathname: "/profile",
-                                            // order: {true},
-                                        }
-                                    )}}
+                                onClick={() => {
+                                    if (props.isLogin) {
+                                        history.push("/profile");
+                                    } else {
+                                        history.push("/login");
+                                    }
+                                }}
                                 color="inherit"
                             >
-                                    Orders
+                                Orders
                             </Button>
                         </div>
-
-                        {/* <div className={classes.nav_cart_container}> */}
 
                         <TextField
                             className={classes.nav_textfield}
@@ -131,7 +134,13 @@ export default function Layout() {
                         />
 
                         <Button
-                            onClick={() => history.push("/cart")}
+                            onClick={() => {
+                                if (props.isLogin) {
+                                    history.push("/cart");
+                                } else {
+                                    history.push("/login");
+                                }
+                            }}
                             variant="contained"
                             startIcon={
                                 <Badge
@@ -153,7 +162,8 @@ export default function Layout() {
                             aria-controls="simple-menu"
                             className={classes.nav_dropdown_btn}
                         >
-                            {username}<KeyboardArrowDownIcon />
+                            {props.isLogin && username}
+                            <KeyboardArrowDownIcon />
                         </Button>
                         <Menu
                             id="simple-menu"
@@ -162,43 +172,57 @@ export default function Layout() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            {isLoggedIn === "false" && (
+                            {!props.isLogin && (
                                 <MenuItem onClick={handleLogin}>Login</MenuItem>
                             )}
 
-                            {isLoggedIn === "false" && (
+                            {!props.isLogin && (
                                 <MenuItem onClick={handleRegister}>
                                     Register
-                                </MenuItem>  
+                                </MenuItem>
                             )}
-                            {isLoggedIn  === "true" && (
-                            <>
-                                <MenuItem
-                                    onClick={() => {
-                                        history.push("/profile");
-                                        handleClose();
-                                    }}
-                                >
-                                    My Account
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => {
-                                        localStorage.removeItem("userdata");
-                                        localStorage.setItem('isLoggedIn',false)
-                                        handleClose();
-                                        history.push("/login");
-                                    }}
-                                >
-                                    Logout
-                                </MenuItem>
-                            </>
+                            {props.isLogin && (
+                                <>
+                                    <MenuItem
+                                        onClick={() => {
+                                            history.push("/profile");
+                                            handleClose();
+                                        }}
+                                    >
+                                        My Account
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => {
+                                                localStorage.removeItem("userdata");
+                                                props.logoutUser()
+                                            // localStorage.setItem(
+                                            //     "isLoggedIn",
+                                            //     false
+                                            // );
+                                            handleClose();
+                                            history.push("/login");
+                                        }}
+                                    >
+                                        Logout
+                                    </MenuItem>
+                                </>
                             )}
                         </Menu>
                     </>
                 )}
-
-                {/* </div> */}
             </Toolbar>
         </AppBar>
     );
 }
+
+
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
+const mapDispatchToProps = (dispatch) => ({
+    logoutUser: () => {
+        dispatch(logoutUser())
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)

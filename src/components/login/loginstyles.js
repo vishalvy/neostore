@@ -1,9 +1,9 @@
-import {makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     login_form_heading: {
         paddingTop: "2%",
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     form_root: {
         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -11,15 +11,15 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     grid_container: {
-        display:"flex",
+        display: "flex",
         justifyContent: "center",
         marginTop: "10%",
     },
     login_paper: {
-        width: "40%"
+        width: "40%",
     },
     login_button: {
-        float: "left"
+        float: "left",
     },
     facebook_button: {
         backgroundColor: "#3b5998",
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "3px",
         border: "none",
         fontWeight: "bold",
-        fontSize: "16px"
+        fontSize: "16px",
     },
     google_button: {
         height: "48px",
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
     social_container: {
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
     },
     forget_link: {
         float: "right",
@@ -62,11 +62,11 @@ const useStyles = makeStyles((theme) => ({
         // color: "black"
     },
     email_field: {
-        width: "100%"
+        width: "100%",
     },
-    error_tag:{
+    error_tag: {
         color: "red",
-        float: "left"
-    }
-}))
-export default useStyles
+        float: "left",
+    },
+}));
+export default useStyles;

@@ -6,11 +6,11 @@ import useStyles from './loginstyles'
 function Social() {
     const classes = useStyles()
     const responseFacebook = (response) => {
-        console.log(response);
+        // console.log(response);
     }
   
     const responseGoogle = (response) => {
-        console.log(response);
+        // console.log(response);
     }
     return (
         <>
@@ -35,15 +35,6 @@ function Social() {
                         theme = "dark"
                     />
                 </Grid>
-                {/* <Grid item >
-                    <TwitterLogin
-                        className={classes.twitter_button}
-                        // authCallback={authHandler}
-                        // consumerKey={CONSUMER_KEY}
-                        // consumerSecret={CONSUMER_SECRET}
-                        buttonTheme = "dark"
-                    />
-                </Grid> */}
             </Grid>
         </>
     )

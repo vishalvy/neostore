@@ -35,7 +35,7 @@ import ReactImageZoom from "react-image-zoom";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import MuiAlert from "@material-ui/lab/Alert";
-import LoadingScreen from 'react-loading-screen'
+import Loader from "../Loader";
 
 
 function ProductDetail(props) {
@@ -49,7 +49,8 @@ function ProductDetail(props) {
     const [product, setProduct] = useState();
     const [open, setOpen] = useState(false);
     const [openError, setOpenError] = useState(false);
-    const [loading,setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
+    const [openNotLogin, setOpenNotLogin] = useState(false);
 
     useEffect(() => {
         axios.get(`${BaseUrl}/api/product/details/${newid}`)
@@ -62,12 +63,15 @@ function ProductDetail(props) {
         });
     }, []);
 
-    
+    //Snackbar Functions    
     const handleClick = (msg) => {
         if (msg === "success") {
             setOpen(true);
         } else if (msg === "error") {
             setOpenError(true);
+        }
+        else if (msg === "notlogin") {
+            setOpenNotLogin(true);
         }
     };
     const handleClose = (event, reason) => {
@@ -82,26 +86,37 @@ function ProductDetail(props) {
         }
         setOpenError(false);
     };
+    const handleCloseNotLogin = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenNotLogin(false);
+    };
 
     const handleAddToCart = (product_id, quantity) => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        const token = userdata.token;
-        const cartData = {
-            productId: product_id,
-            quantity: quantity,
-        };
-        axios
-            .post(`${BaseUrl}/api/cart`, cartData, {
-                headers: {
-                    Authorization: token,
-                },
-            })
-            .then(() => {
-                handleClick("success");
-            })
-            .catch(() => {
-                handleClick("error");
-            });
+        if (userdata) {
+            const token = userdata.token;
+            const cartData = {
+                productId: product_id,
+                quantity: quantity,
+            };
+            axios
+                .post(`${BaseUrl}/api/cart`, cartData, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then(() => {
+                    handleClick("success");
+                })
+                .catch(() => {
+                    handleClick("error");
+                });
+        } else {
+            handleClick("notlogin");
+        }
+        
     };
 
     const AddToCart = () => {
@@ -129,15 +144,7 @@ function ProductDetail(props) {
     };
     return (
         <>{
-            loading ?
-            <LoadingScreen
-                loading={true}
-                bgColor='#f1f1f1'
-                spinnerColor='#9ee5f8'
-                textColor='#676767'
-                // logoSrc='/logo.png'
-                text='Please wait'
-            /> :
+            loading ? <Loader/> :
             <div>
                 {product && (
                     <Container className={classes.root}>
@@ -376,7 +383,17 @@ function ProductDetail(props) {
                                 severity="error"
                             >
                                 Product is Already in Cart!
-                        </Alert>
+                            </Alert>
+                        </Snackbar>
+                        
+                        <Snackbar
+                            open={openNotLogin}
+                            autoHideDuration={3000}
+                            onClose={handleCloseNotLogin}
+                        >
+                            <Alert onClose={handleCloseNotLogin} severity="error">
+                                Please Login to Add in Cart!
+                            </Alert>
                         </Snackbar>
                     </Container>
                 )}

@@ -21,7 +21,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import SweetAlert from "react-bootstrap-sweetalert";
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
-import LoadingScreen from 'react-loading-screen'
+import Loader from "../Loader";
+import SnackbarAlert from "../constants/SnackbarAlert";
 
 
 function Address() {
@@ -224,15 +225,7 @@ function Address() {
 
     return (
         <>{
-            loading ?
-            <LoadingScreen
-                loading={true}
-                bgColor='#f1f1f1'
-                spinnerColor='#9ee5f8'
-                textColor='#676767'
-                // logoSrc='/logo.png'
-                text='Please wait'
-            /> :
+            loading ? <Loader/> :
             <div>
                 <Paper className={classes.address_root_paper}>
                     <Container>
@@ -305,13 +298,13 @@ function Address() {
                             fullWidth
                             value={addressData.addressLine}
                             onChange={handleChange}
-                        // onChange={(e) => setAddressLine(e.target.value)}
                         />
                         {error.addressLine && (
                             <small className={classes.error_msg}>
                                 {error.addressLine}
                             </small>
-                        )}
+                            )}
+                            
                         <TextField
                             margin="dense"
                             label="Pincode"
@@ -320,13 +313,13 @@ function Address() {
                             fullWidth
                             value={addressData.pincode}
                             onChange={handleChange}
-                        // onChange={(e) => setPincode(e.target.value)}
                         />
                         {error.pincode && (
                             <small className={classes.error_msg}>
                                 {error.pincode}
                             </small>
                         )}
+                        
                         <TextField
                             margin="dense"
                             label="City"
@@ -341,6 +334,7 @@ function Address() {
                                 {error.city}
                             </small>
                         )}
+                        
                         <TextField
                             margin="dense"
                             label="State"
@@ -355,6 +349,7 @@ function Address() {
                                 {error.state}
                             </small>
                         )}
+                        
                         <TextField
                             margin="dense"
                             label="Country"
@@ -471,15 +466,7 @@ function Address() {
                 </Dialog>
 
 
-                <Snackbar
-                    open={openSnackbar}
-                    autoHideDuration={3000}
-                    onClose={handleCloseSnackbar}
-                >
-                    <Alert onClose={handleCloseSnackbar} severity="success">
-                        Address has been Added
-                </Alert>
-                </Snackbar>
+                <SnackbarAlert open={openSnackbar} close={handleCloseSnackbar} type={"success"} msg={"Address has been Added"} />
 
                 {sweetAlert}
             </div>
