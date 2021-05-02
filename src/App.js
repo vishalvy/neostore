@@ -7,7 +7,7 @@ import Appbar from "./components/appbar/appbar";
 import Footer from "./components/footer/footer";
 import Register from "./components/register/register";
 import ForgetPassword from "./components/forgetpassword/forgerpassword";
-import AllProducts from "./components/commonProducts/Allproducts";
+import AllProducts from "./components/AllProducts/Allproducts";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Cart from "./components/Cart/Cart";
 import Orderdetail from "./components/OrderModule/Myaccount";

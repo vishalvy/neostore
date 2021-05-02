@@ -7,7 +7,6 @@ import {
     OutlinedInput,
     InputAdornment, 
     Button,
-    Grid,
     Paper,
     Container
 } from '@material-ui/core';
@@ -63,70 +62,68 @@ function Login(props) {
     console.log(props,"Outside")
     return (
         <>
-        <Grid className={classes.grid_container}>
             <Paper elevation={2} className={classes.login_paper}>
                 <Container>
-                <form
-                    onSubmit={handleLogin}
-                    className={classes.form_root}>
-                    <Typography 
-                        className={classes.login_form_heading}
-                        variant="h4">
-                            Login to Neo<span style={{ color: "red" }}>STORE</span>
-                    </Typography>
-                    <br/>
-                    <OutlinedInput
-                        className={classes.email_field}
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email Address"
-                        endAdornment={
-                        <InputAdornment>
-                            <EmailIcon/>
-                        </InputAdornment>
-                        }
-                    />
-                    {error.email && <small className={classes.error_tag}>{error.email}</small>}
-                    <br/><br/>
-                    <OutlinedInput
-                        className={classes.email_field}
-                        type={showPassword ? 'text' : 'password'}
-                        name = "password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="password"
-                        endAdornment={
-                        <InputAdornment onClick={togglePassword}>
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </InputAdornment>
-                        }
-                    />
-                    {error.password && <small className={classes.error_tag}>{error.password}</small>}
-                    <br/><br/><br/>
-                    <Button
-                        className={classes.login_button}
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                    >
-                        Login
-                    </Button>
-                    <Typography>
-                        <Link className={classes.forget_link} to="/recoverPassword"> Forget Password?</Link>
-                    </Typography>
-                    <br/><br/><br/>
-                    <div className={classes.new_user_container}>
+                    <form
+                        onSubmit={handleLogin}
+                        className={classes.form_root}>
+                        <Typography 
+                            className={classes.login_form_heading}
+                            variant="h4">
+                                Login to Neo<span style={{ color: "red" }}>STORE</span>
+                        </Typography>
+                        <br/>
+                        <OutlinedInput
+                            className={classes.email_field}
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email Address"
+                            endAdornment={
+                            <InputAdornment>
+                                <EmailIcon/>
+                            </InputAdornment>
+                            }
+                        />
+                        {error.email && <small className={classes.error_tag}>{error.email}</small>}
+                        <br/><br/>
+                        <OutlinedInput
+                            className={classes.email_field}
+                            type={showPassword ? 'text' : 'password'}
+                            name = "password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="password"
+                            endAdornment={
+                            <InputAdornment onClick={togglePassword}>
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </InputAdornment>
+                            }
+                        />
+                        {error.password && <small className={classes.error_tag}>{error.password}</small>}
+                        <br/><br/><br/>
+                        <Button
+                            className={classes.login_button}
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                        >
+                            Login
+                        </Button>
                         <Typography>
-                            New User? <Link className={classes.new_user_link} to="/register"> Register</Link>
-                        </Typography> 
-                    </div>
-                </form>
+                            <Link className={classes.forget_link} to="/recoverPassword"> Forget Password?</Link>
+                        </Typography>
+                        <br/><br/><br/>
+                        <div className={classes.new_user_container}>
+                            <Typography>
+                                New User? <Link className={classes.new_user_link} to="/register"> Register</Link>
+                            </Typography> 
+                        </div>
+                    </form>
                 </Container>
                 <br/>
                 
             </Paper>
-        </Grid>
         <br/><br/>
             <Social/>
         </>

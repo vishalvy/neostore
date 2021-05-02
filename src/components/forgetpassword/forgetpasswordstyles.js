@@ -5,7 +5,6 @@ const useStyles = makeStyles((theme) => ({
     hor_rule: {
         opacity: "0.5",
         width: "90%",
-        // marginBottom: "5%"
     },
     code_sent_message: {
         color:"red",
@@ -16,18 +15,15 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "5%"
     },
     recover_paper: {
-        width: "45%",
-    },
-    recover_root: {
         marginTop: "10%",
-        display: "flex",
-        justifyContent: "center",
+        margin: "0 26%",
+        width: "45%",
         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
             border: "1px solid #484850",
         },
     },
     recover_heading: {
-        marginTop: "5%",
+        paddingTop: "2%",
         fontWeight: "bold",
     },
     input_field: {
@@ -48,6 +44,39 @@ const useStyles = makeStyles((theme) => ({
     getcode_btn: {
         display: "flex",
         marginTop: "2%"
-    }
+    },
+
+
+    //Media Query 
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        recover_paper: {
+            marginTop: "25%",
+            width: "80%",
+            margin: "0 10%"
+        },
+        recover_heading: {
+            fontSize: "5.5vh"
+        }
+    },
+    ['@media (min-width:550px) and (max-width:750px)']: { 
+        recover_paper: {
+            marginTop: "20%",
+            width: "80%",
+            margin: "0 10%"
+        },
+        recover_heading: {
+            fontSize: "6vh"
+        }
+    },
+    ['@media (min-width:750px) and (max-width:950px)']: { 
+        recover_paper: {
+            marginTop: "15%",
+            width: "70%",
+            margin: "0 15%"
+        },
+        recover_heading: {
+            fontSize: "6vh"
+        }
+    },
 }))
 export default useStyles

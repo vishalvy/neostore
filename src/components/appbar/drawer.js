@@ -14,10 +14,12 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-// import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { connect } from 'react-redux'
+import {logoutUser} from '../Redux/actions/CartAction'
 
-const DrawerComponent = () => {
+
+const DrawerComponent = (props) => {
     const useStyles = makeStyles((theme) => ({
         drawerContainer: {
             width: "30%",
@@ -61,7 +63,7 @@ const DrawerComponent = () => {
                 onOpen={() => setOpenDrawer(true)}
             >
                 <List>
-                  { isLoggedIn === "true" &&
+                    {props.isLogin &&
                     <ListItem
                         divider
                         button
@@ -105,7 +107,7 @@ const DrawerComponent = () => {
                         </ListItemIcon>
                     </ListItem>
                     
-                    { isLoggedIn === "true" &&
+                    { props.isLogin &&
                     <ListItem
                         divider
                         button
@@ -138,7 +140,7 @@ const DrawerComponent = () => {
                         </ListItemIcon>
                     </ListItem>
 
-                    { isLoggedIn === "false" &&
+                    { !props.isLogin &&
                     <ListItem
                         divider
                         button
@@ -153,7 +155,7 @@ const DrawerComponent = () => {
                     </ListItem>
                     }
 
-                    {isLoggedIn === "false" &&
+                    {! props.isLogin &&
                       <ListItem
                         divider
                         button
@@ -168,14 +170,14 @@ const DrawerComponent = () => {
                       </ListItem>
                     }
             
-                    {isLoggedIn === "true" &&
+                    {props.isLogin &&
                       <ListItem
                         divider
                         button
                         onClick={() => {
                           localStorage.removeItem("userdata");
-                          localStorage.setItem("isLoggedIn", false);
-                          history.push("/login");
+                            history.push("/login");
+                            props.logoutUser()
                           setOpenDrawer(false);
                         }}
                       >
@@ -211,4 +213,13 @@ const DrawerComponent = () => {
     );
 };
 
-export default DrawerComponent;
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
+const mapDispatchToProps = (dispatch) => ({
+    logoutUser: () => {
+        dispatch(logoutUser())
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerComponent);

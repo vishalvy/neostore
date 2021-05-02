@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
-import Cards from "../commonProducts/cards";
+import Cards from "../AllProducts/cards";
 import { Container } from "@material-ui/core";
 import useStyles from "./productstyles";
 import Typography from "@material-ui/core/Typography";

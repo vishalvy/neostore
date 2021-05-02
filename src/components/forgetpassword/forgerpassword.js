@@ -41,137 +41,135 @@ function ForgetPassword() {
 
     const sendCode = () => {
         setCodeMsg(true);
-        const user_email= {
-            email: email
-        }
-        axios.post(`${BaseUrl}/api/auth/forgot-password}`,user_email)
+        const user_email = {
+            email: email,
+        };
+        axios.post(`${BaseUrl}/api/auth/forgot-password}`, user_email);
     };
     return (
         <>
-            <Grid className={classes.recover_root}>
-                <Paper elevation={2} className={classes.recover_paper}>
-                    <Container>
-                        <Typography
-                            className={classes.recover_heading}
-                            variant="h4"
-                        >
-                            Recover Password
-                        </Typography>
-                        <hr className={classes.hor_rule}></hr>
-                        {codeMsg && (
-                            <small className={classes.code_sent_message}>
-                                <InfoIcon />
-                                Verification code has been sent to your
-                                registered Mail ID
-                            </small>
-                        )}
-
-                        {codeMsg === false && (
-                            <>
-                                {" "}
-                                <OutlinedInput
-                                    className={classes.input_field}
-                                    value={email}
-                                    onChange={(e) => {
-                                        setEmail(e.target.value);
-                                    }}
-                                    placeholder="Enter Email"
-                                />
-                                <Button
-                                    onClick={sendCode}
-                                    className={classes.getcode_btn}
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Get Code
-                                </Button>
-                            </>
-                        )}
-                        <br />
-                        <br />
-
-                        <OutlinedInput
-                            className={classes.input_field}
-                            value={code}
-                            onChange={(e) => {
-                                setCode(e.target.value);
-                            }}
-                            placeholder="Verification Code"
-                        />
-
-                        <br />
-                        <br />
-
-                        <OutlinedInput
-                            className={classes.input_field}
-                            type={showPassword ? "text" : "password"}
-                            value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                            }}
-                            placeholder="Password"
-                            endAdornment={
-                                <InputAdornment onClick={togglePassword}>
-                                    {showPassword ? (
-                                        <Visibility />
-                                    ) : (
-                                        <VisibilityOff />
-                                    )}
-                                </InputAdornment>
-                            }
-                        />
-                        {error.password && (
-                            <small className={classes.error_tag}>
-                                {error.password}
-                            </small>
-                        )}
-
-                        <small className={classes.password_helper}>
-                            8-12 Alphanumric characters
+            <Paper elevation={2} className={classes.recover_paper}>
+                <Container>
+                    <Typography
+                        className={classes.recover_heading}
+                        variant="h4"
+                    >
+                        Recover Password
+                    </Typography>
+                    <hr className={classes.hor_rule}></hr>
+                    {codeMsg && (
+                        <small className={classes.code_sent_message}>
+                            <InfoIcon />
+                            Verification code has been sent to your registered
+                            Mail ID
                         </small>
-                        <br />
-                        <br />
+                    )}
 
-                        <OutlinedInput
-                            className={classes.input_field}
-                            type={showConfirmPassword ? "text" : "password"}
-                            value={confirmpassword}
-                            onChange={(e) => {
-                                setConfirmPassword(e.target.value);
-                            }}
-                            placeholder="Confirm Password"
-                            endAdornment={
-                                <InputAdornment onClick={toggleConfirmPassword}>
-                                    {showConfirmPassword ? (
-                                        <Visibility />
-                                    ) : (
-                                        <VisibilityOff />
-                                    )}
-                                </InputAdornment>
-                            }
-                        />
-                        {error.confirmpassword && (
-                            <small className={classes.error_tag}>
-                                {error.confirmpassword}
-                            </small>
-                        )}
-                        <small className={classes.password_helper}>
-                            8-12 Alphanumric characters
+                    {codeMsg === false && (
+                        <>
+                            {" "}
+                            <OutlinedInput
+                                className={classes.input_field}
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                placeholder="Enter Email"
+                            />
+                            <Button
+                                onClick={sendCode}
+                                className={classes.getcode_btn}
+                                variant="contained"
+                                color="primary"
+                            >
+                                Get Code
+                            </Button>
+                        </>
+                    )}
+                    <br />
+                    <br />
+
+                    <OutlinedInput
+                        className={classes.input_field}
+                        value={code}
+                        onChange={(e) => {
+                            setCode(e.target.value);
+                        }}
+                        placeholder="Verification Code"
+                    />
+
+                    <br />
+                    <br />
+
+                    <OutlinedInput
+                        className={classes.input_field}
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                        }}
+                        placeholder="Password"
+                        endAdornment={
+                            <InputAdornment onClick={togglePassword}>
+                                {showPassword ? (
+                                    <Visibility />
+                                ) : (
+                                    <VisibilityOff />
+                                )}
+                            </InputAdornment>
+                        }
+                    />
+                    {error.password && (
+                        <small className={classes.error_tag}>
+                            {error.password}
                         </small>
-                        <br />
-                        <br />
+                    )}
 
-                        <Button
-                            className={classes.recover_button}
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSubmit}
-                        >
-                            Submit
-                        </Button>
-                    </Container>
-                </Paper>
-            </Grid>
+                    <small className={classes.password_helper}>
+                        8-12 Alphanumric characters
+                    </small>
+                    <br />
+                    <br />
+
+                    <OutlinedInput
+                        className={classes.input_field}
+                        type={showConfirmPassword ? "text" : "password"}
+                        value={confirmpassword}
+                        onChange={(e) => {
+                            setConfirmPassword(e.target.value);
+                        }}
+                        placeholder="Confirm Password"
+                        endAdornment={
+                            <InputAdornment onClick={toggleConfirmPassword}>
+                                {showConfirmPassword ? (
+                                    <Visibility />
+                                ) : (
+                                    <VisibilityOff />
+                                )}
+                            </InputAdornment>
+                        }
+                    />
+                    {error.confirmpassword && (
+                        <small className={classes.error_tag}>
+                            {error.confirmpassword}
+                        </small>
+                    )}
+                    <small className={classes.password_helper}>
+                        8-12 Alphanumric characters
+                    </small>
+                    <br />
+                    <br />
+
+                    <Button
+                        className={classes.recover_button}
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmit}
+                    >
+                        Submit
+                    </Button>
+                </Container>
+            </Paper>
         </>
     );
 }

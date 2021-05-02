@@ -11,7 +11,7 @@ import {BaseUrl} from '../constants/baseUrl'
 import { Pagination } from '@material-ui/lab';
 import Loader from '../Loader';
 
-function Commonproducts() {
+function Allproducts() {
     const classes = useStyles()
     const [productData, setProductData] = useState()
     const [categories, setCategories] = useState()
@@ -189,4 +189,4 @@ function Commonproducts() {
     )
 }
 
-export default Commonproducts
+export default Allproducts

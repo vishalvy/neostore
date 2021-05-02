@@ -6,7 +6,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "black",
         "&:hover": {
             backgroundColor: "black",
-        }
+        },
+        ['@media (min-width:320px) and (max-width:550px)']: { 
+            marginLeft: "5%"
+        },
     },
     logo_store: {
         color: "red"

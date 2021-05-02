@@ -10,13 +10,13 @@ const useStyles = makeStyles((theme) => ({
             border: "1px solid #484850",
         },
     },
-    grid_container: {
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "10%",
-    },
     login_paper: {
+        margin: "0 30%",
+        marginTop: "10%",
         width: "40%",
+        "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: "1px solid #484850",
+        },
     },
     login_button: {
         float: "left",
@@ -67,6 +67,38 @@ const useStyles = makeStyles((theme) => ({
     error_tag: {
         color: "red",
         float: "left",
+    },
+
+    //Media Query
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        login_paper: {
+            marginTop: "30%",
+            margin: "0 10%",
+            width: "80%",
+        },
+        login_form_heading: {
+            fontSize: "5vh"
+        }
+    },
+    ['@media (min-width:550px) and (max-width:750px)']: { 
+        login_paper: {
+            marginTop: "20%",
+            margin: "0 15%",
+            width: "70%"
+        },
+        login_form_heading: {
+            fontSize: "6vh"
+        }
+    },
+    ['@media (min-width:750px) and (max-width:950px)']: { 
+        login_paper: {
+            marginTop: "15%",
+            margin: "0 15%",
+            width: "70%"
+        },
+        login_form_heading: {
+            fontSize: "6.5vh"
+        }
     },
 }));
 export default useStyles;

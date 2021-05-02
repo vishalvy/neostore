@@ -5,12 +5,13 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "8%",
     },
     allproducts_paper: {
-        padding: "1vh 0",
+        padding: "0.5vh 0",
         width: "80%",
     },
     allproducts_link: {
-        textDecoration: "none",
+        textTransform: "none",
         color: "black",
+        fontSize: "2.7vh"
     },
     categories_root: {
         width: "80%",
@@ -45,6 +46,35 @@ const useStyles = makeStyles((theme) => ({
         "& > *": {
             marginTop: theme.spacing(6),
         },
+    },
+
+    //Media Query
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        hor_rule: {
+            marginTop: "26%",
+        },
+        sort_root: {
+            paddingLeft: "5%",
+            float: "left"
+        }
+    },
+    ['@media (min-width:550px) and (max-width:750px)']: { 
+        hor_rule: {
+            marginTop: "17%",
+        },
+        sort_root: {
+            paddingLeft: "5%",
+            float: "left"
+        }
+    },
+    ['@media (min-width:750px) and (max-width:950px)']: { 
+        hor_rule: {
+            marginTop: "13%",
+        },
+        sort_root: {
+            paddingRight: "5%",
+            // float: "left"
+        }
     },
 }));
 export default useStyles;

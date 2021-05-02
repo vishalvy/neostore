@@ -1,11 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     nav_logo:{
-        display: "flex",
-        justifyContent: "flex-start",
-        // flexGrow: 0,
-        fontSize: "25px",
-        fontWeight: "bold"
+        // display: "flex",
+        // justifyContent: "flex-start",
+        // // fontSize: "25px",
+        fontWeight: "bold",
+        ['@media (min-width:320px) and (max-width:550px)']: { 
+            marginLeft: "100px"
+        }
     },
     logo_store: {
         color: "red"

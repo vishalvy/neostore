@@ -15,14 +15,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "3%",
         textAlign: "left"
     },
-    // main_img:{
-    //     // height:"80%",
-    //     // width: "80%"
-    // },
-    // // main_paper:{
-    // //     height:"60%",
-    // //     width: "60%",
-    // // },
     small_img_root:{
         marginTop: "8%",
         display: "flex",
@@ -81,6 +73,24 @@ const useStyles = makeStyles((theme) => ({
     },
     dailog_root: {
         textAlign: "center"
-    }
+    },
+
+
+    //Media Query
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        root: {
+            marginTop: "25%"
+        }
+    },
+    ['@media (min-width:550px) and (max-width:750px)']: { 
+        root: {
+            marginTop: "17%"
+        }
+    },
+    ['@media (min-width:750px) and (max-width:950px)']: { 
+        root: {
+            marginTop: "10%"
+        }
+    },
 }))
 export default useStyles

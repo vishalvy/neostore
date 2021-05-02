@@ -24,6 +24,7 @@ import { BaseUrl } from "../constants/baseUrl";
 import { connect } from 'react-redux'
 import {logoutUser} from '../Redux/actions/CartAction'
 
+
 function Layout(props) {
     const classes = useStyles();
     const history = useHistory();
@@ -195,10 +196,6 @@ function Layout(props) {
                                         onClick={() => {
                                                 localStorage.removeItem("userdata");
                                                 props.logoutUser()
-                                            // localStorage.setItem(
-                                            //     "isLoggedIn",
-                                            //     false
-                                            // );
                                             handleClose();
                                             history.push("/login");
                                         }}

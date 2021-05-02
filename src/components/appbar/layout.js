@@ -30,12 +30,12 @@ export default function Layout() {
   return (
       <AppBar elevation={2} className={classes.appbar}>
         <Toolbar>
-          <Typography className={classes.nav_logo}>
+          {/* <Typography className={classes.nav_logo}>
             Neo
             <span className={classes.logo_store}>
               STORE
             </span>
-          </Typography>
+          </Typography> */}
 
           <div className={classes.nav_items}>
             <Button color="inherit" >Home</Button>
