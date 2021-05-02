@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router'
-import useStyles from '../Cart/styles'
+import useStyles from './styles'
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 function EmptyCart() {

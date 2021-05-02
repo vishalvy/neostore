@@ -11,13 +11,12 @@ function Authreducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN_USER:
             return {...state,isLogin: true}
-            // break;
+  
         case LOGOUT_USER:
             return {...state,isLogin: false}
-            // break;
+
         default:
             return state
-            break;
     }
 }
 export default Authreducer

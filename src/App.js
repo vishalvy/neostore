@@ -42,8 +42,8 @@ function App() {
                 <Route exact path="/404" component={Error} />
                 <Redirect to="/404" />
             </Switch>
-            <ScrollToTop smooth />
             <Footer />
+            <ScrollToTop smooth />
             {/* </MuiThemeProvider> */}
         </div>
     );

@@ -5,12 +5,14 @@ import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     error_root: {
-        // display: "flex",
-        // justifyContent: "center",
-        // alignItems: "center"
         margin: "25%",
         color: 'red'
-    }
+    },
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        error_page_text: {
+            fontSize: "8vh"
+        }
+    },
 }));
 
 export default function Error() {
@@ -19,7 +21,7 @@ export default function Error() {
     return(
         <>
             <div className={classes.error_root}>
-                <Typography variant="h2">
+                <Typography variant="h2" className={classes.error_page_text}>
                     404: Page Not Found
                 </Typography>
                 <br/>

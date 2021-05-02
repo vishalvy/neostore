@@ -22,7 +22,7 @@ import DrawerComponent from "./drawer";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import { connect } from 'react-redux'
-import {logoutUser} from '../Redux/actions/CartAction'
+import {logoutUser} from '../Redux/actions/actions'
 
 
 function Layout(props) {

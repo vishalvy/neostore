@@ -32,9 +32,39 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: "30%",
         textTransform: "none"
     },
-    empty_cart: {
-        width: "40%",
-        marginTop: "8%"
-    }
+
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        stepper_root: {
+            marginTop: "20%"
+        },
+        order_summary_grid: {
+            marginTop: "5%"
+        },
+        review_heading: {
+            fontSize: "4vh"
+        }
+    },
+    ['@media (min-width:550px) and (max-width:750px)']: { 
+        stepper_root: {
+            marginTop: "15%"
+        },
+        order_summary_grid: {
+            marginTop: "5%"
+        },
+        review_heading: {
+            fontSize: "5vh"
+        }
+    },
+    ['@media (min-width:750px) and (max-width:960px)']: { 
+        stepper_root: {
+            marginTop: "10%"
+        },
+        order_summary_grid: {
+            marginTop: "5%"
+        },
+        review_heading: {
+            fontSize: "5.5vh"
+        }
+    },
 }))
 export default useStyles

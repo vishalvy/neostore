@@ -24,5 +24,25 @@ const useStyles = makeStyles((theme) => ({
     footer_heading: {
         fontWeight: "bold"
     },
+
+    //Media Query 
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        footer_heading: {
+            fontSize: "3vh"
+        },
+        about_text: {
+            fontSize: "2.5vh"
+        },
+        information_text: {
+            fontSize: "2.5vh"
+        },
+        newsletter_text: {
+            fontSize: "2.5vh"
+        },
+        credit_text: {
+            fontSize: "2.5vh"
+        },
+
+    },
 }))
 export default useStyles

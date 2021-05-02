@@ -18,7 +18,7 @@ import {Link} from 'react-router-dom'
 import axios from 'axios';
 import {useHistory} from 'react-router-dom'
 import { BaseUrl } from '../constants/baseUrl';
-import {loginUser} from '../Redux/actions/CartAction'
+import {loginUser} from '../Redux/actions/actions'
 import {connect} from 'react-redux'
 
 

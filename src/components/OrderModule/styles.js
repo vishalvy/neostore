@@ -23,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
 
     },
-    orderlist_images: {
-        // display: "inline",
-        // paddingLeft: "2%",
-        // textAlign: "left"
-    },
     order_btn: {
         display: "flex",
         justifyContent: "center",
@@ -44,6 +39,32 @@ const useStyles = makeStyles((theme) => ({
     order_paper: {
         textAlign: "left",
         margin: "3%"
+    },
+
+    //Order Page Media Query
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        root: {
+            marginTop: "20%"
+        },
+        order_paper: {
+            marginTop: "5%"
+        }
+    },
+    ['@media (min-width:550px) and (max-width:750px)']: { 
+        root: {
+            marginTop: "15%"
+        },
+        order_paper: {
+            marginTop: "5%"
+        }
+    },
+    ['@media (min-width:750px) and (max-width:950px)']: {
+        root: {
+            marginTop: "10%"
+        },
+        order_paper: {
+            marginTop: "5%"
+        }
     },
 
 
@@ -72,6 +93,15 @@ const useStyles = makeStyles((theme) => ({
         color: "red"
     },
 
+    //Profile Page Media Query
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        address_root_paper: {
+            marginTop: "10%"
+        }
+    },
+
+
+
     //Profile styling
 
     profile_heading: {
@@ -91,6 +121,15 @@ const useStyles = makeStyles((theme) => ({
     },
     radio_root: {
         display: "inline"
+    },
+    //Profile Page Media Query
+    ['@media (min-width:320px) and (max-width:550px)']: { 
+        root: {
+            marginTop: "25%"
+        },
+        profile_root: {
+            marginTop: "5%"
+        }
     },
 
 

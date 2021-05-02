@@ -16,7 +16,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { connect } from 'react-redux'
-import {logoutUser} from '../Redux/actions/CartAction'
+import {logoutUser} from '../Redux/actions/actions'
 
 
 const DrawerComponent = (props) => {

@@ -50,7 +50,7 @@ function Footer() {
                             About Company
                         </Typography>
                         <br/>
-                        <Typography>
+                        <Typography className={classes.about_text}>
                             NeoSOFT Technologies is here at your quick and easy service
                             for shopping. <br/>
                             Contact information <br/>
@@ -67,7 +67,7 @@ function Footer() {
                         Information
                     </Typography> 
                     <br/>
-                    <Typography>
+                    <Typography className={classes.information_text}>
                         <Link className={classes.footer_links} 
                             href={TnC} 
                             target="_blank" 
@@ -97,7 +97,7 @@ function Footer() {
                             Newsletter
                         </Typography> 
                         <br/>
-                        <Typography>
+                        <Typography className={classes.newsletter_text}>
                             Signup to get exclusive offer from our favourite brands and 
                             to be well in the news.
                         </Typography>
@@ -128,7 +128,7 @@ function Footer() {
                     </Grid>
                 </Grid>
                 <br/>
-                <Typography>
+                <Typography className={classes.credit_text}>
                 Copyright 2017 NeoSOFT Technologies All rights reserved | Designed By Vishal Yadav
                 </Typography>
             </div>

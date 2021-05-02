@@ -34,7 +34,7 @@ function Profile() {
     }
     return (
         <>
-            <Paper>
+            <Paper className={classes.profile_root}>
                 <Container>
                     <Typography className={classes.profile_heading}>
                         Profile
