@@ -22,7 +22,7 @@ import DrawerComponent from "./drawer";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import { connect } from 'react-redux'
-import {logoutUser} from '../Redux/actions/actions'
+import { logoutUser } from '../Redux/actions/actions'
 
 
 function Layout(props) {
@@ -30,7 +30,6 @@ function Layout(props) {
     const history = useHistory();
     const [anchorEl, setAnchorEl] = useState(null);
     const [cartCount, setcartCount] = useState();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState();
 
     const handleClick = (e) => {
@@ -51,9 +50,6 @@ function Layout(props) {
 
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        // const isLogin = localStorage.getItem("isLoggedIn");
-        // setIsLoggedIn(isLogin);
-
         if (userdata) {
             const token = userdata.token;
             setUsername(userdata.firstName);
@@ -145,7 +141,7 @@ function Layout(props) {
                             variant="contained"
                             startIcon={
                                 <Badge
-                                    badgeContent={cartCount}
+                                    badgeContent={props.cartValue}
                                     color="secondary"
                                 >
                                     <ShoppingCartIcon />
@@ -214,7 +210,8 @@ function Layout(props) {
 
 
 const mapStateToProps = (state) => ({
-    isLogin : state.perReducer.isLogin
+    isLogin : state.perReducer.isLogin,
+    cartValue: state.CartPerReducer.cartValue
 })
 const mapDispatchToProps = (dispatch) => ({
     logoutUser: () => {

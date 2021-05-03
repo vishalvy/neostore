@@ -12,13 +12,18 @@ import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import LinesEllipsis from "react-lines-ellipsis";
 import SnackbarAlert from "../constants/SnackbarAlert";
+import { connect } from 'react-redux'
+import { addCart } from '../Redux/actions/actions'
+import { IdArray } from '../Redux/actions/actions'
+import {removeCart} from '../Redux/actions/actions'
 
-export default function MediaCard(props) {
+function MediaCard(props) {
     const classes = useStyles();
     const history = useHistory();
     const [open, setOpen] = useState(false);
     const [openError, setOpenError] = useState(false);
     const [openNotLogin, setOpenNotLogin] = useState(false);
+    // const [IDs,setIDs] = useState()
 
     //Snackbar Functions
     const handleClick = (msg) => {
@@ -65,8 +70,12 @@ export default function MediaCard(props) {
                 })
                 .then(() => {
                     handleClick("success");
+                    let temparr = [...props.Idarr]
+                    temparr.push(product_id)
+                    props.IdArray(temparr)
+                    props.addCart()
                 })
-                .catch(() => {
+                .catch(() => {  
                     handleClick("error");
                 });
         } else {
@@ -75,8 +84,26 @@ export default function MediaCard(props) {
     };
 
     const AddToCart = () => {
-        handleAddToCart(props.id, 1);
+        handleAddToCart(props.id, 1);  
     };
+    
+    const removeButton = (id) => {
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        console.log(id)
+        if (userdata) {
+            const token = userdata.token;
+            axios.delete(`${BaseUrl}/api/cart/${id}`, {
+                headers: {
+                    Authorization: token,
+                },
+            })
+                .then(() => {
+                    const newArr = props.Idarr.filter(e => e !== `${id}`)
+                    props.IdArray(newArr)
+                    props.removeCart()
+            });
+        }
+    }
 
     return (
         <>
@@ -109,14 +136,27 @@ export default function MediaCard(props) {
                     <Typography gutterBottom variant="h6">
                         ₹ {props.price}
                     </Typography>
-                    <Button
-                        onClick={() => AddToCart(props.product)}
-                        variant="contained"
-                        size="small"
-                        color="primary"
-                    >
-                        Add to Cart
-                    </Button>
+                    {
+                        props.Idarr.includes(props.id) ?
+                            <Button
+                                onClick={() => removeButton(props.id)}
+                                variant="contained"
+                                size="small"
+                                color="secondary"
+                            >
+                                Remove
+                            </Button>
+                            :
+                            
+                            <Button
+                                onClick={() => AddToCart()}
+                                variant="contained"
+                                size="small"
+                                color="primary"
+                            >
+                                Add to Cart
+                            </Button>
+                    }
                     <br />
                     <br />
                     <Rating value={props.rating} precision={0.5} readOnly />
@@ -144,3 +184,21 @@ export default function MediaCard(props) {
         </>
     );
 }
+
+const mapStateToProps = (state) => ({
+    Idarr: state.CartPerReducer.Idarr
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    addCart: () => {
+        dispatch(addCart())
+    },
+    IdArray: IDs => {
+        dispatch(IdArray(IDs))
+    },
+    removeCart: () => {
+        dispatch(removeCart())
+    }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(MediaCard)

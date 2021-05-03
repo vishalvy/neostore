@@ -34,7 +34,6 @@ function Allproducts() {
         axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}`)
         .then((res) => {
             setProductData(res.data.data.docs)
-            console.log(res.data.data.pages)
             setPagesValues(res.data.data.pages)
             setLoading(false)
         })

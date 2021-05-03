@@ -26,8 +26,10 @@ import { BaseUrl, rupees } from "../constants/baseUrl";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Loader from "../Loader";
 import EmptyCart from "../constants/EmptyCart";
+import { connect } from 'react-redux'
+import {removeCart} from '../Redux/actions/actions'
 
-function Cart() {
+function Cart(props) {
     const classes = useStyles();
     const history = useHistory();
     const [activeStep, setActiveStep] = useState(0);
@@ -35,7 +37,6 @@ function Cart() {
     const [productPrice, setProductPrice] = useState([]);
     const [grandTotal, setGrandTotal] = useState();
     const [cartProducts, setCartProducts] = useState();
-    const [deleteFlag, setDeleteFlag] = useState(false);
     const [sweetAlert, setSweetAlert] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -104,25 +105,6 @@ function Cart() {
         }
     };
 
-    const deleteCartProduct = (p_id) => {
-        const userdata = JSON.parse(localStorage.getItem("userdata"));
-        if (userdata) {
-            const token = userdata.token;
-            axios
-                .delete(`${BaseUrl}/api/cart/${p_id}`, {
-                    headers: {
-                        Authorization: `${token}`,
-                    },
-                })
-                .then((res) => {
-                    if (res.status === 200) {
-                        setDeleteFlag(true);
-                    }
-                });
-            hideAlert();
-        }
-    };
-
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
@@ -155,7 +137,27 @@ function Cart() {
                     setLoading(false)
                 });
         }
-    }, [deleteFlag]);
+    }, [cartProducts]);
+
+
+    const deleteCartProduct = (p_id) => {
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        console.log(p_id)
+        if (userdata) {
+            const token = userdata.token;
+            axios
+                .delete(`${BaseUrl}/api/cart/${p_id}`, {
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                })
+                .then((res) => {
+                    props.removeCart()
+                });
+            hideAlert();
+        }
+    };
+
 
     const deleteProduct = (id) => {
         const getAlert = () => (
@@ -442,4 +444,10 @@ function Cart() {
     );
 }
 
-export default Cart;
+const mapDispatchToProps = (dispatch) => ({
+    removeCart: () => {
+        dispatch(removeCart())
+    }
+})
+
+export default connect(null,mapDispatchToProps)(Cart)

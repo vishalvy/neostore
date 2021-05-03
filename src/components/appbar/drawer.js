@@ -133,7 +133,7 @@ const DrawerComponent = (props) => {
                         <ListItemIcon>
                             <ListItemText>
                                 Cart
-                                <Badge badgeContent={5} color="secondary">
+                                <Badge badgeContent={props.cartValue} color="secondary">
                                     <ShoppingCartIcon />
                                 </Badge>
                             </ListItemText>
@@ -214,7 +214,8 @@ const DrawerComponent = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    isLogin : state.perReducer.isLogin
+    isLogin: state.perReducer.isLogin,
+    cartValue: state.CartPerReducer.cartValue
 })
 const mapDispatchToProps = (dispatch) => ({
     logoutUser: () => {

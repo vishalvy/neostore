@@ -30,16 +30,15 @@ import {
     TwitterShareButton,
     TwitterIcon,
 } from "react-share";
-import { useHistory } from "react-router-dom";
 import ReactImageZoom from "react-image-zoom";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
 import MuiAlert from "@material-ui/lab/Alert";
 import Loader from "../Loader";
-
+import { connect } from 'react-redux'
+import {addCart} from '../Redux/actions/actions'
 
 function ProductDetail(props) {
-    // const history = useHistory();
     const newid = props.match.params.id;
     const classes = useStyles();
     const [tabvalue, setTabValue] = useState(0);
@@ -109,6 +108,7 @@ function ProductDetail(props) {
                 })
                 .then(() => {
                     handleClick("success");
+                    props.addCart()
                 })
                 .catch(() => {
                     handleClick("error");
@@ -139,9 +139,7 @@ function ProductDetail(props) {
         zoomPosition: "original",
         img: `${imageVal}`,
     };
-    const style = {
-        backgroundColor: "blue",
-    };
+    
     return (
         <>{
             loading ? <Loader/> :
@@ -220,8 +218,8 @@ function ProductDetail(props) {
 
                                 <Typography className={classes.color_box}>
                                     Color:
-                                <div
-                                        style={style}
+                                    <div
+                                        style={{backgroundColor: `brown`}}
                                         className={classes.color_display}
                                     ></div>
                                 </Typography>
@@ -423,4 +421,10 @@ function TabPanel(props) {
     );
 }
 
-export default ProductDetail;
+const mapDispatchToProps = (dispatch) => ({
+    addCart: () => {
+        dispatch(addCart())
+    }
+})
+
+export default connect(null,mapDispatchToProps)(ProductDetail);
