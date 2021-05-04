@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Container,
     Grid,
@@ -15,9 +15,12 @@ import InfoIcon from "@material-ui/icons/Info";
 import validate from "./validate";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
+import {connect} from 'react-redux'
+import { useHistory } from "react-router";
 
-function ForgetPassword() {
+function ForgetPassword(props) {
     const classes = useStyles();
+    const history = useHistory()
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setshowConfirmPassword] = useState(false);
     const [email, setEmail] = useState("");
@@ -46,6 +49,15 @@ function ForgetPassword() {
         };
         axios.post(`${BaseUrl}/api/auth/forgot-password}`, user_email);
     };
+
+    useEffect(() => {
+        if (props.isLogin) {
+            history.push("/")
+        }
+        else {
+            history.push("/login")
+        }
+    },[props.isLogin])
     return (
         <>
             <Paper elevation={2} className={classes.recover_paper}>
@@ -174,4 +186,7 @@ function ForgetPassword() {
     );
 }
 
-export default ForgetPassword;
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
+export default connect(mapStateToProps,null)(ForgetPassword);

@@ -3,6 +3,7 @@ import React from 'react'
 import { useHistory } from 'react-router'
 import useStyles from './styles'
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import EmptyCartImage from '../../emptycart.png'
 
 function EmptyCart() {
     const history = useHistory()
@@ -11,7 +12,7 @@ function EmptyCart() {
         <>
            <img
                 className={classes.empty_cart}
-                src="https://www.kindpng.com/picc/m/174-1749396_empty-cart-your-cart-is-empty-hd-png.png"
+                src={EmptyCartImage}
                 alt="Cart Is Empty"
             />
             <br />

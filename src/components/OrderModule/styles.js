@@ -40,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "left",
         margin: "3%"
     },
+    no_order_img: {
+        marginTop: "5%",
+        width: "70%",
+    },
 
     //Order Page Media Query
     ['@media (min-width:320px) and (max-width:550px)']: { 

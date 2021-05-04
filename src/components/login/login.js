@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import useStyles from './loginstyles'
 import validate from './validate'
 
@@ -59,7 +59,16 @@ function Login(props) {
             })
         }
     }
-    console.log(props,"Outside")
+
+    
+    useEffect(() => {
+        if (props.isLogin) {
+            history.push("/")
+        }
+        else {
+            history.push("/login")
+        }
+    },[props.isLogin])
     return (
         <>
             <Paper elevation={2} className={classes.login_paper}>

@@ -37,10 +37,12 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Loader from "../Loader";
 import { connect } from 'react-redux'
 import {addCart} from '../Redux/actions/actions'
+import { useHistory } from "react-router";
 
 function ProductDetail(props) {
     const newid = props.match.params.id;
     const classes = useStyles();
+    const history = useHistory()
     const [tabvalue, setTabValue] = useState(0);
     const [controlledRating, setControlledRating] = useState(3);
     const [imageVal, setImage] = useState();
@@ -50,6 +52,7 @@ function ProductDetail(props) {
     const [openError, setOpenError] = useState(false);
     const [loading, setLoading] = useState(true)
     const [openNotLogin, setOpenNotLogin] = useState(false);
+    const [cartIDs,setCartIds] = useState()
 
     useEffect(() => {
         axios.get(`${BaseUrl}/api/product/details/${newid}`)
@@ -60,7 +63,24 @@ function ProductDetail(props) {
                 setImage(temp.mainImage);
                 setLoading(false)
         });
-    }, []);
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        if (userdata) {
+            const token = userdata.token;
+            axios.get(`${BaseUrl}/api/cart`, {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            })
+            .then((res) => {
+                const temp = res.data.data.products;
+                const arr = []
+                for (let i = 0; i < temp.length; i++){
+                    arr.push(temp[i].productId.id)
+                } 
+                setCartIds(arr)
+            });
+        }
+    },[]);
 
     //Snackbar Functions    
     const handleClick = (msg) => {
@@ -278,14 +298,25 @@ function ProductDetail(props) {
                                 <br />
 
                                 <div>
-                                    {/* Add to Cart Button------------------ */}
-                                    <Button
-                                        onClick={() => AddToCart(product)}
-                                        className={classes.add_cart_btn}
-                                        variant="contained"
-                                    >
-                                        Add to Cart
-                                </Button>
+                                {/* Add to Cart Button------------------ */}
+                                    {
+                                        cartIDs && cartIDs.includes(newid) ?
+                                        <Button
+                                            onClick={() => history.push("/cart")}
+                                            variant="contained"
+                                            color="secondary"
+                                        >
+                                            Go to Cart
+                                        </Button>
+                                        :
+                                        <Button
+                                            onClick={() => AddToCart(product)}
+                                            className={classes.add_cart_btn}
+                                            variant="contained"
+                                        >
+                                            Add to Cart
+                                        </Button>
+                                    }
 
                                     {/* Rate Product Button------------------ */}
                                     <Button
@@ -294,7 +325,7 @@ function ProductDetail(props) {
                                         variant="contained"
                                     >
                                         Rate Product
-                                </Button>
+                                    </Button>
                                 </div>
                             </Grid>
                         </Grid>

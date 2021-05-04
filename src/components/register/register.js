@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Container,
     Paper,
@@ -21,9 +21,9 @@ import validate from "./validate";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { BaseUrl } from "../constants/baseUrl";
-import { togglePassword, toggleConfirmPassword } from "../constants/utils";
+import {connect} from 'react-redux'
 
-function Register() {
+function Register(props) {
     const classes = useStyles();
     const history = useHistory();
     const [showPassword, setShowPassword] = useState(false);
@@ -79,6 +79,15 @@ function Register() {
                 });
         }
     };
+
+    useEffect(() => {
+        if (props.isLogin) {
+            history.push("/")
+        }
+        else {
+            history.push("/register")
+        }
+    },[props.isLogin])
 
     return (
         <>
@@ -276,5 +285,9 @@ function Register() {
         </>
     );
 }
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
 
-export default Register;
+
+export default connect(mapStateToProps,null)(Register);

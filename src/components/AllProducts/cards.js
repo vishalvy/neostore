@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
@@ -23,7 +23,7 @@ function MediaCard(props) {
     const [open, setOpen] = useState(false);
     const [openError, setOpenError] = useState(false);
     const [openNotLogin, setOpenNotLogin] = useState(false);
-    // const [IDs,setIDs] = useState()
+    const [cartIDs,setCartIds] = useState()
 
     //Snackbar Functions
     const handleClick = (msg) => {
@@ -70,9 +70,9 @@ function MediaCard(props) {
                 })
                 .then(() => {
                     handleClick("success");
-                    let temparr = [...props.Idarr]
-                    temparr.push(product_id)
-                    props.IdArray(temparr)
+                    // let temparr = [...props.Idarr]
+                    // temparr.push(product_id)
+                    // props.IdArray(temparr)
                     props.addCart()
                 })
                 .catch(() => {  
@@ -87,23 +87,27 @@ function MediaCard(props) {
         handleAddToCart(props.id, 1);  
     };
     
-    const removeButton = (id) => {
+
+    useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        console.log(id)
         if (userdata) {
             const token = userdata.token;
-            axios.delete(`${BaseUrl}/api/cart/${id}`, {
+            axios.get(`${BaseUrl}/api/cart`, {
                 headers: {
-                    Authorization: token,
+                    Authorization: `${token}`,
                 },
             })
-                .then(() => {
-                    const newArr = props.Idarr.filter(e => e !== `${id}`)
-                    props.IdArray(newArr)
-                    props.removeCart()
+            .then((res) => {
+                const temp = res.data.data.products;
+                console.log(temp)
+                const arr = []
+                for (let i = 0; i < temp.length; i++){
+                    arr.push(temp[i].productId.id)
+                } 
+                setCartIds(arr)
             });
         }
-    }
+    },[cartIDs])
 
     return (
         <>
@@ -137,14 +141,14 @@ function MediaCard(props) {
                         ₹ {props.price}
                     </Typography>
                     {
-                        props.Idarr.includes(props.id) ?
+                        cartIDs && cartIDs.includes(props.id) ?
                             <Button
-                                onClick={() => removeButton(props.id)}
+                                onClick={() => history.push("/cart")}
                                 variant="contained"
                                 size="small"
                                 color="secondary"
                             >
-                                Remove
+                                Go to Cart
                             </Button>
                             :
                             

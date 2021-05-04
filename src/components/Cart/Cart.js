@@ -39,6 +39,7 @@ function Cart(props) {
     const [cartProducts, setCartProducts] = useState();
     const [sweetAlert, setSweetAlert] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [deleteFlag,setDeleteFlag] = useState(false)
 
     const Additem = (index, price, id) => {
         const quantity_arr = [...productQuantity];
@@ -137,7 +138,7 @@ function Cart(props) {
                     setLoading(false)
                 });
         }
-    }, [cartProducts]);
+    }, [deleteFlag]);
 
 
     const deleteCartProduct = (p_id) => {
@@ -153,6 +154,7 @@ function Cart(props) {
                 })
                 .then((res) => {
                     props.removeCart()
+                    setDeleteFlag(true)
                 });
             hideAlert();
         }
