@@ -33,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
     error_msg: {
         color: "red"
     },
+    googlepay_text: {
+        // display: "flex",
+        fontSize: "4vh",
+        padding: "2% 0"
+    },
+    googlepay_paper: {
+        marginBottom: "3%"
+    },
 
 
     //Media Query 

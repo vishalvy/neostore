@@ -39,7 +39,8 @@ function Cart(props) {
     const [cartProducts, setCartProducts] = useState();
     const [sweetAlert, setSweetAlert] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [deleteFlag,setDeleteFlag] = useState(false)
+    const [deleteFlag, setDeleteFlag] = useState(false)
+    // const [globalPrice,setGlobalPrice] = useState()
 
     const Additem = (index, price, id) => {
         const quantity_arr = [...productQuantity];
@@ -381,8 +382,8 @@ function Cart(props) {
                                                                     </TableCell>
                                                                     <TableCell align="right">
                                                                         {rupees}
-                                                                        {(
-                                                                            (grandTotal / 100) * 5).toFixed(2)
+                                                                        {
+                                                                            ((grandTotal / 100) * 5).toFixed(2)
                                                                         }
                                                                     </TableCell>
                                                                 </TableRow>
@@ -393,9 +394,7 @@ function Cart(props) {
                                                                     </TableCell>
                                                                     <TableCell align="right">
                                                                         {rupees}
-                                                                        {
-                                                                            (grandTotal - (grandTotal / 100) * 5).toFixed(2)
-                                                                        }
+                                                                        {(grandTotal + (grandTotal / 100) * 5).toFixed(2)}
                                                                     </TableCell>
                                                                 </TableRow>
 
@@ -407,12 +406,14 @@ function Cart(props) {
                                                                 >
                                                                     <Button
                                                                         onClick={() => {
-                                                                            setActiveStep( activeStep + 1);
+                                                                            setActiveStep(activeStep + 1);
+                                                                            // setGlobalPrice((grandTotal + (grandTotal / 100) * 5).toFixed(2)) 
                                                                             setTimeout(
                                                                                 () => {
-                                                                                    history.push(
-                                                                                        "/ordersummary"
-                                                                                    );
+                                                                                    history.push({
+                                                                                        pathname: "/ordersummary",
+                                                                                        // totalCost: {globalPrice}
+                                                                                    });
                                                                                 },
                                                                                 1000
                                                                             );
