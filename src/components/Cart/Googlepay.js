@@ -1,7 +1,61 @@
-import React from "react";
+import React,{useState} from "react";
 import GooglePayButton from '@google-pay/button-react';
+import axios from "axios";
+import { useHistory } from "react-router";
+import { BaseUrl } from "../constants/baseUrl";
+import SnackbarAlert from "../constants/SnackbarAlert";
 
-function Googlepay() {
+function Googlepay(props) {
+    const history = useHistory()
+    const [openSnackbarPlaced, setOpenSnackbarPlaced] = useState(false);
+    const [openSnackbarError, setOpenSnackbarError] = useState(false);
+
+    const handleClickSnackbar = (msg) => {
+        if (msg === "placed") {
+            setOpenSnackbarPlaced(true);
+        } else if (msg === "error") {
+            setOpenSnackbarError(true);
+        }
+    };
+    const handleCloseSnackbarPlaced = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenSnackbarPlaced(false);
+    };
+    const handleCloseSnackbarError = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenSnackbarError(false);
+    };
+
+
+    //PlaceOrder Function
+    const placeOrder = () => {
+        const userdata = JSON.parse(localStorage.getItem("userdata"));
+        if (userdata) {
+            const token = userdata.token;
+            const addressID = {
+                addressId: `${props.selectedAddress}`,
+            };
+            axios
+                .post(`${BaseUrl}/api/order/place`, addressID, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then(() => {
+                    handleClickSnackbar("placed");
+                    setTimeout(() => {
+                        history.push("/profile");
+                    }, 2000);
+                })
+                .catch(() => {
+                    handleClickSnackbar("error");
+                });
+        }
+    };
     return (
         <>
             <GooglePayButton
@@ -47,6 +101,7 @@ function Googlepay() {
                 }}
                 onPaymentAuthorized={paymentData => {
                     console.log('Payment Authorised Success', paymentData)
+                    placeOrder()
                     return { transactionState: 'SUCCESS'}
                   }
                 }
@@ -58,6 +113,19 @@ function Googlepay() {
                 existingPaymentMethodRequired='false'
                 buttonColor='black'
                 buttonType='Buy'
+            />
+
+            <SnackbarAlert
+                open={openSnackbarPlaced}
+                close={handleCloseSnackbarPlaced}
+                type={"success"}
+                msg={"Order Placed! Thank for Ordering"}
+            />
+            <SnackbarAlert
+                open={openSnackbarError}
+                close={handleCloseSnackbarError}
+                type={"error"}
+                msg={"Please Select Address"}
             />
         </>
     );

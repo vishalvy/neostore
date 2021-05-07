@@ -12,6 +12,7 @@ function Order() {
     const history = useHistory();
     const [orderProducts, setOrderProducts] = useState();
     const [loading, setLoading] = useState(true);
+    // const [reOrders,setReOrder] = useState([])
 
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
@@ -24,13 +25,12 @@ function Order() {
                     },
                 })
                 .then((res) => {
-                    console.log(res.data.data.orders);
                     const temp = res.data.data.orders;
                     setOrderProducts(temp);
                     setLoading(false);
                 });
         }
-    }, []);
+    },[]);
 
     const ProductDetail = (id) => {
         history.push({
@@ -39,9 +39,7 @@ function Order() {
     };
     return (
         <>
-            {loading ? (
-                <Loader />
-            ) : (
+            {loading ? <Loader />: 
                 <div>
                     {orderProducts.length !==0 ?
                         <div>
@@ -83,7 +81,12 @@ function Order() {
                                                     <hr className={classes.hor_rule}></hr>
                                                 </div>
                                             ))}
-
+                                            {/* {
+                                                order.items.map((item) => {
+                                                    const temp = []
+                                                    setReOrder(temp.push(item.productId.id))
+                                                })
+                                            } */}
                                             <Button
                                                 className={classes.download_invoice_btn}
                                                 variant="contained"
@@ -91,12 +94,19 @@ function Order() {
                                             >
                                                 Download Invoice as PDF
                                             </Button>
+                                            <Button
+                                                className={classes.buy_again_btn}
+                                                variant="contained"
+                                                color="primary"
+                                            >
+                                                Buy Again
+                                            </Button>
                                             <br />
                                             <br />
                                         </Container>
                                     </Paper>
                                 ))}
-                        </div> : (
+                        </div> : 
                                 <div>
                                     <img
                                         className={classes.no_order_img}
@@ -104,10 +114,9 @@ function Order() {
                                         alt="You have No Orders"
                                     />
                                 </div> 
-                        )
                     }
                 </div>
-            )}
+            }
         </>
     );
 }

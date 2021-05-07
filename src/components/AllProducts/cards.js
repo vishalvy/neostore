@@ -99,7 +99,6 @@ function MediaCard(props) {
             })
             .then((res) => {
                 const temp = res.data.data.products;
-                console.log(temp)
                 const arr = []
                 for (let i = 0; i < temp.length; i++){
                     arr.push(temp[i].productId.id)
@@ -107,7 +106,7 @@ function MediaCard(props) {
                 setCartIds(arr)
             });
         }
-    },[cartIDs])
+    },[cartIDs])    
 
     return (
         <>

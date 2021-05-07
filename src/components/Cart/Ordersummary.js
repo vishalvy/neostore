@@ -7,7 +7,6 @@ import {
     DialogTitle,
     Grid,
     Paper,
-    Snackbar,
     TextField,
     Typography,
 } from "@material-ui/core";
@@ -36,6 +35,8 @@ function Ordersummary(props) {
     const [error, setError] = useState({});
     const [openForm, setOpenForm] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [addressPage, setAddressPage] = useState(true)
+    const [paymentPage,setPaymentPage] = useState(false)
 
     const [addressData, setAddressData] = useState({
         addressLine: "",
@@ -167,42 +168,41 @@ function Ordersummary(props) {
 
     //Select Address Function
     const selectAddress = (id) => {
-        console.log(id);
         setSelectedAddress(id);
         handleClickSnackbar("selected");
-        console.log(props);
+        setPaymentPage(true)
+        setAddressPage(false)
     };
     //Place Order Function
-    const placeOrder = () => {
-        const userdata = JSON.parse(localStorage.getItem("userdata"));
-        if (userdata) {
-            const token = userdata.token;
-            const addressID = {
-                addressId: `${selectedAddress}`,
-            };
-            axios
-                .post(`${BaseUrl}/api/order/place`, addressID, {
-                    headers: {
-                        Authorization: token,
-                    },
-                })
-                .then(() => {
-                    handleClickSnackbar("placed");
-                    setTimeout(() => {
-                        history.push("/profile");
-                    }, 2000);
-                })
-                .catch(() => {
-                    handleClickSnackbar("error");
-                });
-        }
-    };
+    // const placeOrder = () => {
+    //     const userdata = JSON.parse(localStorage.getItem("userdata"));
+    //     if (userdata) {
+    //         const token = userdata.token;
+    //         const addressID = {
+    //             addressId: `${selectedAddress}`,
+    //         };
+    //         axios
+    //             .post(`${BaseUrl}/api/order/place`, addressID, {
+    //                 headers: {
+    //                     Authorization: token,
+    //                 },
+    //             })
+    //             .then(() => {
+    //                 handleClickSnackbar("placed");
+    //                 setTimeout(() => {
+    //                     history.push("/profile");
+    //                 }, 2000);
+    //             })
+    //             .catch(() => {
+    //                 handleClickSnackbar("error");
+    //             });
+    //     }
+    // };
 
     return (
         <>
-            {loading ? (
-                <Loader />
-            ) : (
+            {
+                loading ? <Loader /> :
                 <div>
                     <Container className={classes.root_container}>
                         <Typography variant="h4" style={{ fontWeight: "bold" }}>
@@ -210,9 +210,11 @@ function Ordersummary(props) {
                         </Typography>
                         <hr className={classes.hor_rule}></hr>
 
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} sm={12} md={7} lg={7}>
-                                <Paper className={classes.root_paper}>
+                        
+                        {/* <Grid container spacing={3}> */}
+                            { addressPage &&
+                            // <Grid item xs={12} sm={12} md={7} lg={7}>
+                                <Paper className={classes.root_paper_address}>
                                     <Container>
                                         <Typography
                                             variant="h5"
@@ -234,157 +236,104 @@ function Ordersummary(props) {
                                             Add
                                         </Button>
                                         {addressList &&
-                                            addressList.map(
-                                                (address, index) => (
-                                                    <div key={index}>
-                                                        <Paper>
-                                                            <Container
-                                                                style={
-                                                                    selectedAddress ===
-                                                                    address._id
-                                                                        ? {
-                                                                              backgroundColor:
-                                                                                  "#EFC768",
-                                                                          }
-                                                                        : {}
-                                                                }
-                                                            >
-                                                                <Typography
-                                                                    style={{
-                                                                        fontWeight:
-                                                                            "bold",
-                                                                    }}
-                                                                >
-                                                                    ------
-                                                                    Address{" "}
-                                                                    {index + 1}
-                                                                    -------
-                                                                </Typography>
-                                                                {/* <br/> */}
-                                                                <Typography
-                                                                    className={
-                                                                        classes.address_text
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        address.addressLine
-                                                                    }{" "}
-                                                                    <br />
-                                                                    {
-                                                                        address.pincode
-                                                                    }{" "}
-                                                                    <br />
-                                                                    {
-                                                                        address.city
-                                                                    }{" "}
-                                                                    <br />
-                                                                    {
-                                                                        address.state
-                                                                    }{" "}
-                                                                    <br />
-                                                                    {
-                                                                        address.country
-                                                                    }
-                                                                </Typography>
+                                            addressList.map((address, index) => (
+                                                <div key={index}>
+                                                    <Paper>
+                                                        <Container
+                                                            style={
+                                                                selectedAddress === address._id ? {backgroundColor:"#EFC768",} : {}
+                                                            }
+                                                        >
+                                                            <Typography style={{fontWeight: "bold"}}>
+                                                                ------ Address{" "}{index + 1} -------
+                                                            </Typography>
+                                                            
+                                                            <Typography className={classes.address_text}>
+                                                                {address.addressLine}{" "}
                                                                 <br />
-                                                                <Button
-                                                                    onClick={() =>
-                                                                        selectAddress(
-                                                                            address._id
-                                                                        )
-                                                                    }
-                                                                    className={
-                                                                        classes.select_button
-                                                                    }
-                                                                    size="small"
-                                                                    variant="contained"
-                                                                    color="primary"
-                                                                >
-                                                                    Select
-                                                                </Button>
-                                                            </Container>
-                                                        </Paper>
-                                                        <br />
-                                                    </div>
+                                                                {address.pincode}{" "}
+                                                                <br />
+                                                                {address.city}{" "}
+                                                                <br />
+                                                                {address.state}{" "}
+                                                                <br />
+                                                                {address.country}
+                                                            </Typography>
+                                                            <br />
+                                                            <Button
+                                                                onClick={() =>
+                                                                    selectAddress(address._id)
+                                                                }
+                                                                className={
+                                                                    classes.select_button
+                                                                }
+                                                                size="small"
+                                                                variant="contained"
+                                                                color="primary"
+                                                            >
+                                                                Select
+                                                            </Button>
+                                                        </Container>
+                                                    </Paper>
+                                                    <br />
+                                                </div>
                                                 )
                                             )}
                                     </Container>
                                 </Paper>
-                            </Grid>
+                            // </Grid>
+                            }
 
-                            <Grid item xs={12} sm={12} md={5} lg={5}>
-                                <Paper>
-                                    <Container>
+                            { paymentPage &&
+                            // <Grid item xs={12} sm={12} md={5} lg={5}>
+                                <Paper className={classes.root_paper_payment}>
+                                <Container>
                                         <Typography
                                             variant="h5"
-                                            style={{ fontWeight: "bold" }}
+                                            className={classes.select_payment_text}
                                         >
                                             Select Payment Gateway
                                         </Typography>
                                         <hr className={classes.hor_rule}></hr>
                                         <br />
 
-                                        <Paper
-                                            className={classes.googlepay_paper}
-                                        >
+                                        <Paper className={classes.googlepay_paper}>
                                             <Container>
-                                                <Typography
-                                                    className={
-                                                        classes.googlepay_text
-                                                    }
-                                                >
-                                                    Pay With Google Pay
+                                                <Typography className={classes.googlepay_text}>
+                                                    Pay With Google Pay 
                                                 </Typography>
-                                                <Googlepay />
+                                                    <Googlepay selectedAddress={selectedAddress}/>
                                                 <br />
                                                 <br />
                                             </Container>
                                         </Paper>
-                                        <Paper>
-                                            <Container>
-                                                <Typography
-                                                    className={
-                                                        classes.googlepay_text
-                                                    }
-                                                >
-                                                    Pay With Paypal
-                                                </Typography>
-                                                <Paypal />
-                                                <br />
-                                                <br />
-                                            </Container>
-                                        </Paper>
-                                        <br />
-                                        <Button
-                                            onClick={placeOrder}
+                                        {/* <Button
+                                            // onClick={placeOrder}
                                             className={classes.place_order_btn}
                                             variant="contained"
                                             color="primary"
                                         >
                                             Place Order
-                                        </Button>
+                                        </Button> */}
+                                        <br/>
+                                        
                                     </Container>
                                 </Paper>
-                            </Grid>
-                        </Grid>
+                            // </Grid>
+                            }
+                        {/* </Grid> */}
 
-                        <SnackbarAlert
-                            open={openSnackbarPlaced}
-                            close={handleCloseSnackbarPlaced}
-                            type={"success"}
-                            msg={"Order Placed"}
+                        <SnackbarAlert 
+                            open={openSnackbarPlaced} close={handleCloseSnackbarPlaced} 
+                            type={"success"} msg={"Order Placed"}
                         />
                         <SnackbarAlert
-                            open={openSnackbarSelected}
-                            close={handleCloseSnackbarSelected}
-                            type={"success"}
-                            msg={"Address Selected"}
+                            open={openSnackbarSelected} close={handleCloseSnackbarSelected}
+                            type={"success"} msg={"Address Selected"}
                         />
                         <SnackbarAlert
-                            open={openSnackbarError}
-                            close={handleCloseSnackbarError}
-                            type={"error"}
-                            msg={"Please Select Address"}
+                            open={openSnackbarError} close={handleCloseSnackbarError}
+                            type={"error"} msg={"Please Select Address"}
                         />
                     </Container>
 
@@ -487,7 +436,7 @@ function Ordersummary(props) {
                         </DialogActions>
                     </Dialog>
                 </div>
-            )}
+            }
         </>
     );
 }

@@ -30,6 +30,7 @@ function Address() {
     const [openForm, setOpenForm] = useState(false);
     const [openEditForm, setOpenEditForm] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [openUpdateSnackbar, setOpenUpdateSnackbar] = useState(false);
     const [addressList, setAddressList] = useState();
     const [error, setError] = useState({});
     const [sweetAlert, setSweetAlert] = useState(null);
@@ -54,8 +55,11 @@ function Address() {
 
     //Snackbar Functions--------------
     const handleClickSnackbar = (msg) => {
-        if (msg === "success") {
+        if (msg === "added") {
             setOpenSnackbar(true);
+        }
+        else if (msg === "updated") {
+            setOpenUpdateSnackbar(true)
         }
     };
     const handleCloseSnackbar = (event, reason) => {
@@ -63,6 +67,13 @@ function Address() {
             return;
         }
         setOpenSnackbar(false);
+    };
+    
+    const handleCloseUpdateSnackbar = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenUpdateSnackbar(false);
     };
 
     // Add Address form handleSubmit 
@@ -95,7 +106,7 @@ function Address() {
                 },
             })
             .then(() => {
-                handleClickSnackbar("success");
+                handleClickSnackbar("added");
             });
         }   
     };
@@ -141,7 +152,7 @@ function Address() {
                 },
             })
             .then(() => {
-                handleClickSnackbar("success");
+                handleClickSnackbar("updated");
             });
         }
         
@@ -271,7 +282,7 @@ function Address() {
                                             onClick={() => handleEdit(address)}
                                             variant="contained" color="primary">
                                             <EditIcon fontSize="small" />Edit
-                                    </Button>
+                                        </Button>
                                         <br />
                                         <br />
                                     </Container>
@@ -467,7 +478,7 @@ function Address() {
 
 
                 <SnackbarAlert open={openSnackbar} close={handleCloseSnackbar} type={"success"} msg={"Address has been Added"} />
-
+                <SnackbarAlert open={openUpdateSnackbar} close={handleCloseUpdateSnackbar} type={"success"} msg={"Address has been Updated"} />
                 {sweetAlert}
             </div>
         }

@@ -4,6 +4,14 @@ const useStyles = makeStyles((theme) => ({
     root_container: {
         marginTop: "8%"
     },
+    root_paper_address: {
+        width: "50%",
+        margin: "2% 25%"
+    },
+    root_paper_payment: {
+        width: "60%",
+        margin: "2% 20%"
+    },
     hor_rule: {
         opacity: "0.4",
     },
@@ -39,7 +47,11 @@ const useStyles = makeStyles((theme) => ({
         padding: "2% 0"
     },
     googlepay_paper: {
-        marginBottom: "3%"
+        marginBottom: "6%"  
+    },
+    select_payment_text: {
+        fontWeight: "bold",
+        padding: "2% 0"
     },
 
 
@@ -48,15 +60,39 @@ const useStyles = makeStyles((theme) => ({
         root_container: {
             marginTop: "25%"
         },
+        root_paper_address: {
+            width: "80%",
+            margin: "2% 10%"
+        },
+        root_paper_payment: {
+            width: "80%",
+            margin: "2% 10%"
+        },
     },
     ['@media (min-width:550px) and (max-width:750px)']: { 
         root_container: {
             marginTop: "20%"
         },
+        root_paper_address: {
+            width: "70%",
+            margin: "2% 15%"
+        },
+        root_paper_payment: {
+            width: "70%",
+            margin: "2% 15%"
+        },
     },
     ['@media (min-width:750px) and (max-width:950px)']: { 
         root_container: {
             marginTop: "13%"
+        },
+        root_paper_address: {
+            width: "70%",
+            margin: "2% 15%"
+        },
+        root_paper_payment: {
+            width: "70%",
+            margin: "2% 15%"
         },
     },
 }))

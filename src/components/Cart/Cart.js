@@ -317,7 +317,7 @@ function Cart(props) {
                                                                                 >
                                                                                     {rupees}
                                                                                     {
-                                                                                        productPrice[index]
+                                                                                        cartProduct.productId.price * productQuantity[index]
                                                                                     }
                                                                                 </TableCell>
 
