@@ -6,7 +6,7 @@ function SnackbarAlert(props) {
     return (
         <>
             <Snackbar open={props.open} autoHideDuration={3000} onClose={props.close}>
-                <Alert onClose={props.close} severity={props.type}>
+                <Alert onClose={props.close} severity={props.type}style={{boxShadow: "none"}}>
                     {props.msg}
                 </Alert>
             </Snackbar>

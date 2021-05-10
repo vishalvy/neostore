@@ -15,7 +15,6 @@ import SnackbarAlert from "../constants/SnackbarAlert";
 import { connect } from 'react-redux'
 import { addCart } from '../Redux/actions/actions'
 import { IdArray } from '../Redux/actions/actions'
-import {removeCart} from '../Redux/actions/actions'
 
 function MediaCard(props) {
     const classes = useStyles();
@@ -70,9 +69,6 @@ function MediaCard(props) {
                 })
                 .then(() => {
                     handleClick("success");
-                    // let temparr = [...props.Idarr]
-                    // temparr.push(product_id)
-                    // props.IdArray(temparr)
                     props.addCart()
                 })
                 .catch(() => {  
@@ -198,9 +194,6 @@ const mapDispatchToProps = (dispatch) => ({
     },
     IdArray: IDs => {
         dispatch(IdArray(IDs))
-    },
-    removeCart: () => {
-        dispatch(removeCart())
     }
 })
 

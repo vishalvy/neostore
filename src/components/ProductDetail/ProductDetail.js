@@ -58,7 +58,6 @@ function ProductDetail(props) {
         axios.get(`${BaseUrl}/api/product/details/${newid}`)
             .then((res) => {
                 const temp = res.data.data;
-                console.log("inside useEffect", temp);
                 setProduct(temp);
                 setImage(temp.mainImage);
                 setLoading(false)
@@ -80,7 +79,7 @@ function ProductDetail(props) {
                 setCartIds(arr)
             });
         }
-    },[]);
+    },[cartIDs]);
 
     //Snackbar Functions    
     const handleClick = (msg) => {

@@ -2,15 +2,17 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     root_container: {
-        marginTop: "8%"
+        marginTop: "7%"
     },
     root_paper_address: {
         width: "50%",
-        margin: "2% 25%"
+        margin: "0 25%",
+        borderRadius: "2%"
     },
     root_paper_payment: {
         width: "60%",
-        margin: "2% 20%"
+        margin: "0 20%",
+        borderRadius: "2%"   
     },
     hor_rule: {
         opacity: "0.4",
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     },
     googlepay_text: {
         // display: "flex",
-        fontSize: "4vh",
+        fontSize: "5vh",
         padding: "2% 0"
     },
     googlepay_paper: {
@@ -51,14 +53,15 @@ const useStyles = makeStyles((theme) => ({
     },
     select_payment_text: {
         fontWeight: "bold",
-        padding: "2% 0"
+        padding: "2% 0",
+        fontSize: "5vh"
     },
 
 
     //Media Query 
     ['@media (min-width:320px) and (max-width:550px)']: { 
         root_container: {
-            marginTop: "25%"
+            marginTop: "20%"
         },
         root_paper_address: {
             width: "80%",
@@ -71,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     },
     ['@media (min-width:550px) and (max-width:750px)']: { 
         root_container: {
-            marginTop: "20%"
+            marginTop: "15%"
         },
         root_paper_address: {
             width: "70%",
@@ -84,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     },
     ['@media (min-width:750px) and (max-width:950px)']: { 
         root_container: {
-            marginTop: "13%"
+            marginTop: "10%"
         },
         root_paper_address: {
             width: "70%",

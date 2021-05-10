@@ -190,8 +190,8 @@ function Layout(props) {
                                     </MenuItem>
                                     <MenuItem
                                         onClick={() => {
-                                                localStorage.removeItem("userdata");
-                                                props.logoutUser()
+                                            localStorage.removeItem("userdata");
+                                            props.logoutUser()
                                             handleClose();
                                             history.push("/login");
                                         }}

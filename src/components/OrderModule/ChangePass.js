@@ -15,8 +15,10 @@ import useStyles from "./styles";
 import {useHistory} from 'react-router-dom'
 import validatePassword from "./validateChangePass";
 import MuiAlert from "@material-ui/lab/Alert";
+import { connect } from 'react-redux'
+import { logoutUser } from '../Redux/actions/actions'
 
-function ChangePass() {
+function ChangePass(props) {
     const classes = useStyles();
     const history = useHistory()
     const [showOldPassword, setShowOldPassword] = useState(false);
@@ -63,8 +65,8 @@ function ChangePass() {
                 if (newPassword === confirmPassword) {
                     handleClickSnackbar("success");
                     localStorage.removeItem("userdata");
-                    localStorage.removeItem("isLoggedIn");
-                    history.push("/login");
+                    // props.logoutUser()
+                    // history.push("/login");
                 }
             })
             .catch(() => {
@@ -213,4 +215,9 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default ChangePass;
+const mapDispatchToProps = (dispatch) => ({
+    logoutUser: () => {
+        dispatch(logoutUser())
+    }
+})
+export default connect(null, mapDispatchToProps)(ChangePass)

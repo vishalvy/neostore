@@ -139,6 +139,14 @@ function Cart(props) {
                     setLoading(false)
                 });
         }
+
+        if (props.isLogin) {
+            history.push("/cart")
+        }
+        else {
+            history.push("/login")
+        }
+        setDeleteFlag(false)
     }, [deleteFlag]);
 
 
@@ -446,11 +454,13 @@ function Cart(props) {
         </>
     );
 }
-
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
 const mapDispatchToProps = (dispatch) => ({
     removeCart: () => {
         dispatch(removeCart())
     }
 })
 
-export default connect(null,mapDispatchToProps)(Cart)
+export default connect(mapStateToProps,mapDispatchToProps)(Cart)

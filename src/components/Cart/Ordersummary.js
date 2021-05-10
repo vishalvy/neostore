@@ -5,8 +5,10 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    Grid,
     Paper,
+    Step,
+    StepLabel,
+    Stepper,
     TextField,
     Typography,
 } from "@material-ui/core";
@@ -15,19 +17,17 @@ import React, { useEffect, useState } from "react";
 import { BaseUrl } from "../constants/baseUrl";
 import useStyles from "./ordersummarystyles";
 import MuiAlert from "@material-ui/lab/Alert";
-import { useHistory } from "react-router";
 import AddIcon from "@material-ui/icons/Add";
 import validateAddress from "../OrderModule/validateAddress";
 import Loader from "../Loader";
 import SnackbarAlert from "../constants/SnackbarAlert";
 import Googlepay from "./Googlepay";
-import Paypal from "./paypal";
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 function Ordersummary(props) {
     const classes = useStyles();
-    const history = useHistory();
     const [addressList, setAddressList] = useState();
-    const [productsList, setProductsList] = useState();
+    const [activeStep, setActiveStep] = useState(1);
     const [selectedAddress, setSelectedAddress] = useState();
     const [openSnackbarPlaced, setOpenSnackbarPlaced] = useState(false);
     const [openSnackbarSelected, setOpenSnackbarSelected] = useState(false);
@@ -46,43 +46,7 @@ function Ordersummary(props) {
         country: "",
     });
 
-    //Add Address  Form handle Change Function
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setAddressData({
-            ...addressData,
-            [name]: value,
-        });
-    };
-
-    //Add Address Handle Open Form functions
-    const handleOpenForm = () => {
-        setOpenForm(true);
-    };
-
-    const handleCloseForm = () => {
-        setOpenForm(false);
-    };
-
-    //Add Address Form Submit Function
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-
-        setError(
-            validateAddress(
-                addressData.addressLine,
-                addressData.pincode,
-                addressData.city,
-                addressData.state,
-                addressData.country
-            )
-        );
-        if (Object.keys(error).length === 0) {
-            setOpenForm(false);
-            AddAddress();
-        }
-    };
-
+    //Select Address Function
     const AddAddress = () => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         const address = {
@@ -105,6 +69,54 @@ function Ordersummary(props) {
                 });
         }
     };
+    //Select Address Function
+    const selectAddress = (id) => {
+        setSelectedAddress(id);
+        handleClickSnackbar("selected");
+        setTimeout(() => {
+            setPaymentPage(true)
+            setAddressPage(false)
+        },1000)
+        setActiveStep(activeStep + 1)
+    };
+
+    //Add Address Form Submit Function
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setError(
+            validateAddress(
+                addressData.addressLine,
+                addressData.pincode,
+                addressData.city,
+                addressData.state,
+                addressData.country
+            )
+        );
+        if (Object.keys(error).length === 0) {
+            setOpenForm(false);
+            AddAddress();
+        }
+    };
+
+    //Add Address  Form handle Change Function
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setAddressData({
+            ...addressData,
+            [name]: value,
+        });
+    };
+
+    //Add Address Handle Open Form functions
+    const handleOpenForm = () => {
+        setOpenForm(true);
+    };
+
+    const handleCloseForm = () => {
+        setOpenForm(false);
+    };
+
+    
 
     //Order Summary UseEffect
     useEffect(() => {
@@ -120,17 +132,6 @@ function Ordersummary(props) {
                 })
                 .then((res) => {
                     setAddressList(res.data.data.address);
-                });
-
-            //get products data
-            axios
-                .get(`${BaseUrl}/api/cart`, {
-                    headers: {
-                        Authorization: token,
-                    },
-                })
-                .then((res) => {
-                    setProductsList(res.data.data.products);
                     setLoading(false);
                 });
         }
@@ -152,7 +153,6 @@ function Ordersummary(props) {
         }
         setOpenSnackbarPlaced(false);
     };
-
     const handleCloseSnackbarSelected = (event, reason) => {
         if (reason === "clickaway") {
             return;
@@ -166,38 +166,6 @@ function Ordersummary(props) {
         setOpenSnackbarError(false);
     };
 
-    //Select Address Function
-    const selectAddress = (id) => {
-        setSelectedAddress(id);
-        handleClickSnackbar("selected");
-        setPaymentPage(true)
-        setAddressPage(false)
-    };
-    //Place Order Function
-    // const placeOrder = () => {
-    //     const userdata = JSON.parse(localStorage.getItem("userdata"));
-    //     if (userdata) {
-    //         const token = userdata.token;
-    //         const addressID = {
-    //             addressId: `${selectedAddress}`,
-    //         };
-    //         axios
-    //             .post(`${BaseUrl}/api/order/place`, addressID, {
-    //                 headers: {
-    //                     Authorization: token,
-    //                 },
-    //             })
-    //             .then(() => {
-    //                 handleClickSnackbar("placed");
-    //                 setTimeout(() => {
-    //                     history.push("/profile");
-    //                 }, 2000);
-    //             })
-    //             .catch(() => {
-    //                 handleClickSnackbar("error");
-    //             });
-    //     }
-    // };
 
     return (
         <>
@@ -205,94 +173,98 @@ function Ordersummary(props) {
                 loading ? <Loader /> :
                 <div>
                     <Container className={classes.root_container}>
-                        <Typography variant="h4" style={{ fontWeight: "bold" }}>
-                            Order Summary
-                        </Typography>
-                        <hr className={classes.hor_rule}></hr>
+                        <div className={classes.stepper_root}>
+                            <Stepper style={{backgroundColor: "rgb(243, 241, 241)"}} activeStep={activeStep}>
+                                <Step>
+                                    <StepLabel>Cart</StepLabel>
+                                </Step>
+                                <Step>
+                                    <StepLabel>
+                                        Delivery Address
+                                    </StepLabel>
+                                </Step>
+                            </Stepper>
+                        </div>
+ 
+                        { addressPage &&
+                            <Paper className={classes.root_paper_address}>
+                                <Container>
+                                    <Typography
+                                        variant="h5"
+                                        style={{ paddingTop: "1%" ,fontWeight: "bold" ,fontSize: "4.5vh" }}
+                                    >
+                                        Select Address
+                                    </Typography>
 
-                        
-                        {/* <Grid container spacing={3}> */}
-                            { addressPage &&
-                            // <Grid item xs={12} sm={12} md={7} lg={7}>
-                                <Paper className={classes.root_paper_address}>
-                                    <Container>
-                                        <Typography
-                                            variant="h5"
-                                            style={{ fontWeight: "bold" }}
-                                        >
-                                            Select Address
-                                        </Typography>
+                                    <hr className={classes.hor_rule}></hr>
+                                    <br />
 
-                                        <hr className={classes.hor_rule}></hr>
-                                        <br />
-
-                                        <Button
-                                            onClick={handleOpenForm}
-                                            className={classes.add_address_btn}
-                                            variant="contained"
-                                            color="primary"
-                                        >
-                                            <AddIcon />
-                                            Add
-                                        </Button>
-                                        {addressList &&
-                                            addressList.map((address, index) => (
-                                                <div key={index}>
-                                                    <Paper>
-                                                        <Container
-                                                            style={
-                                                                selectedAddress === address._id ? {backgroundColor:"#EFC768",} : {}
-                                                            }
-                                                        >
-                                                            <Typography style={{fontWeight: "bold"}}>
-                                                                ------ Address{" "}{index + 1} -------
-                                                            </Typography>
-                                                            
-                                                            <Typography className={classes.address_text}>
-                                                                {address.addressLine}{" "}
-                                                                <br />
-                                                                {address.pincode}{" "}
-                                                                <br />
-                                                                {address.city}{" "}
-                                                                <br />
-                                                                {address.state}{" "}
-                                                                <br />
-                                                                {address.country}
-                                                            </Typography>
+                                    <Button
+                                        onClick={handleOpenForm}
+                                        className={classes.add_address_btn}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        <AddIcon />
+                                        Add
+                                    </Button>
+                                    {addressList &&
+                                        addressList.map((address, index) => (
+                                            <div key={index}>
+                                                <Paper>
+                                                    <Container
+                                                        style={
+                                                            selectedAddress === address._id ? {backgroundColor:"#EFC768",} : {}
+                                                        }
+                                                    >
+                                                        <Typography style={{fontWeight: "bold"}}>
+                                                            ------ Address{" "}{index + 1} -------
+                                                        </Typography>
+                                                        
+                                                        <Typography className={classes.address_text}>
+                                                            {address.addressLine}{" "}
                                                             <br />
-                                                            <Button
-                                                                onClick={() =>
-                                                                    selectAddress(address._id)
-                                                                }
-                                                                className={
-                                                                    classes.select_button
-                                                                }
-                                                                size="small"
-                                                                variant="contained"
-                                                                color="primary"
-                                                            >
-                                                                Select
-                                                            </Button>
-                                                        </Container>
-                                                    </Paper>
-                                                    <br />
-                                                </div>
-                                                )
-                                            )}
+                                                            {address.pincode}{" "}
+                                                            <br />
+                                                            {address.city}{" "}
+                                                            <br />
+                                                            {address.state}{" "}
+                                                            <br />
+                                                            {address.country}
+                                                        </Typography>
+                                                        <br />
+                                                        <Button
+                                                            onClick={() =>
+                                                                selectAddress(address._id)
+                                                            }
+                                                            className={
+                                                                classes.select_button
+                                                            }
+                                                            size="small"
+                                                            variant="contained"
+                                                            color="primary"
+                                                        >
+                                                            Select
+                                                        </Button>
+                                                    </Container>
+                                                </Paper>
+                                                <br />
+                                            </div>
+                                            )
+                                        )}
                                     </Container>
                                 </Paper>
-                            // </Grid>
+                      
                             }
 
                             { paymentPage &&
-                            // <Grid item xs={12} sm={12} md={5} lg={5}>
                                 <Paper className={classes.root_paper_payment}>
                                 <Container>
                                         <Typography
                                             variant="h5"
                                             className={classes.select_payment_text}
                                         >
-                                            Select Payment Gateway
+                                            Select Payment Gateway 
                                         </Typography>
                                         <hr className={classes.hor_rule}></hr>
                                         <br />
@@ -300,28 +272,19 @@ function Ordersummary(props) {
                                         <Paper className={classes.googlepay_paper}>
                                             <Container>
                                                 <Typography className={classes.googlepay_text}>
-                                                    Pay With Google Pay 
+                                                    Pay with Google Pay <AccountBalanceWalletIcon fontSize="medium"/>
                                                 </Typography>
                                                     <Googlepay selectedAddress={selectedAddress}/>
                                                 <br />
                                                 <br />
                                             </Container>
                                         </Paper>
-                                        {/* <Button
-                                            // onClick={placeOrder}
-                                            className={classes.place_order_btn}
-                                            variant="contained"
-                                            color="primary"
-                                        >
-                                            Place Order
-                                        </Button> */}
-                                        <br/>
-                                        
+                                        <br/>                 
                                     </Container>
                                 </Paper>
-                            // </Grid>
+                       
                             }
-                        {/* </Grid> */}
+                  
 
                         <SnackbarAlert 
                             open={openSnackbarPlaced} close={handleCloseSnackbarPlaced} 

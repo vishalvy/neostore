@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         width: "70%",
     },
     buy_again_btn: {
-        marginLeft: "10%"
+        float: "right"
     },
 
     //Order Page Media Query
