@@ -54,7 +54,7 @@ function ForgetPassword(props) {
             history.push("/")
         }
         else {
-            history.push("/login")
+            history.push("/recoverpassword")
         }
     },[props.isLogin])
     return (

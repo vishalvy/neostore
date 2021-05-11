@@ -233,13 +233,13 @@ function Cart(props) {
                                                                     <TableCell>
                                                                         Product
                                                                     </TableCell>
-                                                                    <TableCell>
+                                                                    <TableCell align="center">
                                                                         Quantity
                                                                     </TableCell>
-                                                                    <TableCell>
+                                                                    <TableCell align="center">
                                                                         Price
                                                                     </TableCell>
-                                                                    <TableCell>
+                                                                    <TableCell align="center">
                                                                         Total
                                                                     </TableCell>
                                                                     <TableCell/>
@@ -267,10 +267,10 @@ function Cart(props) {
                                                                                     />
                                                                                     
                                                                                     <div className={classes.product_name}>
-                                                                                        <Typography>
+                                                                                        <Typography className={classes.cart_product_names}>
                                                                                             {cartProduct.productId.name}
                                                                                         </Typography>
-                                                                                        <Typography>
+                                                                                        <Typography className={classes.cart_product_names}>
                                                                                             Status:{" "}
                                                                                             <span className={classes.status_color}>
                                                                                                 In Stock
@@ -280,7 +280,8 @@ function Cart(props) {
                                                                                 </TableCell>
 
                                                                                 <TableCell
-                                                                                    style={{borderBottom:"none",}}
+                                                                                    style={{ borderBottom: "none", }}
+                                                                                    align="center"
                                                                                 >
                                                                                     <div
                                                                                         className={classes.quantity_root}>
@@ -307,6 +308,7 @@ function Cart(props) {
                                                                                 </TableCell>
 
                                                                                 <TableCell
+                                                                                    align="center"
                                                                                     style={{
                                                                                         borderBottom:"none",
                                                                                     }}
@@ -318,6 +320,7 @@ function Cart(props) {
                                                                                 </TableCell>
 
                                                                                 <TableCell
+                                                                                    align="center"
                                                                                     style={{
                                                                                         borderBottom: "none",
                                                                                     }}
@@ -329,6 +332,7 @@ function Cart(props) {
                                                                                 </TableCell>
 
                                                                                 <TableCell
+                                                                                    align="center"
                                                                                     style={{
                                                                                         borderBottom:
                                                                                             "none",
@@ -413,13 +417,11 @@ function Cart(props) {
                                                                 >
                                                                     <Button
                                                                         onClick={() => {
-                                                                            setActiveStep(activeStep + 1);
-                                                                            // setGlobalPrice((grandTotal + (grandTotal / 100) * 5).toFixed(2)) 
+                                                                            setActiveStep(activeStep + 1);                                             
                                                                             setTimeout(
                                                                                 () => {
                                                                                     history.push({
                                                                                         pathname: "/ordersummary",
-                                                                                        // totalCost: {globalPrice}
                                                                                     });
                                                                                 },
                                                                                 1000
