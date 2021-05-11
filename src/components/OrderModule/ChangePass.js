@@ -12,7 +12,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { BaseUrl } from "../constants/baseUrl";
 import useStyles from "./styles";
-import {useHistory} from 'react-router-dom'
+// import {useHistory} from 'react-router-dom'
 import validatePassword from "./validateChangePass";
 import MuiAlert from "@material-ui/lab/Alert";
 import { connect } from 'react-redux'
@@ -20,7 +20,7 @@ import { logoutUser } from '../Redux/actions/actions'
 
 function ChangePass(props) {
     const classes = useStyles();
-    const history = useHistory()
+    // const history = useHistory()
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setshowConfirmPassword] = useState(false);

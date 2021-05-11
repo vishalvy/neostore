@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 
     //Media Query 
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         root_container: {
             marginTop: "20%"
         },
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
             margin: "2% 10%"
         },
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         root_container: {
             marginTop: "15%"
         },
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
             margin: "2% 15%"
         },
     },
-    ['@media (min-width:750px) and (max-width:950px)']: { 
+    '@media (min-width:750px) and (max-width:950px)': { 
         root_container: {
             marginTop: "10%"
         },

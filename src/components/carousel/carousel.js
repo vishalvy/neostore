@@ -1,11 +1,11 @@
 import React,{useEffect, useState} from 'react';
 import Carousel from 'react-material-ui-carousel'
 import Slides from './carouselpaper'
-import axios from 'axios'
-import {BaseUrl} from '../constants/baseUrl'
+// import axios from 'axios'
+// import {BaseUrl} from '../constants/baseUrl'
 
 
-function CarouselComp(props)
+function CarouselComp()
 {
     const [carouselData,setCarouselData] = useState()
     var imageList = [

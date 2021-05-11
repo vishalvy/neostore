@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     //Order Page Media Query
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         root: {
             marginTop: "20%"
         },
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: "5%"
         }
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         root: {
             marginTop: "15%"
         },
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: "5%"
         }
     },
-    ['@media (min-width:750px) and (max-width:950px)']: {
+    '@media (min-width:750px) and (max-width:950px)': {
         root: {
             marginTop: "10%"
         },
@@ -100,8 +100,8 @@ const useStyles = makeStyles((theme) => ({
         color: "red"
     },
 
-    //Profile Page Media Query
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    //Address Page Media Query
+    '@media (min-width:320px) and (max-width:550px)': { 
         address_root_paper: {
             marginTop: "10%"
         }
@@ -129,8 +129,9 @@ const useStyles = makeStyles((theme) => ({
     radio_root: {
         display: "inline"
     },
+
     //Profile Page Media Query
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         root: {
             marginTop: "25%"
         },

@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
         "&:hover": {
             backgroundColor: "black",
         },
-        ['@media (min-width:320px) and (max-width:550px)']: { 
+        '@media (min-width:320px) and (max-width:550px)': { 
             marginLeft: "5%"
         },
     },

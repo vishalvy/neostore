@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
         margin: "25%",
         color: 'red'
     },
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         error_page_text: {
             fontSize: "8vh"
         }

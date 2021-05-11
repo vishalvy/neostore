@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         textTransform: "none"
     },
 
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         stepper_root: {
             marginTop: "20%"
         },
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "4vh"
         }
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         stepper_root: {
             marginTop: "15%"
         },
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "5vh"
         }
     },
-    ['@media (min-width:750px) and (max-width:960px)']: { 
+    '@media (min-width:750px) and (max-width:960px)': { 
         stepper_root: {
             marginTop: "10%"
         },

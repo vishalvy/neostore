@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     //Media Query
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         hor_rule: {
             marginTop: "26%",
         },
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
             float: "left"
         }
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         hor_rule: {
             marginTop: "17%",
         },
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
             float: "left"
         }
     },
-    ['@media (min-width:750px) and (max-width:950px)']: { 
+    '@media (min-width:750px) and (max-width:950px)': { 
         hor_rule: {
             marginTop: "13%",
         },

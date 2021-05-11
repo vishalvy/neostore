@@ -106,7 +106,6 @@ function Footer() {
 
                         <form>
                             <TextField
-                                className={classes.footerEmail}
                                 value={footerEmail}
                                 onChange={(e) => setFooterEmail(e.target.value)}
                                 placeholder="Your Email.."

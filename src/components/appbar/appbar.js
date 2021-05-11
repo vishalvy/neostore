@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import {
     AppBar,
     Toolbar,
-    Typography,
     Button,
     TextField,
     InputAdornment,
@@ -53,7 +52,6 @@ function Layout(props) {
         if (userdata) {
             const token = userdata.token;
             setUsername(userdata.firstName);
-
             axios
                 .get(`${BaseUrl}/api/cart`, {
                     headers: {

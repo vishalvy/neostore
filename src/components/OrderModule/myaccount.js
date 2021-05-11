@@ -18,10 +18,6 @@ function Myaccount() {
     const [isChangePass, setIsChangePass] = useState(false)
     const [userInfo,setUserInfo] = useState()
 
-    const borderStyle = {
-        border: "1px solid black"
-    }
-
     const handleOrderPage = () => {
         setIsOrder(true)
         setIsProfile(false)
@@ -69,7 +65,7 @@ function Myaccount() {
                         <img 
                             className={classes.profile_img}
                             src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-                            alt= "user image"
+                            alt= "userimage"
                         />
 
                         <Typography

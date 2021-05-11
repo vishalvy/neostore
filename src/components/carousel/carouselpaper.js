@@ -1,7 +1,7 @@
 import { Paper } from '@material-ui/core'
 import useStyles from './carouselstyles'
 import {useHistory} from 'react-router-dom'
-import {BaseUrl} from '../constants/baseUrl'
+// import {BaseUrl} from '../constants/baseUrl'
 
 function Slides(props)
 {

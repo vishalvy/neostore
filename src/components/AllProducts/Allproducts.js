@@ -53,7 +53,7 @@ function Allproducts() {
         })
         
 
-    },[])
+    },[currentPage])
 
     const sort = (order) => {
         axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}&sortby=price&orderby=${order}`)

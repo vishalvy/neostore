@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     //Media Query
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         login_paper: {
             marginTop: "30%",
             margin: "0 10%",
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "5vh"
         }
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         login_paper: {
             marginTop: "20%",
             margin: "0 15%",
@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "6vh"
         }
     },
-    ['@media (min-width:750px) and (max-width:950px)']: { 
+    '@media (min-width:750px) and (max-width:950px)': { 
         login_paper: {
             marginTop: "15%",
             margin: "0 15%",

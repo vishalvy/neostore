@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
     List,
@@ -46,13 +46,7 @@ const DrawerComponent = (props) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const classes = useStyles();
     const history = useHistory();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const isLogin = localStorage.getItem("isLoggedIn");
-        setIsLoggedIn(isLogin);
-    });
-
+    
     return (
         <>
             <Drawer

@@ -125,13 +125,13 @@ function Cart(props) {
                     setGrandTotal(res.data.data.grandTotal);
                     if (res.status === 200) {
                         temp.map((val) => {
-                            q_arr.push(val.quantity);
+                            return q_arr.push(val.quantity);
                         });
 
                         setProductQuantity(q_arr);
 
                         temp.map((val) => {
-                            price_arr.push(val.productId.price);
+                            return price_arr.push(val.productId.price);
                         });
 
                         setProductPrice(price_arr);
@@ -139,7 +139,6 @@ function Cart(props) {
                     setLoading(false)
                 });
         }
-
         if (props.isLogin) {
             history.push("/cart")
         }

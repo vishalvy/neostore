@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 
     //Media Query
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         register_social: {
             marginTop: "25%"
         },
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
             width: "80%"
         },
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         register_social: {
             marginTop: "20%"
         },
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "5vh"
         }     
     },
-    ['@media (min-width:750px) and (max-width:950px)']: { 
+    '@media (min-width:750px) and (max-width:950px)': { 
         register_social: {
             marginTop: "15%"
         },

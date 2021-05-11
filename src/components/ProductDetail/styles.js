@@ -77,17 +77,17 @@ const useStyles = makeStyles((theme) => ({
 
 
     //Media Query
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         root: {
             marginTop: "25%"
         }
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         root: {
             marginTop: "17%"
         }
     },
-    ['@media (min-width:750px) and (max-width:950px)']: { 
+    '@media (min-width:750px) and (max-width:950px)': { 
         root: {
             marginTop: "10%"
         }

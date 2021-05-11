@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     //Media Query 
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         footer_heading: {
             fontSize: "3vh"
         },

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 
     //Media Query 
-    ['@media (min-width:320px) and (max-width:550px)']: { 
+    '@media (min-width:320px) and (max-width:550px)': { 
         recover_paper: {
             marginTop: "25%",
             width: "80%",
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "5.5vh"
         }
     },
-    ['@media (min-width:550px) and (max-width:750px)']: { 
+    '@media (min-width:550px) and (max-width:750px)': { 
         recover_paper: {
             marginTop: "20%",
             width: "80%",
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "6vh"
         }
     },
-    ['@media (min-width:750px) and (max-width:950px)']: { 
+    '@media (min-width:750px) and (max-width:950px)': { 
         recover_paper: {
             marginTop: "15%",
             width: "70%",

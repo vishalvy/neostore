@@ -18,6 +18,7 @@ function Order(props) {
     const [open, setOpen] = useState(false);
     const [openError, setOpenError] = useState(false);
 
+
     //Snackbar Functions
     const handleClick = (msg) => {
         if (msg === "success") {
@@ -87,8 +88,9 @@ function Order(props) {
                     });
             }
         })
-        console.log(items)
     }
+
+    
     return (
         <>
             {loading ? <Loader />: 
@@ -117,8 +119,9 @@ function Order(props) {
                                                 </span>
                                             </small>
                                             <hr className={classes.hor_rule}></hr>
-                                            {order.items.map((item) => (
+                                            {order.items.map((item,index) => (
                                                 <div
+                                                    key={index}
                                                     className={classes.orderlist_images}>
                                                     <img
                                                         onClick={() => ProductDetail(item.productId.id)}
@@ -134,13 +137,17 @@ function Order(props) {
                                                 </div>
                                             ))}
                                             
+                                            
                                             <Button
+                                                // onClick={PdfGenerate}
                                                 className={classes.download_invoice_btn}
                                                 variant="contained"
                                                 color="primary"
                                             >
                                                 Download Invoice as PDF
                                             </Button>
+                                                
+
                                             <Button
                                                 onClick={() => orderAgain(order.items)}
                                                 className={classes.buy_again_btn}

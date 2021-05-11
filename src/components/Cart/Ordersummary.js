@@ -16,7 +16,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BaseUrl } from "../constants/baseUrl";
 import useStyles from "./ordersummarystyles";
-import MuiAlert from "@material-ui/lab/Alert";
 import AddIcon from "@material-ui/icons/Add";
 import validateAddress from "../OrderModule/validateAddress";
 import Loader from "../Loader";
@@ -404,8 +403,5 @@ function Ordersummary(props) {
     );
 }
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 export default Ordersummary;

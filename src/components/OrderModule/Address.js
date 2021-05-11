@@ -7,7 +7,6 @@ import {
     DialogTitle,
     IconButton,
     Paper,
-    Snackbar,
     TextField,
     Typography,
 } from "@material-ui/core";
@@ -17,7 +16,6 @@ import CancelPresentationOutlinedIcon from "@material-ui/icons/CancelPresentatio
 import validateAddress from "./validateAddress";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
-import MuiAlert from "@material-ui/lab/Alert";
 import SweetAlert from "react-bootstrap-sweetalert";
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
@@ -479,14 +477,13 @@ function Address() {
 
                 <SnackbarAlert open={openSnackbar} close={handleCloseSnackbar} type={"success"} msg={"Address has been Added"} />
                 <SnackbarAlert open={openUpdateSnackbar} close={handleCloseUpdateSnackbar} type={"success"} msg={"Address has been Updated"} />
+                
+                {/* Sweet Alert Call */}
                 {sweetAlert}
             </div>
         }
     </>
     );
-}
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export default Address;

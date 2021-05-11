@@ -97,16 +97,16 @@ function Googlepay(props) {
                     callbackIntents: ['SHIPPING_ADDRESS', 'PAYMENT_AUTHORIZATION'],
                 }}
                 onLoadPaymentData={(paymentRequest) => {
-                    console.log("load payment data", paymentRequest);
+                    // console.log("load payment data", paymentRequest);
                 }}
                 onPaymentAuthorized={paymentData => {
-                    console.log('Payment Authorised Success', paymentData)
+                    // console.log('Payment Authorised Success', paymentData)
                     placeOrder()
                     return { transactionState: 'SUCCESS'}
                   }
                 }
                 onPaymentDataChanged={paymentData => {
-                    console.log('On Payment Data Changed', paymentData)
+                    // console.log('On Payment Data Changed', paymentData)
                     return { }
                   }
                 }
