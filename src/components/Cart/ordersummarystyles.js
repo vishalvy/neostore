@@ -46,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
     googlepay_text: {
         // display: "flex",
         fontSize: "5vh",
-        padding: "2% 0"
+        padding: "2% 0",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     },
     googlepay_paper: {
         marginBottom: "6%"  

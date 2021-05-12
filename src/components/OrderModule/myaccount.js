@@ -9,9 +9,12 @@ import Order from './Order';
 import Address from './Address';
 import Profile from './Profile';
 import ChangePass from './ChangePass'
+import {connect} from 'react-redux'
+import { useHistory } from 'react-router';
 
-function Myaccount() {
+function Myaccount(props) {
     const classes = useStyles()
+    const history = useHistory()
     const [isOrder, setIsOrder] = useState(true)
     const [isAddress, setIsAddress] = useState(false)
     const [isProfile, setIsProfile] = useState(false)
@@ -49,7 +52,13 @@ function Myaccount() {
         if (userdata) {
             setUserInfo(userdata)
         }
-    },[])
+        if (props.isLogin) {
+            history.push("/profile")
+        }
+        else {
+            history.push("/login")
+        }
+    },[history])
     
     return (
         <>
@@ -125,4 +134,7 @@ function Myaccount() {
     )
 }
 
-export default Myaccount
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
+export default connect(mapStateToProps,null)(Myaccount)

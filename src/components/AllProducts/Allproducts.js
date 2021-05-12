@@ -120,7 +120,7 @@ function Allproducts() {
                             <Button
                                 className={classes.allproducts_link}
                                 onClick={() => {
-                                    axios.get(`${BaseUrl}/api/product?limit=9&page=1`)
+                                    axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}`)
                                         .then((res) => {
                                             const temp = res.data.data.docs
                                             setProductData(temp)

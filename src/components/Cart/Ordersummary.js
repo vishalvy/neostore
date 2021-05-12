@@ -21,10 +21,14 @@ import validateAddress from "../OrderModule/validateAddress";
 import Loader from "../Loader";
 import SnackbarAlert from "../constants/SnackbarAlert";
 import Googlepay from "./Googlepay";
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import {connect} from 'react-redux'
+import PaymentIcon from '@material-ui/icons/Payment';
+import { useHistory } from "react-router";
+
 
 function Ordersummary(props) {
     const classes = useStyles();
+    const history = useHistory()
     const [addressList, setAddressList] = useState();
     const [activeStep, setActiveStep] = useState(1);
     const [selectedAddress, setSelectedAddress] = useState();
@@ -134,7 +138,13 @@ function Ordersummary(props) {
                     setLoading(false);
                 });
         }
-    }, [addressList]);
+        if (props.isLogin) {
+            history.push("/ordersummary")
+        }
+        else {
+            history.push("/login")
+        }
+    }, [addressList,history]);
 
     //Snackbar Functions
     const handleClickSnackbar = (msg) => {
@@ -271,7 +281,7 @@ function Ordersummary(props) {
                                         <Paper className={classes.googlepay_paper}>
                                             <Container>
                                                 <Typography className={classes.googlepay_text}>
-                                                    Pay with Google Pay <AccountBalanceWalletIcon fontSize="medium"/>
+                                                    Pay with Google Pay <PaymentIcon fontSize="large"/>
                                                 </Typography>
                                                     <Googlepay selectedAddress={selectedAddress}/>
                                                 <br />
@@ -403,5 +413,8 @@ function Ordersummary(props) {
     );
 }
 
+const mapStateToProps = (state) => ({
+    isLogin : state.perReducer.isLogin
+})
 
-export default Ordersummary;
+export default connect(mapStateToProps,null)(Ordersummary);

@@ -139,6 +139,7 @@ function Cart(props) {
                     setLoading(false)
                 });
         }
+        
         if (props.isLogin) {
             history.push("/cart")
         }
@@ -146,7 +147,7 @@ function Cart(props) {
             history.push("/login")
         }
         setDeleteFlag(false)
-    }, [deleteFlag]);
+    }, [deleteFlag,history]);
 
 
     const deleteCartProduct = (p_id) => {

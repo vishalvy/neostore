@@ -52,7 +52,8 @@ function ProductDetail(props) {
     const [openError, setOpenError] = useState(false);
     const [loading, setLoading] = useState(true)
     const [openNotLogin, setOpenNotLogin] = useState(false);
-    const [cartIDs,setCartIds] = useState()
+    const [cartIDs, setCartIds] = useState()
+    const [showBtn,setShowBtn] = useState(false)
 
     useEffect(() => {
         axios.get(`${BaseUrl}/api/product/details/${newid}`)
@@ -79,7 +80,7 @@ function ProductDetail(props) {
                 setCartIds(arr)
             });
         }
-    },[cartIDs]);
+    },[showBtn]);
 
     //Snackbar Functions    
     const handleClick = (msg) => {
@@ -128,6 +129,7 @@ function ProductDetail(props) {
                 .then(() => {
                     handleClick("success");
                     props.addCart()
+                    setShowBtn(true)
                 })
                 .catch(() => {
                     handleClick("error");

@@ -1,6 +1,6 @@
 import "./App.css";
 import Dashboard from "./components/dashboard";
-// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { Redirect, Route, Switch } from "react-router-dom";
 import Login from "./components/login/login";
 import Appbar from "./components/appbar/appbar";
@@ -16,18 +16,18 @@ import Ordersummary from "./components/Cart/Ordersummary";
 import ScrollToTop from "react-scroll-to-top";
 
 function App() {
-    //   const theme = createMuiTheme({
-    //     typography: {
-    //      "fontFamily": `"Verdana", "Arial", "Helvetica", sans-serif`,
-    //      "fontSize": 14,
-    //      "fontWeightLight": 300,
-    //      "fontWeightRegular": 400,
-    //      "fontWeightMedium": 500
-    //     }
-    //  });
+      const theme = createMuiTheme({
+        typography: {
+         "fontFamily": `"Verdana", "Arial", "Helvetica", sans-serif`,
+         "fontSize": 14,
+         "fontWeightLight": 300,
+         "fontWeightRegular": 400,
+         "fontWeightMedium": 500
+        }
+     });
     return (
         <div className="App">
-            {/* <MuiThemeProvider theme={theme}> */}
+            <MuiThemeProvider theme={theme}>
             <Appbar />
             <Switch>
                 <Route exact path="/" component={Dashboard} />
@@ -44,7 +44,7 @@ function App() {
             </Switch>
             <Footer />
             <ScrollToTop smooth />
-            {/* </MuiThemeProvider> */}
+            </MuiThemeProvider>
         </div>
     );
 }
