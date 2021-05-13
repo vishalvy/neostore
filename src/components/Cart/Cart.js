@@ -369,7 +369,6 @@ function Cart(props) {
                                                                         className={
                                                                             classes.review_heading
                                                                         }
-                                                                        variant="h6"
                                                                     >
                                                                         Review
                                                                         Order
@@ -410,12 +409,12 @@ function Cart(props) {
                                                                     </TableCell>
                                                                 </TableRow>
 
-                                                                <TableCell
+                                                                {/* <TableCell
                                                                     align="center"
                                                                     className={
                                                                         classes.buy_button_root
                                                                     }
-                                                                >
+                                                                > */}
                                                                     <Button
                                                                         onClick={() => {
                                                                             setActiveStep(activeStep + 1);                                             
@@ -434,7 +433,7 @@ function Cart(props) {
                                                                     >
                                                                         Proceed to Buy
                                                                     </Button>
-                                                                </TableCell>
+                                                                {/* </TableCell> */}
                                                             </TableBody>
                                                         </Table>
                                                     </TableContainer>

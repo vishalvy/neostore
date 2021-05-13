@@ -17,6 +17,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DrawerComponent from "./drawer";
 import axios from "axios";
 import { BaseUrl } from "../constants/baseUrl";
@@ -184,7 +185,7 @@ function Layout(props) {
                                             handleClose();
                                         }}
                                     >
-                                        My Account
+                                        My Account 
                                     </MenuItem>
                                     <MenuItem
                                         onClick={() => {
@@ -194,7 +195,7 @@ function Layout(props) {
                                             history.push("/login");
                                         }}
                                     >
-                                        Logout
+                                        Logout <ExitToAppIcon/>
                                     </MenuItem>
                                 </>
                             )}

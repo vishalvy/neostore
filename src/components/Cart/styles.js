@@ -21,8 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
     review_heading:{
         margin: "3% 0",
-        marginLeft: "35%",
-        fontWeight: "bold"
+        marginLeft: "55%",
+        fontWeight: "bold",
+        fontSize: "3.5vh"
     },
     buy_button_root: {
         display: "flex",
@@ -31,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
     },
     buy_button: {
         margin: "5% 0",
-        marginLeft: "30%",
-        textTransform: "none"
+        marginLeft: "45%",
+        textTransform: "none",
+        width: "70%"
     },
 
     '@media (min-width:320px) and (max-width:550px)': { 
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: "5%"
         },
         review_heading: {
-            fontSize: "4vh"
+            fontSize: "3.5vh"
         },
         cart_product_names: {
             fontSize: "2.4vh",
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: "5%"
         },
         review_heading: {
-            fontSize: "5vh"
+            fontSize: "4vh"
         },
         cart_product_names: {
             fontSize: "2.4vh",
@@ -71,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: "5%"
         },
         review_heading: {
-            fontSize: "5.5vh"
+            fontSize: "4.5vh"
         },
         cart_product_names: {
             fontSize: "2.8vh",

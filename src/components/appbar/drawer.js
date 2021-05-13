@@ -15,6 +15,11 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LocalMallIcon from '@material-ui/icons/LocalMall';
+import StoreIcon from '@material-ui/icons/Store';
 import { connect } from 'react-redux'
 import {logoutUser} from '../Redux/actions/actions'
 
@@ -41,6 +46,10 @@ const DrawerComponent = (props) => {
             verticalAlign: "middle",
             display: "inline-flex",
         },
+        align_icon: {
+            display: "flex",
+            alignItems: "center",
+        }
     }));
 
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -68,8 +77,9 @@ const DrawerComponent = (props) => {
                     >
                         <ListItemIcon>
                             <ListItemText className={classes.list_item}>
-                                {" "}
-                                My Account
+                                <div className={classes.align_icon}>
+                                    <AccountCircleIcon/>My Account 
+                                </div>
                             </ListItemText>
                         </ListItemIcon>
                     </ListItem>
@@ -84,7 +94,11 @@ const DrawerComponent = (props) => {
                         }}
                     >
                         <ListItemIcon>
-                            <ListItemText> Home </ListItemText>
+                            <ListItemText>
+                                <div className={classes.align_icon}>
+                                    <HomeIcon /> Home 
+                                </div>   
+                            </ListItemText>
                         </ListItemIcon>
                     </ListItem>
 
@@ -97,7 +111,11 @@ const DrawerComponent = (props) => {
                         }}
                     >
                         <ListItemIcon>
-                            <ListItemText> Products </ListItemText>
+                            <ListItemText>
+                                <div className={classes.align_icon}>
+                                    <StoreIcon /> Products 
+                                </div>
+                            </ListItemText>
                         </ListItemIcon>
                     </ListItem>
                     
@@ -111,7 +129,11 @@ const DrawerComponent = (props) => {
                         }}
                     >
                         <ListItemIcon>
-                            <ListItemText>Orders</ListItemText>
+                            <ListItemText>
+                                <div className={classes.align_icon}>
+                                    <LocalMallIcon/>Orders
+                                </div> 
+                            </ListItemText>
                         </ListItemIcon>
                     </ListItem>
                     }
@@ -126,10 +148,11 @@ const DrawerComponent = (props) => {
                     >
                         <ListItemIcon>
                             <ListItemText>
-                                Cart
                                 <Badge badgeContent={props.cartValue} color="secondary">
                                     <ShoppingCartIcon />
                                 </Badge>
+                                {" "}
+                                Cart
                             </ListItemText>
                         </ListItemIcon>
                     </ListItem>
@@ -176,7 +199,11 @@ const DrawerComponent = (props) => {
                         }}
                       >
                         <ListItemIcon>
-                          <ListItemText>Logout</ListItemText>
+                            <ListItemText>
+                                <div className={classes.align_icon}>
+                                    <ExitToAppIcon />Logout
+                                </div>
+                            </ListItemText>
                         </ListItemIcon>
                       </ListItem>
                     }
