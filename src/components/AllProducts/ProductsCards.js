@@ -5,7 +5,6 @@ import useStyles from './styles'
 
 function ProductsCards(props) {
     const classes = useStyles()
-    
     return (
         <>
             <Container>

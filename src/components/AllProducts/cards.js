@@ -26,6 +26,12 @@ function MediaCard(props) {
 
     //Snackbar Functions
     const handleClick = (msg) => {
+        /**
+         * @author Vishal Yadav
+         * @function setOpen                useState() hook function to update the sucesss Flag of Snackbar   
+         * @function setOpenError           useState() hook function to update the error Flag of Snackbar   
+         * @function setOpenNotLogin        useState() hook function to update the notlogin Flag of Snackbar     
+        */
         if (msg === "success") {
             setOpen(true);
         } else if (msg === "error") {
@@ -35,18 +41,30 @@ function MediaCard(props) {
         }
     };
     const handleClose = (event, reason) => {
+        /**
+         * @author Vishal Yadav
+         * @function setOpen                useState() hook function to update the sucesss Flag of Snackbar   
+        */
         if (reason === "clickaway") {
             return;
         }
         setOpen(false);
     };
     const handleCloseError = (event, reason) => {
+        /**
+         * @author Vishal Yadav
+         * @function setOpenError           useState() hook function to update the error Flag of Snackbar   
+        */
         if (reason === "clickaway") {
             return;
         }
         setOpenError(false);
     };
     const handleCloseNotLogin = (event, reason) => {
+        /**
+         * @author Vishal Yadav
+         * @function setOpenNotLogin        useState() hook function to update the notlogin Flag of Snackbar   
+        */
         if (reason === "clickaway") {
             return;
         }
@@ -54,6 +72,15 @@ function MediaCard(props) {
     };
 
     const handleAddToCart = (product_id, quantity) => {
+        /**
+         * @author Vishal Yadav
+         * @param BaseUrl                   Url from where the data is being fetch
+         * @param product_id                Product ID of Product to be added in cart
+         * @param quantity                  Initial quantity of product i.e (1)
+         * @function props.addCart          Redux function to increment the navbar product count
+         * @param userdata                  Store logged In userdata from localstorage  
+         * @package axios                   Library to make HTTP request                    
+         */
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
             const token = userdata.token;
@@ -80,10 +107,10 @@ function MediaCard(props) {
     };
 
     const AddToCart = () => {
-        handleAddToCart(props.id, 1);  
+        handleAddToCart(props.id, 1);
     };
     
-
+    //useEffect() Hook
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
@@ -118,9 +145,6 @@ function MediaCard(props) {
                         image={props.image}
                     />
                     <CardContent>
-                        {/* <Typography gutterBottom className={classes.card_title}>
-                            {props.title}
-                        </Typography> */}
                         <LinesEllipsis
                             className={classes.card_title}
                             text={props.title}

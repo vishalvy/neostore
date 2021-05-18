@@ -48,6 +48,8 @@ function Layout(props) {
         setAnchorEl(null);
     };
 
+
+    //useEffect() Hook
     useEffect(() => {
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {

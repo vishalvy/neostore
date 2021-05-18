@@ -51,6 +51,13 @@ function Ordersummary(props) {
 
     //Select Address Function
     const AddAddress = () => {
+        /**
+         * @author Vishal Yadav
+         * @param userdata                      Store logged In userdata from localstorage  
+         * @function address                    To send the Address Data along with Post Request
+         * @function handleClickSnackbar        Call the Success Snackbar Function
+         * @package axios                       Library to make HTTP request 
+        */
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         const address = {
             addressLine: addressData.addressLine,
@@ -74,6 +81,16 @@ function Ordersummary(props) {
     };
     //Select Address Function
     const selectAddress = (id) => {
+        /**
+         * @author Vishal Yadav
+         * @param id                            ID of Selected Address
+         * @function setSelectedAddress         useState() hook function call to update the Selected Address Id
+         * @function handleClickSnackbar        Call the Selected Success Snackbar 
+         * @function setPaymentPage             useState() hook function call to make visible the payment page
+         * @function setAddressPage             useState() hook function call to Hide the Address page
+         * @function setActiveStep              useState() hook function call to increment the Active step of stepper
+         * 
+        */
         setSelectedAddress(id);
         handleClickSnackbar("selected");
         setTimeout(() => {

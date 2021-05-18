@@ -11,6 +11,11 @@ function Googlepay(props) {
     const [openSnackbarError, setOpenSnackbarError] = useState(false);
 
     const handleClickSnackbar = (msg) => {
+        /**
+         * @author Vishal Yadav
+         * @function setOpenSnackbarPlaced          useState() hook function to update the sucesss Flag of Snackbar   
+         * @function setOpenSnackbarError           useState() hook function to update the error Flag of Snackbar   
+        */
         if (msg === "placed") {
             setOpenSnackbarPlaced(true);
         } else if (msg === "error") {
@@ -18,12 +23,20 @@ function Googlepay(props) {
         }
     };
     const handleCloseSnackbarPlaced = (event, reason) => {
+        /**
+         * @author Vishal Yadav
+         * @function setOpenSnackbarPlaced          useState() hook function to update the sucesss Flag of Snackbar   
+        */
         if (reason === "clickaway") {
             return;
         }
         setOpenSnackbarPlaced(false);
     };
     const handleCloseSnackbarError = (event, reason) => {
+        /**
+         * @author Vishal Yadav
+         * @function setOpenSnackbarError           useState() hook function to update the error Flag of Snackbar   
+        */
         if (reason === "clickaway") {
             return;
         }
@@ -33,6 +46,12 @@ function Googlepay(props) {
 
     //PlaceOrder Function
     const placeOrder = () => {
+        /**
+         * @author Vishal Yadav
+         * @param userdata                      Store logged In userdata from localstorage  
+         * @function addressID                  To send the Address ID along with Post Request 
+         * @function handleClickSnackbar        To Call the Success/Error Snackbar   
+        */
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         if (userdata) {
             const token = userdata.token;

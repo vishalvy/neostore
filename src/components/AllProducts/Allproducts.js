@@ -20,7 +20,17 @@ function Allproducts() {
     const [currentPage,setCurrentPage] = useState()
     const [loading,setLoading] = useState(true)
 
+
+
     const handlePage = (event, value) => {
+        /**
+         * @author Vishal Yadav
+         * @param BaseUrl                     Url from where the data is being fetch
+         * @function setCurrentPage           useState() hook function to update the current page number
+         * @function setProductData           useState() hook function to update the product values
+         * @package axios                      Library to make HTTP request 
+        */
+        
         axios.get(`${BaseUrl}/api/product?limit=9&page=${value}`)
         .then((res) => {
             setProductData(res.data.data.docs)
@@ -29,50 +39,70 @@ function Allproducts() {
     };
 
 
+    // useEffect() Hook
     useEffect(() => {
         //All products data fetch
-        axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}`)
-        .then((res) => {
-            setProductData(res.data.data.docs)
-            setPagesValues(res.data.data.pages)
-            setLoading(false)
-        })
-
+        axios.
+            get(`${BaseUrl}/api/product?limit=9&page=${currentPage}`)
+            .then((res) => {
+                setProductData(res.data.data.docs)
+                setPagesValues(res.data.data.pages)
+                setLoading(false)
+            })
         //Categories Data fetch
-        axios.get(`${BaseUrl}/api/category`)
-        .then((res) => {
-            // console.log(res.data.data)
-            setCategories(res.data.data)
-        })
+        axios.
+            get(`${BaseUrl}/api/category`)
+            .then((res) => {
+                setCategories(res.data.data)
+            })
 
         //Colors Data fetch
-        axios.get(`${BaseUrl}/api/color`)
-        .then((res) => {
-            // console.log(res.data.data)
-            setColors(res.data.data)
-        })
-        
-
+        axios.
+            get(`${BaseUrl}/api/color`)
+            .then((res) => {
+                setColors(res.data.data)
+            })
     },[currentPage])
 
+
     const sort = (order) => {
+        /**
+         * @author Vishal Yadav
+         * @param BaseUrl                     Url from where the data is being fetch
+         * @param currentPage                 Current Page of pagination  
+         * @param order                       Order Name (asc)Asecending or (desc)Descending
+         * @function setProductData           useState() hook function to update the product values  
+         * @package axios                     Library to make HTTP request       
+         */
         axios.get(`${BaseUrl}/api/product?limit=9&page=${currentPage}&sortby=price&orderby=${order}`)
         .then((res) => {
-            const temp = res.data.data.docs
-            setProductData(temp)
+            setProductData(res.data.data.docs)
         })
     }
 
     const getCategories = (category_id) => {
+        /**
+         * @author Vishal Yadav
+         * @param BaseUrl                     Url from where the data is being fetch
+         * @param category_id                 Category ID of particular product categories
+         * @function setProductData           useState() hook function to update the product values 
+         * @package axios                     Library to make HTTP request           
+        */
         console.log(category_id)
         axios.get(`${BaseUrl}/api/product?limit=100&page=1..10&category=${category_id}`)
         .then((res) => {
-            const temp = res.data.data.docs
-            setProductData(temp)
+            setProductData(res.data.data.docs)
         })
     }
 
     const getColors = (color_id) => {
+        /**
+         * @author Vishal Yadav
+         * @param BaseUrl                     Url from where the data is being fetch
+         * @param color_id                    Color ID of particular product Color 
+         * @function setProductData           useState() hook function to update the product values  
+         * @package axios                     Library to make HTTP request          
+         */
         axios.get(`${BaseUrl}/api/product?limit=100&page=1..10&color=${color_id}`)
         .then((res) => {
             const temp = res.data.data.docs

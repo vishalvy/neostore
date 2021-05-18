@@ -40,12 +40,27 @@ function Cart(props) {
     const [sweetAlert, setSweetAlert] = useState(null);
     const [loading, setLoading] = useState(true);
     const [deleteFlag, setDeleteFlag] = useState(false)
-    // const [globalPrice,setGlobalPrice] = useState()
 
     const Additem = (index, price, id) => {
+        /**
+         * @author Vishal  Yadav
+         * @param BaseUrl                   Url from where the data is being fetch
+         * @param price                     Price of a single Product
+         * @param id                        Product ID of product to be added
+         * @param quantity_arr              Quantity Array to update the quantity
+         * @param productcost               Product Cost array to update the product Cost
+         * @param userdata                  Store logged In userdata from localstorage  
+         * @param totalCost                 To calculate the total price of all products in array
+         * @package axios                   Library to make HTTP request    
+         * @function putQuantity            To send the quantity along with Put Request     
+         * @function setProductQuantity     useState() hook function to update productQuantity Array
+         * @function updatePrice            UpdatePrice function to calculate the newPrice
+         * @function setProductPrice        useState() hook function to update prodcutPrice Array
+         * @function setGrandTotal          useState() hook function to update grandTotal
+         * @package axios                   Library to make HTTP request        
+        */
         const quantity_arr = [...productQuantity];
         const productcost = [...productPrice];
-        console.log("inside array", quantity_arr);
         const userdata = JSON.parse(localStorage.getItem("userdata"));
         const token = userdata.token;
         if (quantity_arr[index] < 10) {
@@ -76,6 +91,23 @@ function Cart(props) {
     };
 
     const Removeitem = (index, price, id) => {
+        /**
+         * @author Vishal  Yadav
+         * @param BaseUrl                   Url from where the data is being fetch
+         * @param price                     Price of a single Product
+         * @param id                        Product ID of product to be removed
+         * @param quantity_arr              Quantity Array to update the quantity
+         * @param productcost               Product Cost array to update the product Cost
+         * @param userdata                  Store logged In userdata from localstorage  
+         * @param totalCost                 To calculate the total price of all products in array
+         * @package axios                   Library to make HTTP request    
+         * @function putQuantity            To send the quantity along with Put Request     
+         * @function setProductQuantity     useState() hook function to update productQuantity Array
+         * @function updatePrice            UpdatePrice function to calculate the newPrice
+         * @function setProductPrice        useState() hook function to update prodcutPrice Array
+         * @function setGrandTotal          useState() hook function to update grandTotal
+         * @package axios                   Library to make HTTP request        
+        */
         const quantity_arr = [...productQuantity];
         const productcost = [...productPrice];
         const userdata = JSON.parse(localStorage.getItem("userdata"));
@@ -138,8 +170,7 @@ function Cart(props) {
                     }
                     setLoading(false)
                 });
-        }
-        
+        } 
         if (props.isLogin) {
             history.push("/cart")
         }
@@ -151,8 +182,16 @@ function Cart(props) {
 
 
     const deleteCartProduct = (p_id) => {
+        /**
+         * @author Vishal Yadav
+         * @param BaseUrl                   Url from where the data is being fetch
+         * @param userdata                  Store logged In userdata from localstorage  
+         * @function props.removeCart()     Redux function to decrement the navbar product count  
+         * @function setDeleteFlag          Update the DeleteFlag by boolean value  
+         * @function hideAlert()            Call hideAlert function To hide the SweetAlert Pop-up
+         * @package axios                   Library to make HTTP request                  
+         */
         const userdata = JSON.parse(localStorage.getItem("userdata"));
-        console.log(p_id)
         if (userdata) {
             const token = userdata.token;
             axios
@@ -161,7 +200,7 @@ function Cart(props) {
                         Authorization: `${token}`,
                     },
                 })
-                .then((res) => {
+                .then(() => {
                     props.removeCart()
                     setDeleteFlag(true)
                 });
@@ -171,6 +210,12 @@ function Cart(props) {
 
 
     const deleteProduct = (id) => {
+        /**
+         * @function getAlert               To open the SweetAlert Pop-up for delete confirmation
+         * @function deleteCartProduct      Call deleteCartProduct function by click on Confirm
+         * @function hideAlert              Call hideAlert() function to hide the SweetAlert Pop-up
+         * @returns JSX
+        */
         const getAlert = () => (
             <SweetAlert
                 warning
@@ -188,7 +233,11 @@ function Cart(props) {
         setSweetAlert(getAlert());
     };
     const hideAlert = () => {
-        setSweetAlert(null);
+        /**
+         * @author Vishal Yadav
+         * @function setSweetAlert              useState() Hook function to Hide the SweetAlert
+         */
+        setSweetAlert(null);        
     };
 
     return (
