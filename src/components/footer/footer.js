@@ -14,6 +14,11 @@ function Footer() {
     const [footerEmail,setFooterEmail] = useState("")
 
     const validateSubscribe = (footerEmail) => {
+        /**
+         * @author Vishal Yadav
+         * @param footerEmail           EmailID for subscribing to newsletter.
+         * @function setOpen            useState() Hook function for opening the dailog box.
+         */
         if (footerEmail === "") {
             alert("Enter Email Before Subscribing!")
         }
@@ -25,8 +30,6 @@ function Footer() {
         }
     }
         
-
-
     const handleSubscribe = () => {
         validateSubscribe(footerEmail)
     }

@@ -28,7 +28,7 @@ function Allproducts() {
          * @param BaseUrl                     Url from where the data is being fetch
          * @function setCurrentPage           useState() hook function to update the current page number
          * @function setProductData           useState() hook function to update the product values
-         * @package axios                      Library to make HTTP request 
+         * @package axios                     Library to make HTTP request 
         */
         
         axios.get(`${BaseUrl}/api/product?limit=9&page=${value}`)

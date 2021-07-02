@@ -52,11 +52,6 @@ function Cart(props) {
          * @param userdata                  Store logged In userdata from localstorage  
          * @param totalCost                 To calculate the total price of all products in array
          * @package axios                   Library to make HTTP request    
-         * @function putQuantity            To send the quantity along with Put Request     
-         * @function setProductQuantity     useState() hook function to update productQuantity Array
-         * @function updatePrice            UpdatePrice function to calculate the newPrice
-         * @function setProductPrice        useState() hook function to update prodcutPrice Array
-         * @function setGrandTotal          useState() hook function to update grandTotal
          * @package axios                   Library to make HTTP request        
         */
         const quantity_arr = [...productQuantity];
@@ -99,13 +94,7 @@ function Cart(props) {
          * @param quantity_arr              Quantity Array to update the quantity
          * @param productcost               Product Cost array to update the product Cost
          * @param userdata                  Store logged In userdata from localstorage  
-         * @param totalCost                 To calculate the total price of all products in array
-         * @package axios                   Library to make HTTP request    
-         * @function putQuantity            To send the quantity along with Put Request     
-         * @function setProductQuantity     useState() hook function to update productQuantity Array
-         * @function updatePrice            UpdatePrice function to calculate the newPrice
-         * @function setProductPrice        useState() hook function to update prodcutPrice Array
-         * @function setGrandTotal          useState() hook function to update grandTotal
+         * @param totalCost                 To calculate the total price of all products in array  
          * @package axios                   Library to make HTTP request        
         */
         const quantity_arr = [...productQuantity];

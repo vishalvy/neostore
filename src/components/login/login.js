@@ -46,7 +46,6 @@ function Login(props) {
             axios.post(`${BaseUrl}/api/auth/login`,user)
             .then((res) => {
                 localStorage.setItem('userdata', JSON.stringify(res.data.data))
-                // localStorage.setItem('isLoggedIn',true)
                 if (res.request.status === 200) {
                     console.log("Before",props)
                     props.loginUser()

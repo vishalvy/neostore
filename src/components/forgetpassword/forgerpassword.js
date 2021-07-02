@@ -42,6 +42,13 @@ function ForgetPassword(props) {
     };
 
     const sendCode = () => {
+        /**
+         * @author Vishal Yadav
+         * @function setCodeMsg             useState() hook function call to make visible the message of sent code
+         * @object user_email               To send the user-email in object form along with post request
+         * @param BaseUrl                   Url from where the data is being fetch
+         * @package axios                     Library to make HTTP request  
+         */
         setCodeMsg(true);
         const user_email = {
             email: email,
@@ -49,6 +56,7 @@ function ForgetPassword(props) {
         axios.post(`${BaseUrl}/api/auth/forgot-password}`, user_email);
     };
 
+    // useEffect() hook 
     useEffect(() => {
         if (props.isLogin) {
             history.push("/")
